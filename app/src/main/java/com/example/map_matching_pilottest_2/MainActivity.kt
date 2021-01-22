@@ -336,8 +336,104 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         center: Point?, Radius: Int?, roadNetwork: RoadNetwork?, timestamp: Int
     ): ArrayList<Candidate> {
         val resultCandidate: ArrayList<Candidate> = ArrayList()
+        for (i in 0 until roadNetwork!!.linkArrayList.size) {
+            val startX =
+                roadNetwork!!.nodeArrayList[roadNetwork.linkArrayList[i].startNodeID].coordinate.x
+            val startY =
+                roadNetwork.nodeArrayList[roadNetwork.linkArrayList[i].startNodeID].coordinate.y
+            val endX =
+                roadNetwork.nodeArrayList[roadNetwork.linkArrayList[i].endNodeID].coordinate.x
+            val endY =
+                roadNetwork.nodeArrayList[roadNetwork.linkArrayList[i].endNodeID].coordinate.y
+            val vectorFromStartToCenter = Vector2D(center!!.x - startX, center.y - startY)
+            val vectorFromEndToCenter = Vector2D(center.x - endX, center.y - endY)
+            val vectorFromEndToStart = Vector2D(startX - endX, startY - endY)
+            val dotProduct1 = vectorFromStartToCenter.dot(vectorFromEndToStart)
+            val dotProduct2 = vectorFromEndToCenter.dot(vectorFromEndToStart)
+            if (dotProduct1 * dotProduct2 <= 0) {
+                //System.out.println("어허");
+                //System.out.println("dot Product : "+dotProduct1+", "+dotProduct2);
+                val candidate = Candidate()
+                candidate.involvedLink = roadNetwork.linkArrayList.get(i)
+                val vectorStart = Vector2D(startX, startY)
+                val vectorC = Vector2D(center.x, center.y) //원점에서 시작해 center로의 vector
+                val vectorH = vectorStart.getAdded(
+                    vectorFromEndToStart.getMultiplied(
+                        vectorC.getSubtracted(vectorStart).dot(vectorFromEndToStart)
+                                / Math.pow(vectorFromEndToStart.length, 2.0)
+                    )
+                ) //원점에서 시작해 수선의 발로의 vector
+                candidate.point = Point(
+                    vectorH.getX(),
+                    vectorH.getY()
+                ) //수선의 발 vector의 x와 y값을 candidate의 point로 대입
+                if (coordDistanceofPoints((center), candidate.point)!! > (Radius)!!) continue
+                resultCandidate.add(candidate)
+                //////////////////////////////////////////
+                //candidate마다 ep, tp 구하기
+                calculationEP(candidate, center, timestamp)
+                calculationTP(candidate, matchingPointArrayList, center, gpsPointArrayList, timestamp, roadNetwork)
+                for (c: Candidate? in matchingPointArrayList) {
+                    emission.Emission_Median(c)
+                    transition.Transition_Median(c)
+                }
+            }
+        }
+        calculationEPTP(resultCandidate, matchingPointArrayList, timestamp)
 
         return resultCandidate
+    }
+
+    // EP클래스 가서 캔디데이트 마다 값 구하고 저장
+    fun calculationEP(cand: Candidate, center: Point?, timestamp: Int) {
+        cand.ep = emission.Emission_pro(cand, center, cand.point, timestamp) //ep 구하기
+        return
+    }
+
+    // TP클래스 가서 캔디데이트 마다 값 구하고 저장
+    fun calculationTP(cand: Candidate, matchingPointArrayList: ArrayList<Candidate>, center: Point?, gpsPointArrayList: ArrayList<GPSPoint>, timestamp: Int, roadNetwork: RoadNetwork?) {
+        if (timestamp == 1 || timestamp == 2) {
+            cand.tp = 0.0
+            return
+        }
+        val matching_pre = matchingPointArrayList[timestamp - 2]
+        cand.tp = Transition.Transition_pro(
+            gpsPointArrayList[timestamp - 2].point, center, matching_pre, cand, roadNetwork
+        ) //tp 구하기
+        return
+    }
+
+    // 곱해진 eptp저장하고 후보들 중 가장 높은 eptp를 가지는 후보를 matchingPointArrayList에 저장하고
+    // tp median과 ep median을 저장
+    fun calculationEPTP(resultCandidate: ArrayList<Candidate>, matchingPointArrayList: ArrayList<Candidate>, timestamp: Int): Candidate? {
+        var matchingCandidate = Candidate()
+        if (timestamp == 2 || timestamp == 1) {
+            var min_ep = 0.0
+            resultCandidate.size
+            for (i in 0 until resultCandidate.size) {
+                if (i == 0) {
+                    min_ep = resultCandidate[i].ep
+                    matchingCandidate = resultCandidate[i]
+                } else if (min_ep > resultCandidate[i].ep) {
+                    min_ep = resultCandidate[i].ep
+                    matchingCandidate = resultCandidate[i]
+                }
+            }
+            matchingPointArrayList.add(matchingCandidate)
+            return matchingCandidate
+        }
+        var maximum_tpep = 0.0
+        for (i in 0 until resultCandidate.size) {
+            var tpep = 0.0
+            tpep = resultCandidate[i].ep * resultCandidate[i].tp
+            resultCandidate[i].tpep = tpep
+            if (maximum_tpep < tpep) {
+                maximum_tpep = tpep
+                matchingCandidate = resultCandidate[i]
+            }
+        }
+        matchingPointArrayList.add(matchingCandidate)
+        return matchingCandidate
     }
 
 }
