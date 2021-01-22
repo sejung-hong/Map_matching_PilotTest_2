@@ -77,29 +77,16 @@ public class RoadNetwork {
      * */
     public ArrayList<Point> routePoints (int testNo) {
         ArrayList<Point> routePoints = new ArrayList<>();
-        if (testNo == 1) { // 세정이 데이터
-            int[] routeNodes = {0, 1, 9, 10, 11, 19, 28, 36, 44, 45, 46, 47, 55};
+
+        if(testNo == 1){
+            int[] routeNodes = { 0, 10, 7, 9, 15, 14, 27, 50, 48, 40, 47, 46, 45, 58 };
             for (int i=0; i<routeNodes.length-1; i++) {
                 Link routelink = getLink(routeNodes[i], routeNodes[i+1]);
                 routePoints.addAll(getInvolvingPointList(getNode(routelink.getStartNodeID()).getCoordinate(),
                         getNode(routelink.getEndNodeID()).getCoordinate()));
             }
-        } else if (testNo == 2) { // 유네 데이터
-            // node0 에서 node 55로 가는 경로
-            int[] routeNodes = {0,1, 6, 12, 25, 26, 27, 33, 34};
-            for (int i=0; i<routeNodes.length-1; i++) {
-                Link routelink = getLink(routeNodes[i], routeNodes[i+1]);
-                routePoints.addAll(getInvolvingPointList(getNode(routelink.getStartNodeID()).getCoordinate(),
-                        getNode(routelink.getEndNodeID()).getCoordinate()));
-            }
-        } else if (testNo == 3) { // 유림이 데이터
-            int[] routeNodes= {0,20,};
-            for (int i=0; i<routeNodes.length-1; i++) {
-                Link routelink = getLink(routeNodes[i], routeNodes[i+1]);
-                routePoints.addAll(getInvolvingPointList(getNode(routelink.getStartNodeID()).getCoordinate(),
-                        getNode(routelink.getEndNodeID()).getCoordinate()));
-            }
-        } return routePoints;
+        }
+        return routePoints;
     }
 
     // link개수 출력하기
