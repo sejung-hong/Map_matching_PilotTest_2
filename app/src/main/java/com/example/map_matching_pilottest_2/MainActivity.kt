@@ -137,13 +137,13 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         val marker = Marker()
         marker.position = myLocation
         marker.captionText = "위도: ${location.latitude}, 경도: ${location.longitude}"
-        //marker.map = naverMap
+        marker.map = naverMap
         //마커
-/*        val cameraUpdate = CameraUpdate.scrollTo(myLocation)
+        val cameraUpdate = CameraUpdate.scrollTo(myLocation)
         naverMap.moveCamera(cameraUpdate)
         naverMap.maxZoom = 18.0
         naverMap.minZoom = 5.0
-        //카메라*/
+
         //marker.map = null
     }
 
