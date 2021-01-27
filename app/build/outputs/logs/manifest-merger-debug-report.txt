@@ -1,0 +1,301 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-34:12
+INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-34:12
+INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-34:12
+INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-34:12
+MERGED from [androidx.core:core-ktx:1.3.2] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\73ceed64005fad44f808fafa611f13cf\jetified-core-ktx-1.3.2\AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\45e1f9c11e9a2425166f4e35e52d512a\constraintlayout-2.0.4\AndroidManifest.xml:2:1-11:12
+MERGED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:2:1-40:12
+MERGED from [androidx.appcompat:appcompat:1.2.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\b9bf55ac491f79be4ecc3bf1bdb94334\appcompat-1.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-location:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\cc0214852c61f2c1ff310e7bd71c9598\jetified-play-services-location-17.0.0\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\15a4510080050d81f2d520f56bb0decb\jetified-play-services-base-17.0.0\AndroidManifest.xml:17:1-29:12
+MERGED from [com.google.android.gms:play-services-places-placereport:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\3bbfb8250233bb851ce617b6c51eaa6e\jetified-play-services-places-placereport-17.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-tasks:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\045e0cf22cdff95cae12eb9640bd49bf\jetified-play-services-tasks-17.0.0\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\874491ba48b5aa9ecc2c593028d307ef\jetified-play-services-basement-17.0.0\AndroidManifest.xml:17:1-28:12
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\e7b4499852c5753682bd00e9f572eee7\legacy-support-v4-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\4a469ac2428f1fc999f6a386b9eb2a16\fragment-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.appcompat:appcompat-resources:1.2.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\2e1ab7993ba0befb8492a5f5cca1f3bb\jetified-appcompat-resources-1.2.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.recyclerview:recyclerview:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\1b1c6be6712d368fd6b016d778506b04\recyclerview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\990226d0a8b43f5bfe17841a672d0306\legacy-support-core-ui-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\2734d4ceeb111c65f1791e1641ae27af\drawerlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\2dbf0d25c41bf01aa473eb3331a3b642\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\f36f88f3d3aa5fdaf145a4d8db808136\legacy-support-core-utils-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\a9de0233923b3012c570e7a2fabe0233\loader-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.activity:activity:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\4c03d28cb53567096208944cd20d381d\jetified-activity-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\b5ee5f7494231f5eef9e90743fadf0de\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\d10a10cf369ca4170500d47901d6f753\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\7f3321aed862f1b623d8a4fbb5241f76\coordinatorlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\690e702cc4cb892a78d0fd7efdade04d\slidingpanelayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\2cc5806fa4e6893ae09e48825f44bafc\customview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.media:media:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\47e810dddeedfe31823be7b1e6c7ca60\media-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\16bab673a8b4b88d58c44ec4b3a97cfe\swiperefreshlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\e7e6c7aa88304b561e7ff89b5bf4c17a\asynclayoutinflater-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.3.2] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\176918aa7cebac1b3b039d47a35bea2a\core-1.3.2\AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\5bfa96e0020ffec8fb163ce818f3973b\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.naver.maps:geometry:1.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\a4b0b62631d5599d78e8383563b5a34b\jetified-geometry-1.1.0\AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\df7a04a315b60dc5411d7f9aff5152f5\versionedparcelable-1.1.0\AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\fe39f99e43bf53259c7cde8839d83d17\lifecycle-runtime-2.1.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\466362d5ebeeb40d411805b2ef43bd9c\lifecycle-viewmodel-2.1.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.savedstate:savedstate:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\7a7087183f8af1416d407e127376588c\jetified-savedstate-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\7717528c8a1e0d1e7188267bc4add08e\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\3a18361fe8dfb18f607f8c9eb279e60b\documentfile-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\4537d1c6f23ce310c79d7db26ae7fba0\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\aac5175efa10590da49942e84083ecf9\print-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\c790b97fab790442f05a147e4ec71443\lifecycle-livedata-2.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\1c97549a369ddfd3b9e6e153c838454b\lifecycle-livedata-core-2.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\faa96ffcb4687f34e78f807cf31cd8a1\core-runtime-2.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.getkeepsafe.relinker:relinker:1.3.1] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\f60aeced0bc18574b4ac3e188249ae7d\jetified-relinker-1.3.1\AndroidManifest.xml:2:1-7:12
+INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-34:12
+INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-34:12
+INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-34:12
+	package
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:3:5-51
+		INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-34:12
+		INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
+	android:versionCode
+		INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-34:12
+		INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:5:5-81
+	android:name
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:5:22-78
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:6:5-79
+	android:name
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:6:22-76
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:9:5-80
+	android:name
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:9:22-77
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:10:5-81
+	android:name
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:10:22-78
+application
+ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:13:5-32:19
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\45e1f9c11e9a2425166f4e35e52d512a\constraintlayout-2.0.4\AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\45e1f9c11e9a2425166f4e35e52d512a\constraintlayout-2.0.4\AndroidManifest.xml:9:5-20
+MERGED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:22:5-38:19
+MERGED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:22:5-38:19
+MERGED from [com.google.android.gms:play-services-location:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\cc0214852c61f2c1ff310e7bd71c9598\jetified-play-services-location-17.0.0\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-location:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\cc0214852c61f2c1ff310e7bd71c9598\jetified-play-services-location-17.0.0\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\15a4510080050d81f2d520f56bb0decb\jetified-play-services-base-17.0.0\AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\15a4510080050d81f2d520f56bb0decb\jetified-play-services-base-17.0.0\AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-places-placereport:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\3bbfb8250233bb851ce617b6c51eaa6e\jetified-play-services-places-placereport-17.0.0\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-places-placereport:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\3bbfb8250233bb851ce617b6c51eaa6e\jetified-play-services-places-placereport-17.0.0\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-tasks:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\045e0cf22cdff95cae12eb9640bd49bf\jetified-play-services-tasks-17.0.0\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-tasks:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\045e0cf22cdff95cae12eb9640bd49bf\jetified-play-services-tasks-17.0.0\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\874491ba48b5aa9ecc2c593028d307ef\jetified-play-services-basement-17.0.0\AndroidManifest.xml:22:5-26:19
+MERGED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\874491ba48b5aa9ecc2c593028d307ef\jetified-play-services-basement-17.0.0\AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.core:core:1.3.2] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\176918aa7cebac1b3b039d47a35bea2a\core-1.3.2\AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.3.2] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\176918aa7cebac1b3b039d47a35bea2a\core-1.3.2\AndroidManifest.xml:24:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\df7a04a315b60dc5411d7f9aff5152f5\versionedparcelable-1.1.0\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\df7a04a315b60dc5411d7f9aff5152f5\versionedparcelable-1.1.0\AndroidManifest.xml:24:5-25:19
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.3.2] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\176918aa7cebac1b3b039d47a35bea2a\core-1.3.2\AndroidManifest.xml:24:18-86
+	android:supportsRtl
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:18:9-35
+	android:label
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:16:9-41
+	android:roundIcon
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:17:9-54
+	android:icon
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:15:9-43
+	android:allowBackup
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:14:9-35
+	android:theme
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:19:9-40
+activity#com.example.map_matching_pilottest_2.MainActivity
+ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:20:9-26:20
+	android:name
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:20:19-47
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:21:13-25:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:22:17-69
+	android:name
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:22:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:24:17-77
+	android:name
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:24:27-74
+meta-data#com.naver.maps.map.CLIENT_ID
+ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:28:9-30:42
+	android:value
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:30:13-39
+	android:name
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:29:13-56
+uses-sdk
+INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
+MERGED from [androidx.core:core-ktx:1.3.2] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\73ceed64005fad44f808fafa611f13cf\jetified-core-ktx-1.3.2\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.core:core-ktx:1.3.2] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\73ceed64005fad44f808fafa611f13cf\jetified-core-ktx-1.3.2\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\45e1f9c11e9a2425166f4e35e52d512a\constraintlayout-2.0.4\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\45e1f9c11e9a2425166f4e35e52d512a\constraintlayout-2.0.4\AndroidManifest.xml:5:5-7:41
+MERGED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:7:5-9:41
+MERGED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:7:5-9:41
+MERGED from [androidx.appcompat:appcompat:1.2.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\b9bf55ac491f79be4ecc3bf1bdb94334\appcompat-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat:1.2.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\b9bf55ac491f79be4ecc3bf1bdb94334\appcompat-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.gms:play-services-location:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\cc0214852c61f2c1ff310e7bd71c9598\jetified-play-services-location-17.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-location:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\cc0214852c61f2c1ff310e7bd71c9598\jetified-play-services-location-17.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\15a4510080050d81f2d520f56bb0decb\jetified-play-services-base-17.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\15a4510080050d81f2d520f56bb0decb\jetified-play-services-base-17.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-places-placereport:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\3bbfb8250233bb851ce617b6c51eaa6e\jetified-play-services-places-placereport-17.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-places-placereport:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\3bbfb8250233bb851ce617b6c51eaa6e\jetified-play-services-places-placereport-17.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-tasks:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\045e0cf22cdff95cae12eb9640bd49bf\jetified-play-services-tasks-17.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-tasks:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\045e0cf22cdff95cae12eb9640bd49bf\jetified-play-services-tasks-17.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\874491ba48b5aa9ecc2c593028d307ef\jetified-play-services-basement-17.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\874491ba48b5aa9ecc2c593028d307ef\jetified-play-services-basement-17.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\e7b4499852c5753682bd00e9f572eee7\legacy-support-v4-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\e7b4499852c5753682bd00e9f572eee7\legacy-support-v4-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\4a469ac2428f1fc999f6a386b9eb2a16\fragment-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\4a469ac2428f1fc999f6a386b9eb2a16\fragment-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.2.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\2e1ab7993ba0befb8492a5f5cca1f3bb\jetified-appcompat-resources-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.2.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\2e1ab7993ba0befb8492a5f5cca1f3bb\jetified-appcompat-resources-1.2.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\1b1c6be6712d368fd6b016d778506b04\recyclerview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\1b1c6be6712d368fd6b016d778506b04\recyclerview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\990226d0a8b43f5bfe17841a672d0306\legacy-support-core-ui-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\990226d0a8b43f5bfe17841a672d0306\legacy-support-core-ui-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\2734d4ceeb111c65f1791e1641ae27af\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\2734d4ceeb111c65f1791e1641ae27af\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\2dbf0d25c41bf01aa473eb3331a3b642\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\2dbf0d25c41bf01aa473eb3331a3b642\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\f36f88f3d3aa5fdaf145a4d8db808136\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\f36f88f3d3aa5fdaf145a4d8db808136\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\a9de0233923b3012c570e7a2fabe0233\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\a9de0233923b3012c570e7a2fabe0233\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\4c03d28cb53567096208944cd20d381d\jetified-activity-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\4c03d28cb53567096208944cd20d381d\jetified-activity-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\b5ee5f7494231f5eef9e90743fadf0de\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\b5ee5f7494231f5eef9e90743fadf0de\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\d10a10cf369ca4170500d47901d6f753\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\d10a10cf369ca4170500d47901d6f753\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\7f3321aed862f1b623d8a4fbb5241f76\coordinatorlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\7f3321aed862f1b623d8a4fbb5241f76\coordinatorlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\690e702cc4cb892a78d0fd7efdade04d\slidingpanelayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\690e702cc4cb892a78d0fd7efdade04d\slidingpanelayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\2cc5806fa4e6893ae09e48825f44bafc\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\2cc5806fa4e6893ae09e48825f44bafc\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\47e810dddeedfe31823be7b1e6c7ca60\media-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\47e810dddeedfe31823be7b1e6c7ca60\media-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\16bab673a8b4b88d58c44ec4b3a97cfe\swiperefreshlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\16bab673a8b4b88d58c44ec4b3a97cfe\swiperefreshlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\e7e6c7aa88304b561e7ff89b5bf4c17a\asynclayoutinflater-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\e7e6c7aa88304b561e7ff89b5bf4c17a\asynclayoutinflater-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.3.2] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\176918aa7cebac1b3b039d47a35bea2a\core-1.3.2\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.3.2] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\176918aa7cebac1b3b039d47a35bea2a\core-1.3.2\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\5bfa96e0020ffec8fb163ce818f3973b\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\5bfa96e0020ffec8fb163ce818f3973b\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.naver.maps:geometry:1.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\a4b0b62631d5599d78e8383563b5a34b\jetified-geometry-1.1.0\AndroidManifest.xml:7:5-9:41
+MERGED from [com.naver.maps:geometry:1.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\a4b0b62631d5599d78e8383563b5a34b\jetified-geometry-1.1.0\AndroidManifest.xml:7:5-9:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\df7a04a315b60dc5411d7f9aff5152f5\versionedparcelable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\df7a04a315b60dc5411d7f9aff5152f5\versionedparcelable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\fe39f99e43bf53259c7cde8839d83d17\lifecycle-runtime-2.1.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\fe39f99e43bf53259c7cde8839d83d17\lifecycle-runtime-2.1.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\466362d5ebeeb40d411805b2ef43bd9c\lifecycle-viewmodel-2.1.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\466362d5ebeeb40d411805b2ef43bd9c\lifecycle-viewmodel-2.1.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\7a7087183f8af1416d407e127376588c\jetified-savedstate-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\7a7087183f8af1416d407e127376588c\jetified-savedstate-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\7717528c8a1e0d1e7188267bc4add08e\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\7717528c8a1e0d1e7188267bc4add08e\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\3a18361fe8dfb18f607f8c9eb279e60b\documentfile-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\3a18361fe8dfb18f607f8c9eb279e60b\documentfile-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\4537d1c6f23ce310c79d7db26ae7fba0\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\4537d1c6f23ce310c79d7db26ae7fba0\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\aac5175efa10590da49942e84083ecf9\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\aac5175efa10590da49942e84083ecf9\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\c790b97fab790442f05a147e4ec71443\lifecycle-livedata-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\c790b97fab790442f05a147e4ec71443\lifecycle-livedata-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\1c97549a369ddfd3b9e6e153c838454b\lifecycle-livedata-core-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\1c97549a369ddfd3b9e6e153c838454b\lifecycle-livedata-core-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\faa96ffcb4687f34e78f807cf31cd8a1\core-runtime-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\faa96ffcb4687f34e78f807cf31cd8a1\core-runtime-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.getkeepsafe.relinker:relinker:1.3.1] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\f60aeced0bc18574b4ac3e188249ae7d\jetified-relinker-1.3.1\AndroidManifest.xml:5:5-43
+MERGED from [com.getkeepsafe.relinker:relinker:1.3.1] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\f60aeced0bc18574b4ac3e188249ae7d\jetified-relinker-1.3.1\AndroidManifest.xml:5:5-43
+INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
+uses-feature#0x00020000
+ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:11:5-13:35
+	android:glEsVersion
+		ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:12:9-41
+	android:required
+		ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:13:9-32
+uses-feature#android.hardware.wifi
+ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:14:5-16:36
+	android:required
+		ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:16:9-33
+	android:name
+		ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:15:9-45
+uses-permission#android.permission.INTERNET
+ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:18:5-67
+	android:name
+		ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:18:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:19:5-79
+	android:name
+		ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:19:22-76
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:20:5-76
+	android:name
+		ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:20:22-73
+activity#com.naver.maps.map.app.LegendActivity
+ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:23:9-27:51
+	android:label
+		ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:26:13-52
+	android:configChanges
+		ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:25:13-91
+	android:theme
+		ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:27:13-48
+	android:name
+		ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:24:13-65
+activity#com.naver.maps.map.app.LegalNoticeActivity
+ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:28:9-32:51
+	android:label
+		ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:31:13-58
+	android:configChanges
+		ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:30:13-91
+	android:theme
+		ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:32:13-48
+	android:name
+		ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:29:13-70
+activity#com.naver.maps.map.app.OpenSourceLicenseActivity
+ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:33:9-37:51
+	android:label
+		ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:36:13-65
+	android:configChanges
+		ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:35:13-91
+	android:theme
+		ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:37:13-48
+	android:name
+		ADDED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:34:13-76
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\15a4510080050d81f2d520f56bb0decb\jetified-play-services-base-17.0.0\AndroidManifest.xml:23:9-26:75
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\15a4510080050d81f2d520f56bb0decb\jetified-play-services-base-17.0.0\AndroidManifest.xml:25:13-37
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\15a4510080050d81f2d520f56bb0decb\jetified-play-services-base-17.0.0\AndroidManifest.xml:26:13-72
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\15a4510080050d81f2d520f56bb0decb\jetified-play-services-base-17.0.0\AndroidManifest.xml:24:13-79
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\874491ba48b5aa9ecc2c593028d307ef\jetified-play-services-basement-17.0.0\AndroidManifest.xml:23:9-25:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\874491ba48b5aa9ecc2c593028d307ef\jetified-play-services-basement-17.0.0\AndroidManifest.xml:25:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\874491ba48b5aa9ecc2c593028d307ef\jetified-play-services-basement-17.0.0\AndroidManifest.xml:24:13-58
