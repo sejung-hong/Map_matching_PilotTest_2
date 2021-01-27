@@ -20,6 +20,8 @@ import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
+import com.naver.maps.map.overlay.PathOverlay
 import com.naver.maps.map.util.MarkerIcons
 
 
@@ -75,9 +77,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
 
         main() //file
 
-
-        fusedLocationProviderClient =
-            LocationServices.getFusedLocationProviderClient(this) //gps 자동으로 받아오기
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this) //gps 자동으로 받아오기
 
         setUpdateLocationListner() //내위치를 가져오는 코드
 
@@ -146,14 +146,14 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         marker.position = myLocation
         marker.width = 30
         marker.height = 50
-        marker.captionText = "위도: ${location.latitude}, 경도: ${location.longitude}"
-        marker.map = naverMap
+        //marker.captionText = "위도: ${location.latitude}, 경도: ${location.longitude}"
+/*        marker.map = naverMap
         //마커
         val cameraUpdate = CameraUpdate.scrollTo(myLocation)
         naverMap.moveCamera(cameraUpdate)
         naverMap.maxZoom = 18.0
         naverMap.minZoom = 5.0
-        //카메라
+        //카메라*/
     }
 
 
@@ -210,14 +210,20 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         //신기한 사실 = get,set 함수를 불러오지 않아도 알아서 척척박사님 알아맞춰보세요
         //여기까지 도로네트워크 생성
 
+
         // GPS points와 routePoints를 저장할 ArrayList생성
         val gpsPointArrayList: ArrayList<GPSPoint> = ArrayList()
-        var routePointArrayList: ArrayList<Point?> // 실제 경로의 points!
+        val routePointArrayList: ArrayList<Point> // 실제 경로의 points!
         val matchingCandiArrayList: ArrayList<Candidate> = ArrayList()
 
         // test 번호에 맞는 routePoints생성
-        routePointArrayList = roadNetwork.routePoints(testNo);
+        routePointArrayList = roadNetwork.routePoints(testNo)
+        //routePointArray 생성되지 않음..
+        //기울기나 방향이 맞지 않아서 생성이 안되는 문제가 있음
+        //pilot 1-2에서는 가능했지만 실제 좌표를 가지고 하는 pilot 2에서는 불가능..
+        //->세정 해결
 
+/*
         // window size만큼의 t-window, ... , t-1, t에서의 candidates의 arrayList
         val arrOfCandidates: ArrayList<ArrayList<Candidate>> = ArrayList()
         val subGPSs: ArrayList<GPSPoint> = ArrayList()
@@ -286,10 +292,25 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         FSWViterbi.test_data2_sjtp(routePointArrayList, gpsPointArrayList);
 
         // 윤혜tp와 세정tp비교!
-        FSWViterbi.compareYhtpAndSjtp();
+        FSWViterbi.compareYhtpAndSjtp();*/
+
 
 
         getNodePrint(roadNetwork) //좌표 지도에 표시
+
+        getLinkPrint(roadNetwork) //링크 지도에 표시
+
+/*        //지도에 루트 표시
+        System.out.println("리스트 사이즈: "+ routePointArrayList.size)
+        for(i in 0..352){
+            val path = PathOverlay() //path 오버레이
+            path.coords = listOf(
+                LatLng(routePointArrayList[i].x, routePointArrayList[i].y),
+                LatLng(routePointArrayList[i+1].x, routePointArrayList[i+1].y)
+            )
+            path.color = Color.BLUE
+            path.map = naverMap
+        }*/
     }
 
 
@@ -320,11 +341,23 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
 
     fun getLinkPrint(roadNetwork: RoadNetwork) {
 
-        for (i in roadNetwork.linkArrayList.indices) {
-
+        for(i in roadNetwork.linkArrayList.indices) { //indices 또는 index사용
+            val path = PathOverlay() //path 오버레이
+            path.coords = listOf(
+                LatLng(
+                    roadNetwork.getNode(roadNetwork.getLink(i).startNodeID).coordinate.x, //link의 startNodeID의 위도
+                    roadNetwork.getNode(roadNetwork.getLink(i).startNodeID).coordinate.y  //link의 startNodeID의 경도
+                ),
+                LatLng(
+                    roadNetwork.getNode(roadNetwork.getLink(i).endNodeID).coordinate.x, //link의 endNodeID의 위도
+                    roadNetwork.getNode(roadNetwork.getLink(i).endNodeID).coordinate.y  //link의 endNodeID의 경도
+                )
+            )
+            path.map = naverMap //navermap에 출력
         }
-
     }
+
+
 
     fun coordDistanceofPoints(a: Point, b: Point): Double? {
         return Math.sqrt(Math.pow(a.x - b.x, 2.0) + Math.pow(a.y - b.y, 2.0))
@@ -372,7 +405,14 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                 //////////////////////////////////////////
                 //candidate마다 ep, tp 구하기
                 calculationEP(candidate, center, timestamp)
-                calculationTP(candidate, matchingPointArrayList, center, gpsPointArrayList, timestamp, roadNetwork)
+                calculationTP(
+                    candidate,
+                    matchingPointArrayList,
+                    center,
+                    gpsPointArrayList,
+                    timestamp,
+                    roadNetwork
+                )
                 for (c: Candidate? in matchingPointArrayList) {
                     emission.Emission_Median(c)
                     transition.Transition_Median(c)
@@ -391,7 +431,14 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
     }
 
     // TP클래스 가서 캔디데이트 마다 값 구하고 저장
-    fun calculationTP(cand: Candidate, matchingPointArrayList: ArrayList<Candidate>, center: Point?, gpsPointArrayList: ArrayList<GPSPoint>, timestamp: Int, roadNetwork: RoadNetwork?) {
+    fun calculationTP(
+        cand: Candidate,
+        matchingPointArrayList: ArrayList<Candidate>,
+        center: Point?,
+        gpsPointArrayList: ArrayList<GPSPoint>,
+        timestamp: Int,
+        roadNetwork: RoadNetwork?
+    ) {
         if (timestamp == 1 || timestamp == 2) {
             cand.tp = 0.0
             return
@@ -405,7 +452,11 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
 
     // 곱해진 eptp저장하고 후보들 중 가장 높은 eptp를 가지는 후보를 matchingPointArrayList에 저장하고
     // tp median과 ep median을 저장
-    fun calculationEPTP(resultCandidate: ArrayList<Candidate>, matchingPointArrayList: ArrayList<Candidate>, timestamp: Int): Candidate? {
+    fun calculationEPTP(
+        resultCandidate: ArrayList<Candidate>,
+        matchingPointArrayList: ArrayList<Candidate>,
+        timestamp: Int
+    ): Candidate? {
         var matchingCandidate = Candidate()
         if (timestamp == 2 || timestamp == 1) {
             var min_ep = 0.0
