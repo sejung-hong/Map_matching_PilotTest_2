@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-34:12
-INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-34:12
-INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-34:12
-INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-34:12
+ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-35:12
+INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-35:12
+INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-35:12
+INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-35:12
 MERGED from [androidx.core:core-ktx:1.3.2] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\73ceed64005fad44f808fafa611f13cf\jetified-core-ktx-1.3.2\AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\45e1f9c11e9a2425166f4e35e52d512a\constraintlayout-2.0.4\AndroidManifest.xml:2:1-11:12
 MERGED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:2:1-40:12
@@ -46,20 +46,20 @@ MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\sejung\.gradl
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\1c97549a369ddfd3b9e6e153c838454b\lifecycle-livedata-core-2.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\faa96ffcb4687f34e78f807cf31cd8a1\core-runtime-2.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [com.getkeepsafe.relinker:relinker:1.3.1] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\f60aeced0bc18574b4ac3e188249ae7d\jetified-relinker-1.3.1\AndroidManifest.xml:2:1-7:12
-INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-34:12
-INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-34:12
-INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-34:12
+INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-35:12
+INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-35:12
+INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-35:12
 	package
 		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:3:5-51
 		INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-34:12
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-35:12
 		INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
 	android:versionCode
 		INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-34:12
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:1-35:12
 		INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:2:11-69
@@ -80,7 +80,7 @@ ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\Andr
 	android:name
 		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:10:22-78
 application
-ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:13:5-32:19
+ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:14:5-33:19
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\45e1f9c11e9a2425166f4e35e52d512a\constraintlayout-2.0.4\AndroidManifest.xml:9:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.4] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\45e1f9c11e9a2425166f4e35e52d512a\constraintlayout-2.0.4\AndroidManifest.xml:9:5-20
 MERGED from [com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:22:5-38:19
@@ -102,37 +102,37 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\se
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.3.2] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\176918aa7cebac1b3b039d47a35bea2a\core-1.3.2\AndroidManifest.xml:24:18-86
 	android:supportsRtl
-		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:18:9-35
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:19:9-35
 	android:label
-		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:16:9-41
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:17:9-41
 	android:roundIcon
-		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:17:9-54
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:18:9-54
 	android:icon
-		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:15:9-43
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:16:9-43
 	android:allowBackup
-		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:14:9-35
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:15:9-35
 	android:theme
-		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:19:9-40
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:20:9-40
 activity#com.example.map_matching_pilottest_2.MainActivity
-ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:20:9-26:20
+ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:21:9-27:20
 	android:name
-		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:20:19-47
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:21:19-47
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:21:13-25:29
+ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:22:13-26:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:22:17-69
+ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:23:17-69
 	android:name
-		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:22:25-66
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:23:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:24:17-77
+ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:25:17-77
 	android:name
-		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:24:27-74
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:25:27-74
 meta-data#com.naver.maps.map.CLIENT_ID
-ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:28:9-30:42
+ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:29:9-31:42
 	android:value
-		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:30:13-39
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:31:13-39
 	android:name
-		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:29:13-56
+		ADDED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:30:13-56
 uses-sdk
 INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml

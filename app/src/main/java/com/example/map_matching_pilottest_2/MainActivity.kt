@@ -23,6 +23,9 @@ import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.overlay.PathOverlay
 import com.naver.maps.map.util.MarkerIcons
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileWriter
 
 
 class MainActivity : FragmentActivity(), OnMapReadyCallback {
@@ -75,7 +78,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
     override fun onMapReady(naverMap: NaverMap) {
         this.naverMap = naverMap
 
-        main() //file
+        //main() //file
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this) //gps 자동으로 받아오기
 
@@ -116,6 +119,10 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
 
     @SuppressLint("MissingPermission")
     fun setUpdateLocationListner() {
+        val dir = filesDir.absolutePath //내부저장소 절대 경로
+        val filename = "실제 GPS.txt"
+        writeTextFile(dir, filename, "애플리케이션 시작!\n")
+
         val locationRequest = LocationRequest.create()
         locationRequest.run {
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY //높은 정확도
@@ -128,6 +135,8 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                 for ((i, location) in locationResult.locations.withIndex()) {
                     Log.d("location: ", "${location.latitude}, ${location.longitude}")
                     setLastLocation(location)
+                    val contents = location.latitude.toString() + "\t" + location.longitude.toString() + "\n"
+                    writeTextFile(dir, filename, contents)
                 }
             }
         }
@@ -146,14 +155,31 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         marker.position = myLocation
         marker.width = 30
         marker.height = 50
-        //marker.captionText = "위도: ${location.latitude}, 경도: ${location.longitude}"
-/*        marker.map = naverMap
+        marker.captionText = "위도: ${location.latitude}, 경도: ${location.longitude}"
+        marker.map = naverMap
         //마커
         val cameraUpdate = CameraUpdate.scrollTo(myLocation)
         naverMap.moveCamera(cameraUpdate)
         naverMap.maxZoom = 18.0
         naverMap.minZoom = 5.0
-        //카메라*/
+        //카메라
+    }
+
+    fun writeTextFile(directory:String, filename:String, content:String){
+        val dir = File(directory)
+
+        if(!dir.exists()){ //dir이 존재 하지 않을때
+            dir.mkdirs() //mkdirs : 중간에 directory가 없어도 생성됨
+        }
+
+        val writer = FileWriter(directory + "/" + filename, true)
+        //true는 파일을 이어쓰는 것을 의미
+
+        //쓰기 속도 향상
+        val buffer = BufferedWriter(writer)
+        buffer.write(content)
+        buffer.close()
+
     }
 
 
@@ -311,6 +337,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             path.color = Color.BLUE
             path.map = naverMap
         }*/
+
     }
 
 
@@ -356,8 +383,6 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             path.map = naverMap //navermap에 출력
         }
     }
-
-
 
     fun coordDistanceofPoints(a: Point, b: Point): Double? {
         return Math.sqrt(Math.pow(a.x - b.x, 2.0) + Math.pow(a.y - b.y, 2.0))
