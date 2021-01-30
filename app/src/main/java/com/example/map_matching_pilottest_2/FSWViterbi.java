@@ -13,7 +13,7 @@ public class FSWViterbi {
     private static double correctness_sjtp;
 
     // gps 받아올때마다 FSW비터비로 매칭하는 메서드 -윤혜tp
-    public static void generateMatched(double[][] tp_matrix ,int wSize, ArrayList<ArrayList<Candidate>> arrOfCandidates,
+    public static ArrayList<Candidate> generateMatched(double[][] tp_matrix ,int wSize, ArrayList<ArrayList<Candidate>> arrOfCandidates,
                                        ArrayList<GPSPoint> gpsPointArrayList, /*ArrayList<Point> subRPA, ArrayList<GPSPoint> subGPSs, */Transition transition, int timeStamp, RoadNetwork roadNetwork, String tp_type) {
         // arrOfCandidates를 순회하며 찾은 path의 마지막을 matching_success에 추가하는 loop
         // t는 timestamp를 의미
@@ -83,19 +83,20 @@ public class FSWViterbi {
             tempCandi = arrOfCandidates.get(j).get(tempCandi.getPrev_index());
         }
 
+        ArrayList<Candidate> subpathArrayList;
         // 생성된 subpath를 subpaths에 추가가
         if (tp_type.equals("yh")) {
             subpaths_yhtp.add(subpath);
-            ArrayList<Candidate> subpathArrayList = new ArrayList<>(Arrays.asList(subpath));
+            subpathArrayList = new ArrayList<>(Arrays.asList(subpath));
             // subpath를 모두 매칭!!
             matched_yhtp.addAll(subpathArrayList);
         } else {
             subpaths_sjtp.add(subpath);
-            ArrayList<Candidate> subpathArrayList = new ArrayList<>(Arrays.asList(subpath));
+            subpathArrayList = new ArrayList<>(Arrays.asList(subpath));
             // subpath를 모두 매칭!!
             matched_sjtp.addAll(subpathArrayList);
         }
-
+        return subpathArrayList;
     }
     // subpath출력 메서드 (테스트용) -윤혜tp
     public static void printSubpath(int wSize, String tp_type) {

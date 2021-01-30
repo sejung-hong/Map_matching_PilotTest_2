@@ -77,34 +77,17 @@ public class RoadNetwork {
      *되는 루트 →, ↑, ↗,↘
      *안되는 루트: ←, ↓, ↙, ↖
      * */
-    public ArrayList<Point> routePoints (int testNo,ArrayList<Integer> routeNodes) {
+    public ArrayList<Point> routePoints (int testNo) {
         ArrayList<Point> routePoints = new ArrayList<>();
-        if (testNo == 1) { // 세정이 데이터
-            for (int i=0; i<routeNodes.size()-1; i++) {
-                Link routelink = getLink(routeNodes.get(i), routeNodes.get(i+1));
-                routePoints.addAll(getInvolvingPointList(getNode(routelink.getStartNodeID()).getCoordinate(),
-                        getNode(routelink.getEndNodeID()).getCoordinate()));
+
+        if(testNo == 1){
+            int[] routeNodes = { 0, 10, 7, 9, 15, 14, 27, 50, 48, 40, 47, 46, 45, 58 };
+            for (int i=0; i<routeNodes.length-1; i++) {
+                Link routelink = getLink(routeNodes[i], routeNodes[i+1]); //두 노드를 끝으로 하는 링크 반환
+                routePoints.addAll(getInvolvingPointList(getNode(routeNodes[i]).getCoordinate(),getNode(routeNodes[i+1]).getCoordinate(),routelink.getWeight()));
             }
-        } else if (testNo == 2) { // 유네 데이터
-            // node0 에서 node 55로 가는 경로
-            for (int i=0; i<routeNodes.size()-1; i++) {
-                Link routelink = getLink(routeNodes.get(i), routeNodes.get(i+1));
-                routePoints.addAll(getInvolvingPointList(getNode(routelink.getStartNodeID()).getCoordinate(),
-                        getNode(routelink.getEndNodeID()).getCoordinate()));
-            }
-        } else if (testNo == 3) { // 유림이 데이터
-            for (int i=0; i<routeNodes.size()-1; i++) {
-                Link routelink = getLink(routeNodes.get(i), routeNodes.get(i+1));
-                routePoints.addAll(getInvolvingPointList(getNode(routelink.getStartNodeID()).getCoordinate(),
-                        getNode(routelink.getEndNodeID()).getCoordinate()));
-            }
-        } else if (testNo == 4) { // 가중치 데이터
-            for (int i=0; i<routeNodes.size()-1; i++) {
-                Link routelink = getLink(routeNodes.get(i), routeNodes.get(i+1));
-                routePoints.addAll(getInvolvingPointList(getNode(routelink.getStartNodeID()).getCoordinate(),
-                        getNode(routelink.getEndNodeID()).getCoordinate()));
-            }
-        } return routePoints;
+        }
+        return routePoints;
     }
 
     // link개수 출력하기
@@ -114,7 +97,7 @@ public class RoadNetwork {
 
     // 우리 route node만 입력 해도 실제 경로 쭈르륵 떠야 해서 이 부분에 involving point list 살짝 변경해서 넣음
     // GPS데이터 생성을 위한 Point.linkID 설정하는 코드 추가
-    public ArrayList<Point> getInvolvingPointList(Point start, Point end){
+    public ArrayList<Point> getInvolvingPointList(Point start, Point end, Double weight){
 
         //involving points 구하기
 

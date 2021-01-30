@@ -3,6 +3,7 @@ package com.example.map_matching_pilottest_2;
 import java.util.ArrayList;
 
 public class Candidate {
+
     private Point point;
     private Link involvedLink;
     private double tp;
@@ -134,12 +135,12 @@ public class Candidate {
                         (vectorC.getSubtracted(vectorStart).dot(vectorFromEndToStart))
                                 / Math.pow(vectorFromEndToStart.getLength(), 2))); //원점에서 시작해 수선의 발로의 vector
                 candidate.setPoint(new Point(vectorH.getX(), vectorH.getY())); //수선의 발 vector의 x와 y값을 candidate의 point로 대입
-                if (MainActivity.coordDistanceofPoints(center, candidate.getPoint()) > Radius) continue;
+                if (Calculation.coordDistanceofPoints(center, candidate.getPoint()) > Radius) continue;
                 resultCandidate.add(candidate);
 //////////////////////////////////////////
                 //candidate마다 ep, tp 구하기
-                MainActivity.calculationEP(candidate, center, timestamp);
-                MainActivity.calculationTP(candidate, matchingPointArrayList, center, gpsPointArrayList, timestamp, roadNetwork);
+                Calculation.calculationEP(candidate, center, timestamp, emission);
+                Calculation.calculationTP(candidate, matchingPointArrayList, center, gpsPointArrayList, timestamp, roadNetwork, transition);
 
                 for (Candidate c: matchingPointArrayList) {
                     emission.Emission_Median(c);
@@ -148,7 +149,7 @@ public class Candidate {
 
             }
         }
-        MainActivity.calculationEPTP(resultCandidate, matchingPointArrayList, timestamp);
+        Calculation.calculationEPTP(resultCandidate, matchingPointArrayList, timestamp);
 
         return resultCandidate;
     }
