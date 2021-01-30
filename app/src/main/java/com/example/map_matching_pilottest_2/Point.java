@@ -39,7 +39,7 @@ public class Point {
     public void setY(double y) {
         this.y = y;
     }
-
+/*
     public ArrayList<Link> findRadiusLink(ArrayList<Link> linkArrayList, ArrayList<Node> nodeArrayList){
         int Radiusnum = 3;
         ArrayList<Link> RadiusLinkID = new ArrayList<>();
@@ -88,5 +88,5 @@ public class Point {
 
     public Double coordDistance(Point a){
         return Math.sqrt(Math.pow(a.getX()-this.getX(),2)+Math.pow(a.getY()-this.getY(),2));
-    }//점과 점 사이의 거리 구하기
+    }//점과 점 사이의 거리 구하기*/
 }//test

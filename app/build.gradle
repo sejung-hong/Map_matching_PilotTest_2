@@ -1,10 +1,15 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-parcelize'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.1"
+
+    buildFeatures {
+        viewBinding true
+    }
 
     defaultConfig {
         applicationId "com.example.map_matching_pilottest_2"

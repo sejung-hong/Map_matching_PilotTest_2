@@ -249,94 +249,9 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         //pilot 1-2에서는 가능했지만 실제 좌표를 가지고 하는 pilot 2에서는 불가능..
         //->세정 해결
 
-/*
-        // window size만큼의 t-window, ... , t-1, t에서의 candidates의 arrayList
-        val arrOfCandidates: ArrayList<ArrayList<Candidate>> = ArrayList()
-        val subGPSs: ArrayList<GPSPoint> = ArrayList()
-
-
-        // GPSPoints 생성
-        var timestamp = 0
-        System.out.println("Fixed Sliding Window Viterbi (window size: 3)");
-        for (point in routePointArrayList) {
-            val gpsPoint = GPSPoint(timestamp, point)
-            gpsPointArrayList.add(gpsPoint)
-            timestamp++
-            //System.out.println(gpsPoint); //gps point 제대로 생성 되는지 확인차 넣음
-            val candidates: ArrayList<Candidate> = ArrayList()
-            candidates.addAll(
-                findRadiusCandidate(
-                    gpsPointArrayList,
-                    matchingCandiArrayList,
-                    gpsPoint.point,
-                    20,
-                    roadNetwork,
-                    timestamp
-                )
-            )
-
-            ////////////median값 저장 - 세정 tp에서 필요//////////
-            emission.Emission_Median(matchingCandiArrayList[timestamp - 1])
-            if (timestamp > 1) {
-                transition.Transition_Median(matchingCandiArrayList[timestamp - 1])
-            }
-
-            ///////////// FSW VITERBI /////////////
-            subGPSs.add(gpsPoint)
-            arrOfCandidates.add(candidates)
-            // subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
-            if (subGPSs.size == wSize) {
-                FSWViterbi.generateMatched_yhtp(wSize, arrOfCandidates, tp_matrix) // 윤혜tp 비터비
-                FSWViterbi.generateMatched_sjtp(
-                    wSize,
-                    arrOfCandidates,
-                    gpsPointArrayList,
-                    transition,
-                    timestamp,
-                    roadNetwork
-                ) // 세정tp로 비터비
-                subGPSs.clear()
-                arrOfCandidates.clear()
-                // subRPA.clear(); // 비터비 내부 보려면 이것도 주석 해제해야!
-                subGPSs.add(gpsPoint)
-                arrOfCandidates.add(candidates)
-                // subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
-            }
-            ///////////////////////////////////////
-        }
-
-        // yhtp 이용해서 구한 subpath 출력
-        FSWViterbi.printSubpath_yhtp(wSize);
-
-        // sjtp 이용해서 구한 subpath 출력
-        FSWViterbi.printSubpath_sjtp(wSize);
-
-        // origin->생성 gps-> yhtp 이용해서 구한 matched 출력 및 정확도 확인
-        FSWViterbi.test_data2_yhtp(routePointArrayList, gpsPointArrayList);
-
-        // origin->생성 gps-> sjtp 이용해서 구한 matched 출력 및 정확도 확인
-        FSWViterbi.test_data2_sjtp(routePointArrayList, gpsPointArrayList);
-
-        // 윤혜tp와 세정tp비교!
-        FSWViterbi.compareYhtpAndSjtp();*/
-
-
-
         getNodePrint(roadNetwork) //좌표 지도에 표시
 
         getLinkPrint(roadNetwork) //링크 지도에 표시
-
-/*        //지도에 루트 표시
-        System.out.println("리스트 사이즈: "+ routePointArrayList.size)
-        for(i in 0..352){
-            val path = PathOverlay() //path 오버레이
-            path.coords = listOf(
-                LatLng(routePointArrayList[i].x, routePointArrayList[i].y),
-                LatLng(routePointArrayList[i+1].x, routePointArrayList[i+1].y)
-            )
-            path.color = Color.BLUE
-            path.map = naverMap
-        }*/
 
     }
 
