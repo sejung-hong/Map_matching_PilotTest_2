@@ -6,8 +6,16 @@ public class Link {
     private int startNodeID; // Link의 Start Node
     private int endNodeID; // Link의 End Node
     private Double weight; // Link의 weight (길이)
-    // Link가 포함하고 있는 node List
-    //private ArrayList<Point> involvingPointList = new ArrayList<>();
+    private int width;
+    private String itLooksLike; // 수평: hor, 수직: ver, 대각선: dia
+
+    public String getItLooksLike() {
+        return itLooksLike;
+    }
+
+    public void setItLooksLike(String itLooksLike) {
+        this.itLooksLike = itLooksLike;
+    }
 
     //////생성자, getter, setter, toString//////
     // int로 ID 파라미터 받음
@@ -18,18 +26,39 @@ public class Link {
         this.weight = weight;
     }
 
+    public Link (int linkID, int startNodeID, int endNodeID, Double weight,int width){
+        this.linkID = linkID;
+        this.startNodeID = startNodeID;
+        this.endNodeID = endNodeID;
+        this.weight = weight;
+        this.width = width;
+    }
+
     // String으로 ID 파라미터 받음
     public Link(String linkID, String startNodeID, String endNodeID, Double weight) {
         this.linkID = Integer.parseInt(linkID);
         this.startNodeID = Integer.parseInt(startNodeID);
         this.endNodeID = Integer.parseInt(endNodeID);
         this.weight = weight;
+        this.width = 0;
+    }
+    // String으로 ID 파라미터 받음
+    public Link(String linkID, String startNodeID, String endNodeID, Double weight,String width) {
+        this.linkID = Integer.parseInt(linkID);
+        this.startNodeID = Integer.parseInt(startNodeID);
+        this.endNodeID = Integer.parseInt(endNodeID);
+        this.weight = weight;
+        this.width = Integer.parseInt(width);
     }
 
     public String toString() {
         return "[" + linkID + "]\t" + "(" + startNodeID +", "
                 + endNodeID+")" + "\t" + "weight: " + weight;
     }
+
+    public int getWidth(){return width;}
+
+    public void setWidth(int width){this.width = width;}
 
     public int getLinkID() {
         return linkID;
@@ -145,5 +174,26 @@ public class Link {
                 n++;
             }
         } return n;
+    }
+
+    public static ArrayList<Link> AdjacentLink(Link mainLink,RoadNetwork roadNetwork,ArrayList<AdjacentNode> heads){
+        int startNode=mainLink.getStartNodeID();
+        int endNode = mainLink.getEndNodeID();
+        ArrayList<Link> secondLink = new ArrayList<>();
+        //ArrayList<Node> startAdjacentNode = new ArrayList<>();
+        //ArrayList<Node> endAdjacentNode = new ArrayList<>();
+        AdjacentNode pointer = heads.get(roadNetwork.nodeArrayList.get(startNode).getNodeID()).getNextNode();
+        while(true){
+            if(pointer==null) break;
+            secondLink.add(roadNetwork.getLink(pointer.getNode().getNodeID(),startNode));
+            pointer=pointer.getNextNode();
+        }
+        pointer = heads.get(roadNetwork.nodeArrayList.get(endNode).getNodeID()).getNextNode();
+        while(true){
+            if(pointer==null) break;
+            secondLink.add(roadNetwork.getLink(pointer.getNode().getNodeID(),endNode));
+            pointer=pointer.getNextNode();
+        }
+        return secondLink;
     }
 }

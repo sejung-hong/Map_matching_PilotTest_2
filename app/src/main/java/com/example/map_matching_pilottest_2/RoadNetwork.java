@@ -5,6 +5,7 @@ import android.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class RoadNetwork {
 
     // 데이터를 보관할 ArrayList들을 담는 class..
@@ -27,7 +28,8 @@ public class RoadNetwork {
 
     public Node getNode1 (Point nodePoint){
         for(Node currNode : nodeArrayList){
-            if(currNode.getCoordinate()==nodePoint)
+            if(currNode.getCoordinate().getX().doubleValue() == nodePoint.getX().doubleValue()
+                    && currNode.getCoordinate().getY().doubleValue() == nodePoint.getY().doubleValue())
                 return currNode;
         }
         // 탐색에 실패한 경우 nodeId가 -1인 Node반환
@@ -75,27 +77,30 @@ public class RoadNetwork {
      *되는 루트 →, ↑, ↗,↘
      *안되는 루트: ←, ↓, ↙, ↖
      * */
-    public ArrayList<Point> routePoints (int testNo) {
+    public ArrayList<Point> routePoints (int testNo,ArrayList<Integer> routeNodes) {
         ArrayList<Point> routePoints = new ArrayList<>();
         if (testNo == 1) { // 세정이 데이터
-            int[] routeNodes = {0, 1, 9, 10, 11, 19, 28, 36, 44, 45, 46, 47, 55};
-            for (int i=0; i<routeNodes.length-1; i++) {
-                Link routelink = getLink(routeNodes[i], routeNodes[i+1]);
+            for (int i=0; i<routeNodes.size()-1; i++) {
+                Link routelink = getLink(routeNodes.get(i), routeNodes.get(i+1));
                 routePoints.addAll(getInvolvingPointList(getNode(routelink.getStartNodeID()).getCoordinate(),
                         getNode(routelink.getEndNodeID()).getCoordinate()));
             }
         } else if (testNo == 2) { // 유네 데이터
             // node0 에서 node 55로 가는 경로
-            int[] routeNodes = {0,1, 6, 12, 25, 26, 27, 33, 34};
-            for (int i=0; i<routeNodes.length-1; i++) {
-                Link routelink = getLink(routeNodes[i], routeNodes[i+1]);
+            for (int i=0; i<routeNodes.size()-1; i++) {
+                Link routelink = getLink(routeNodes.get(i), routeNodes.get(i+1));
                 routePoints.addAll(getInvolvingPointList(getNode(routelink.getStartNodeID()).getCoordinate(),
                         getNode(routelink.getEndNodeID()).getCoordinate()));
             }
         } else if (testNo == 3) { // 유림이 데이터
-            int[] routeNodes= {0,20,};
-            for (int i=0; i<routeNodes.length-1; i++) {
-                Link routelink = getLink(routeNodes[i], routeNodes[i+1]);
+            for (int i=0; i<routeNodes.size()-1; i++) {
+                Link routelink = getLink(routeNodes.get(i), routeNodes.get(i+1));
+                routePoints.addAll(getInvolvingPointList(getNode(routelink.getStartNodeID()).getCoordinate(),
+                        getNode(routelink.getEndNodeID()).getCoordinate()));
+            }
+        } else if (testNo == 4) { // 가중치 데이터
+            for (int i=0; i<routeNodes.size()-1; i++) {
+                Link routelink = getLink(routeNodes.get(i), routeNodes.get(i+1));
                 routePoints.addAll(getInvolvingPointList(getNode(routelink.getStartNodeID()).getCoordinate(),
                         getNode(routelink.getEndNodeID()).getCoordinate()));
             }
@@ -107,7 +112,8 @@ public class RoadNetwork {
         return linkArrayList.size();
     }
 
-    //우리 route node만 입력 해도 실제 경로 쭈르륵 떠야 해서 이 부분에 involving point list 살짝 변경해서 넣음
+    // 우리 route node만 입력 해도 실제 경로 쭈르륵 떠야 해서 이 부분에 involving point list 살짝 변경해서 넣음
+    // GPS데이터 생성을 위한 Point.linkID 설정하는 코드 추가
     public ArrayList<Point> getInvolvingPointList(Point start, Point end){
 
         //involving points 구하기
@@ -120,33 +126,19 @@ public class RoadNetwork {
 
         ArrayList<Point> involvingPointList = new ArrayList<>();
 
+        int linkID = getLink(getNode1(new Point(xs, ys)).getNodeID(), getNode1(new Point(xe, ye)).getNodeID()).getLinkID();
+
         // link 기울기가 0인 경우 : ㅡ
         if (ys == ye) {
             // y값이 정수인 경우만 involvingPoint에 추가 (int의 ++연산)
-            for (int x_cord = (int) xs; x_cord <= (int) xe; x_cord++) {
-                // xs가 5.1등과 같이 (int)5.1 즉 5보다 큰 경우 (int)5.1 즉 5는 involvingPoint가 될수없음
-                // 5.0등인 case는 else이하 로직을 수행할 수 있도록 함
-                if (x_cord < xs) continue;
-
-                    // involvingPointList에 Point 추가
-                else {
-                    involvingPointList.add(new Point((double) x_cord, ys));
-                }
-            }
-
+            for (int x_cord = (int) xs; x_cord <= (int) xe; x_cord++)
+                involvingPointList.add(new Point((double) x_cord, ys, linkID));
         }
         // link 기울기가 무한인 경우 : |
         else if (xs == xe) {
             // y값이 정수인 경우만 involvingPoint에 추가 (int의 ++연산)
             for (int y_cord = (int) ys; y_cord <= (int) ye; y_cord++) {
-                // ys가 5.1등과 같이 (int)5.1 즉 5보다 큰 경우 (int)5.1 즉 5는 involvingPoint가 될수없음
-                // 5.0등인 case는 else이하 로직을 수행할 수 있도록 함
-                if (y_cord < ys) continue;
-
-                    // involvingPointList에 Point 추가
-                else {
-                    involvingPointList.add(new Point(xs, (double) y_cord));
-                }
+                involvingPointList.add(new Point(xs, (double) y_cord, linkID));
             }
         }
         // 기울기가 양수 혹은 음수인 경우 (/,\)
@@ -154,16 +146,9 @@ public class RoadNetwork {
             double slope = (ye-ys)/(xe-xs);
             double y_intercept = ((xe*ys)-(xs*ye))/(xe-xs);
             for (int x_cord = (int) xs; x_cord <= (int) xe; x_cord++) {
-                // xs가 5.1등과 같이 (int)5.1 즉 5보다 큰 경우 (int)5.1 즉 5는 involvingPoint가 될수없음
-                // 5.0등인 case는 else이하 로직을 수행할 수 있도록 함
-                if (x_cord < xs) continue;
-
-                    // involvingPointList에 Point 추가
-                else {
-                    double y = (slope * x_cord) + y_intercept;
-                    if (y % 1.0 == 0.0) {
-                        involvingPointList.add(new Point((double) x_cord, y));
-                    }
+                double y = (slope * x_cord) + y_intercept;
+                if (y % 1.0 == 0.0) {
+                    involvingPointList.add(new Point((double) x_cord, y, linkID));
                 }
             }
         }
