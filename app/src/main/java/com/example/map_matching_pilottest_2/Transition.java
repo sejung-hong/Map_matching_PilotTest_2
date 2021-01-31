@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class Transition {
     private static ArrayList<Double> transition_median = new ArrayList<Double>();
 
-    public static Double coordDistanceofPoints(Point a, Point b){
+    /*public static Double coordDistanceofPoints(Point a, Point b){
         return Math.sqrt(Math.pow(a.getX()-b.getX(),2)+Math.pow(a.getY()-b.getY(),2));
-    }//유클리드 거리 구하기
+    }//유클리드 거리 구하기*/
 
     public static Double routeDistanceofPoints(Candidate pre_matching, Candidate cand,  RoadNetwork roadNetwork){
         double routeDistance;
@@ -17,7 +17,7 @@ public class Transition {
 
         //a,b가 같은 링크일 때 유클리드 거리
         if(pre_matching.getInvolvedLink() == cand.getInvolvedLink())
-            routeDistance = coordDistanceofPoints(pre_matching.getPoint(), cand.getPoint());
+            routeDistance = Calculation.calDistance(pre_matching.getPoint(), cand.getPoint());
             //a,b가 다른 링크일 때
         else {
             //case 1: a,b가 다른 링크이고 두 링크가 맞닿아 있을때
@@ -30,7 +30,7 @@ public class Transition {
                     System.out.println("pre-matched: " + pre_matching +"\n candidate: " + cand);
                     Point linked_point = new Point(0.0, 0.0); //두 링크가 만나는 점
                     linked_point = pre_matching.getInvolvedLink().isLinkNextToPoint(roadNetwork, cand.getInvolvedLink());
-                    routeDistance = coordDistanceofPoints(pre_matching.getPoint(), linked_point) + coordDistanceofPoints(cand.getPoint(), linked_point);
+                    routeDistance = Calculation.calDistance(pre_matching.getPoint(), linked_point) + Calculation.calDistance(cand.getPoint(), linked_point);
                     //a와 두 링크가 만나는 점까지 거리 + b와 두 링크가 만나는 점까지 거리
                 }
                 //case 2: a,b가 다른 링크이고 두 링크가 맞닿아 있지 않을때
@@ -48,7 +48,7 @@ public class Transition {
         double dt=0;
 
         //case 1 : 이전 gps_point 와 gps_point의 유클리드 직선거리
-        tp_gps_distance = coordDistanceofPoints(gps_pre, gps); //이전gps_point 와 gps_point의 유클리드 직선거리
+        tp_gps_distance = Calculation.calDistance(gps_pre, gps); //이전gps_point 와 gps_point의 유클리드 직선거리
         //case 2 : 이전 매칭 point와 gps point의 유클리드 직선거리
         //tp_gps_distance = coordDistanceofPoints(matching_pre.getPoint(), gps); //gps와 이전 매칭된 point
 

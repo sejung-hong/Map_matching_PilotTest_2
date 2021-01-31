@@ -53,7 +53,7 @@ public class Link {
 
     public String toString() {
         return "[" + linkID + "]\t" + "(" + startNodeID +", "
-                + endNodeID+")" + "\t" + "weight: " + weight;
+                + endNodeID+")" + "\t" + "weight: " + weight + " itLooksLike: "+ itLooksLike;
     }
 
     public int getWidth(){return width;}

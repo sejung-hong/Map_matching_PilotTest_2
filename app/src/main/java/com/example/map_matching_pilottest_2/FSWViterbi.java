@@ -8,13 +8,22 @@ public class FSWViterbi {
     private static final ArrayList<Candidate> matched_yhtp = new ArrayList<>();
     private static double correctness_yhtp;
 
+    public static ArrayList<Candidate> getMatched_yhtp() {
+        return matched_yhtp;
+    }
+
+    public static ArrayList<Candidate> getMatched_sjtp() {
+        return matched_sjtp;
+    }
+
     private static final ArrayList<Candidate[]> subpaths_sjtp = new ArrayList<>();
     private static final ArrayList<Candidate> matched_sjtp = new ArrayList<>();
     private static double correctness_sjtp;
 
     // gps 받아올때마다 FSW비터비로 매칭하는 메서드 -윤혜tp
     public static ArrayList<Candidate> generateMatched(double[][] tp_matrix ,int wSize, ArrayList<ArrayList<Candidate>> arrOfCandidates,
-                                       ArrayList<GPSPoint> gpsPointArrayList, /*ArrayList<Point> subRPA, ArrayList<GPSPoint> subGPSs, */Transition transition, int timeStamp, RoadNetwork roadNetwork, String tp_type) {
+                                       ArrayList<GPSPoint> gpsPointArrayList, /*ArrayList<Point> subRPA, ArrayList<GPSPoint> subGPSs, */
+                                                       Transition transition, int timeStamp, RoadNetwork roadNetwork, String tp_type) {
         // arrOfCandidates를 순회하며 찾은 path의 마지막을 matching_success에 추가하는 loop
         // t는 timestamp를 의미
         // subpath 생성 및 matched arraylist에 저장
@@ -39,7 +48,7 @@ public class FSWViterbi {
                     if (tp_type.equals("yh")) {
                         tp = tp_matrix[cc.getInvolvedLink().getLinkID()][nc.getInvolvedLink().getLinkID()];
                     } else {
-                        System.out.println("[FSWViterbi] cc:" + cc);
+                        //System.out.println("[FSWViterbi] cc:" + cc);
                         tp = transition.Transition_pro(gpsPointArrayList.get(timeStamp-1).getPoint(), gpsPointArrayList.get(timeStamp-3).getPoint(), cc, nc, roadNetwork);
                     }
                     double prob = tp * nc.getEp();
@@ -75,6 +84,7 @@ public class FSWViterbi {
             }
         }
         // max_last_candi를 시작으로 back tracing하여 subpath구하기
+        //System.out.println("")
         Candidate tempCandi = arrOfCandidates.get(wSize - 2).get(max_last_candi.getPrev_index());
         subpath[subpath.length - 1] = tempCandi;
         //int i = subpath.length - 1;

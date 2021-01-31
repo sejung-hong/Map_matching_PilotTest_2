@@ -81,10 +81,15 @@ public class RoadNetwork {
         ArrayList<Point> routePoints = new ArrayList<>();
 
         if(testNo == 1){
-            int[] routeNodes = { 0, 10, 7, 9, 15, 14, 27, 50, 48, 40, 47, 46, 45, 58 };
+            int[] routeNodes = { 0, 10, 7, 9, 15, 14/*, 27, 50, 48, 40, 47, 46, 45, 58 */};
             for (int i=0; i<routeNodes.length-1; i++) {
                 Link routelink = getLink(routeNodes[i], routeNodes[i+1]); //두 노드를 끝으로 하는 링크 반환
-                routePoints.addAll(getInvolvingPointList(getNode(routeNodes[i]).getCoordinate(),getNode(routeNodes[i+1]).getCoordinate(),routelink.getWeight()));
+                routePoints.addAll(getInvolvingPointList(getNode(routeNodes[i]).getCoordinate(),
+                        getNode(routeNodes[i+1]).getCoordinate(), routelink.getWeight()));
+
+                /*
+                routePoints.addAll(getInvolvingPointList(getNode(routelink.getStartNodeID()).getCoordinate(),
+                        getNode(routelink.getEndNodeID()).getCoordinate()));*/
             }
         }
         return routePoints;
@@ -111,31 +116,19 @@ public class RoadNetwork {
 
         int linkID = getLink(getNode1(new Point(xs, ys)).getNodeID(), getNode1(new Point(xe, ye)).getNodeID()).getLinkID();
 
-        // link 기울기가 0인 경우 : ㅡ
-        if (ys == ye) {
-            // y값이 정수인 경우만 involvingPoint에 추가 (int의 ++연산)
-            for (int x_cord = (int) xs; x_cord <= (int) xe; x_cord++)
-                involvingPointList.add(new Point((double) x_cord, ys, linkID));
-        }
-        // link 기울기가 무한인 경우 : |
-        else if (xs == xe) {
-            // y값이 정수인 경우만 involvingPoint에 추가 (int의 ++연산)
-            for (int y_cord = (int) ys; y_cord <= (int) ye; y_cord++) {
-                involvingPointList.add(new Point(xs, (double) y_cord, linkID));
-            }
-        }
-        // 기울기가 양수 혹은 음수인 경우 (/,\)
-        else {
-            double slope = (ye-ys)/(xe-xs);
-            double y_intercept = ((xe*ys)-(xs*ye))/(xe-xs);
-            for (int x_cord = (int) xs; x_cord <= (int) xe; x_cord++) {
-                double y = (slope * x_cord) + y_intercept;
-                if (y % 1.0 == 0.0) {
-                    involvingPointList.add(new Point((double) x_cord, y, linkID));
-                }
-            }
-        }
+        //기울기와 상관없이 구하겠음
+        double deltaX = (xe-xs)/(Math.round(weight)); //X 변화값
+        double deltaY = (ye-ys)/(Math.round(weight)); //Y 변화값
+        //(int)(Math.round(weight)) : weight를 반올림하여 정수로 나타냄
+
+        for(int i = 0; i < (int)(Math.round(weight)); i++) {
+            involvingPointList.add(new Point(xs + (i*deltaX), ys + (i*deltaY), linkID));
+        } // involvingPointList에 Point 추가
+
         return involvingPointList;
     }
+
+
+
 }
 

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 public class Point {
-    private Double x; // x좌표
-    private Double y; // y좌표
+    private Double x; // x좌표 (경도)
+    private Double y; // y좌표 (위도)
     private int linkID; // 1-2에서만 필요
 
     public int getLinkID() {
@@ -37,7 +37,7 @@ public class Point {
 
     // 출력~
     public String toString() {
-        return x + "\t"+ y;
+        return x + "\t"+ y + "\tlink ID: " + linkID;
     }
 
     public Double getX() {

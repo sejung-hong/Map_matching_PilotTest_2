@@ -107,8 +107,8 @@ public class ShortestRoute {
             int nextID = 0;
             double addLength = 0.0;
             while(head!=null){
-                double G = routeLength + Calculation.coordDistanceofPoints(head.getNode().getCoordinate(), heads.get(now).getNode().getCoordinate());
-                double H = Calculation.coordDistanceofPoints(roadNetwork.getNode(end).getCoordinate(), head.getNode().getCoordinate());
+                double G = routeLength + Calculation.calDistance(head.getNode().getCoordinate(), heads.get(now).getNode().getCoordinate());
+                double H = Calculation.calDistance(roadNetwork.getNode(end).getCoordinate(), head.getNode().getCoordinate());
                 H = H + 20/ (head.getLink().getWidth());
                 /*가중치가 클 수록 큰 길 -> 가중치가 크면 좋음
                  && h가 작을 수록 유리함
@@ -119,7 +119,7 @@ public class ShortestRoute {
                 if(min > F) {
                     min = F;
                     nextID=head.getNode().getNodeID();
-                    addLength = Calculation.coordDistanceofPoints(head.getNode().getCoordinate(), heads.get(now).getNode().getCoordinate());
+                    addLength = Calculation.calDistance(head.getNode().getCoordinate(), heads.get(now).getNode().getCoordinate());
                 }
                 head=head.getNextNode();
             }
@@ -134,12 +134,12 @@ public class ShortestRoute {
         ArrayList<Integer> route = new ArrayList<>();
         int second = 0;
         double max = 0.0;
-        double startToend = Calculation.coordDistanceofPoints(heads.get(start).getNode().getCoordinate(),heads.get(end).getNode().getCoordinate());
+        double startToend = Calculation.calDistance(heads.get(start).getNode().getCoordinate(),heads.get(end).getNode().getCoordinate());
         double keyToend = startToend;
         AdjacentNode head = heads.get(start);
         while(head.getNextNode()!=null){
             head = head.getNextNode();
-            double headToend = Calculation.coordDistanceofPoints(head.getNode().getCoordinate(),heads.get(end).getNode().getCoordinate());
+            double headToend = Calculation.calDistance(head.getNode().getCoordinate(),heads.get(end).getNode().getCoordinate());
             // back하지 않으면서 가장 긴 link ||혹은~|| 길이가 같다면 end와 더 가까운 쪽
             if((max < head.getLink().getWeight() && headToend<startToend)||max==head.getLink().getWeight()&&keyToend>headToend){
                 max = head.getLink().getWeight();
@@ -167,8 +167,8 @@ public class ShortestRoute {
             int nextID = 0;
             double addLength = 0.0;
             while(head!=null){
-                double G = routeLength + Calculation.coordDistanceofPoints(head.getNode().getCoordinate(), heads.get(now).getNode().getCoordinate());
-                double H = Calculation.coordDistanceofPoints(roadNetwork.getNode(end).getCoordinate(), head.getNode().getCoordinate());
+                double G = routeLength + Calculation.calDistance(head.getNode().getCoordinate(), heads.get(now).getNode().getCoordinate());
+                double H = Calculation.calDistance(roadNetwork.getNode(end).getCoordinate(), head.getNode().getCoordinate());
                 if(prev!=null) {
                     Vector2D prevVec = new Vector2D
                             (prev.getNode().getCoordinate().getX()-heads.get(now).getNode().getCoordinate().getX(),
@@ -183,7 +183,7 @@ public class ShortestRoute {
                 if(min > F) {
                     min = F;
                     nextID=head.getNode().getNodeID();
-                    addLength = Calculation.coordDistanceofPoints(head.getNode().getCoordinate(), heads.get(now).getNode().getCoordinate());
+                    addLength = Calculation.calDistance(head.getNode().getCoordinate(), heads.get(now).getNode().getCoordinate());
                 }
                 head=head.getNextNode();
             }
