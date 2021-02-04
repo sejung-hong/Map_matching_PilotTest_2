@@ -153,6 +153,7 @@ public class Candidate {
                 GeoPoint geo_vector = GeoTrans.convert(GeoTrans.TM, GeoTrans.GEO, tm_vector);
 
                 Point candiPoint = new Point(geo_vector.getX(), geo_vector.getY());
+                candiPoint.setLinkID(roadNetwork.linkArrayList.get(i).getLinkID());
                 candidate.setPoint(candiPoint); //수선의 발 vector의 x와 y값을 candidate의 point로 대입
                 GeoPoint candiPtGeo = new GeoPoint (candiPoint.getX(), candiPoint.getY());
                 if (Calculation.calDistance(center.getY(), center.getX(), candiPtGeo.getY(), candiPtGeo.getX()) > Radius)  {
@@ -163,7 +164,7 @@ public class Candidate {
 //////////////////////////////////////////
                 //candidate마다 ep, tp 구하기
                 Calculation.calculationEP(candidate, center, timestamp, emission);
-                Calculation.calculationTP(candidate, matchingPointArrayList, center, gpsPointArrayList, timestamp, roadNetwork, transition);
+                //Calculation.calculationTP(candidate, matchingPointArrayList, center, gpsPointArrayList, timestamp, roadNetwork, transition);
 
                 for (Candidate c: matchingPointArrayList) {
                     emission.Emission_Median(c);

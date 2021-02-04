@@ -15,6 +15,8 @@ public class RoadNetwork {
     protected ArrayList<Node> nodeArrayList = new ArrayList<>();
     protected ArrayList<Link> linkArrayList = new ArrayList<>();
 
+    protected ArrayList<Point> routePointArrayList = new ArrayList<>();
+
     // _nodeID를 nodeID로 가지는 node반환
     public Node getNode (int _nodeID) {
         for (Node currNode : nodeArrayList) {
@@ -92,6 +94,7 @@ public class RoadNetwork {
                         getNode(routelink.getEndNodeID()).getCoordinate()));*/
             }
         }
+        routePointArrayList = routePoints;
         return routePoints;
     }
 

@@ -114,6 +114,11 @@ public class GPSPoint {
 
     }
 
+    GPSPoint(int timeStamp, Point coordinate) {
+        this.timeStamp = timeStamp;
+        this.coordinate = coordinate;
+    }
+
     public String toString() {
         return "[" + timeStamp + "] " + coordinate;
     }

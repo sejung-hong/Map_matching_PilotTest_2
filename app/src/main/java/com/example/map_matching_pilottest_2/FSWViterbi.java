@@ -44,7 +44,7 @@ public class FSWViterbi {
                 //System.out.println("  nc: " + nc.getPoint() + "/ ep: " + nc.getEp());
                 // 현재 candidate를 하나씩 순회하며
                 for (Candidate cc : curr_candidates) {
-                    double tp = 0;
+                    double tp;
                     if (tp_type.equals("yh")) {
                         tp = tp_matrix[cc.getInvolvedLink().getLinkID()][nc.getInvolvedLink().getLinkID()];
                     } else {
@@ -131,124 +131,52 @@ public class FSWViterbi {
         }
     }
 
-    // pilottest1-2에서만 사용가능한 메서드 (테스트용) -윤혜tp
-    public static void test_data2(ArrayList<Point> routePointArrayList, ArrayList<GPSPoint> gpsPointArrayList, String tp_type) {
-        // origin->생성 gps->matched 출력*
-        double success_sum = 0;
-        System.out.println("[Origin]\t->\t[GPS]\t->\t[Matched]");
-        ArrayList<Candidate> matched = new ArrayList<>();
-        if (tp_type.equals("yh")) {
-            matched.addAll(matched_yhtp);
-        }else {
-            matched.addAll(matched_sjtp);
-        }
-        System.out.println("HERE!!:" + matched.size());
-        for (int i = 0; i < matched.size(); i++) {
-            System.out.println(i + " [" + routePointArrayList.get(i) + "] -> ["
-                    + gpsPointArrayList.get(i).getPoint() + "] -> ["
-                    + matched.get(i).getPoint() + ", id: "
-                    + matched.get(i).getInvolvedLink().getLinkID() + "]");
+    public static void test (RoadNetwork rn, String tp_mode) {
 
-            // 다익스트라
-            if (i >= 0 && i <= 19 && matched.get(i).getInvolvedLink().getLinkID() == 0) {
-                success_sum++;
-            } else if (i >= 20 && i <= 40 && matched.get(i).getInvolvedLink().getLinkID() == 3) {
-                success_sum++;
-            } else if (i >= 41 && i <= 61 && matched.get(i).getInvolvedLink().getLinkID() == 13) {
-                success_sum++;
-            } else if (i >= 62 && i <= 82 && matched.get(i).getInvolvedLink().getLinkID() == 25) {
-                success_sum++;
-            } else if (i >= 83 && i <= 103 && matched.get(i).getInvolvedLink().getLinkID() == 46) {
-                success_sum++;
-            } else if (i >= 104 && i <= 124 && matched.get(i).getInvolvedLink().getLinkID() == 48) {
-                success_sum++;
-            } else if (i >= 125 && i <= 145 && matched.get(i).getInvolvedLink().getLinkID() == 51) {
-                success_sum++;
-            } else if (i >= 146 && i <= 165 && matched.get(i).getInvolvedLink().getLinkID() == 53) {
-                success_sum++;
-            }
-
-            /*
-            // 에이스타
-            if (i >= 0 && i <= 40 && matched.get(i).getInvolvedLink().getLinkID() == 1) {
-                success_sum++;
-            } else if (i >= 41 && i <= 61 && matched.get(i).getInvolvedLink().getLinkID() == 21) {
-                success_sum++;
-            } else if (i >= 62 && i <= 82 && matched.get(i).getInvolvedLink().getLinkID() == 23) {
-                success_sum++;
-            } else if (i >= 82 && i <= 102 && matched.get(i).getInvolvedLink().getLinkID() == 27) {
-                success_sum++;
-            } else if (i >= 103 && i <= 123 && matched.get(i).getInvolvedLink().getLinkID() == 36) {
-                success_sum++;
-            } else if (i >= 124 && i <= 144 && matched.get(i).getInvolvedLink().getLinkID() == 46) {
-                success_sum++;
-            } else if (i >= 145 && i <= 165 && matched.get(i).getInvolvedLink().getLinkID() == 58) {
-                success_sum++;
-            } else if (i >= 166 && i <= 186 && matched.get(i).getInvolvedLink().getLinkID() == 51) {
-                success_sum++;
-            } else if (i >= 187 && i <= 207 && matched.get(i).getInvolvedLink().getLinkID() == 53) {
-                success_sum++;
-            }
-            */
-            /*
-            //longest leg first
-            if (i >= 0 && i <= 40 && matched.get(i).getInvolvedLink().getLinkID() == 1) {
-                success_sum++;
-            } else if (i >= 41 && i <= 61 && matched.get(i).getInvolvedLink().getLinkID() == 21) {
-                success_sum++;
-            } else if (i >= 62 && i <= 82 && matched.get(i).getInvolvedLink().getLinkID() == 25) {
-                success_sum++;
-            } else if (i >= 83 && i <= 103 && matched.get(i).getInvolvedLink().getLinkID() == 46) {
-                success_sum++;
-            } else if (i >= 104 && i <= 124 && matched.get(i).getInvolvedLink().getLinkID() == 48) {
-                success_sum++;
-            } else if (i >= 125 && i <= 145 && matched.get(i).getInvolvedLink().getLinkID() == 51) {
-                success_sum++;
-            } else if (i >= 146 && i <= 165 && matched.get(i).getInvolvedLink().getLinkID() == 53) {
-                success_sum++;
-            }
-            */
-            /*
-            // fewest turn
-            if (i >= 0 && i <= 19 && matched.get(i).getInvolvedLink().getLinkID() == 0) {
-                success_sum++;
-            } else if (i >= 20 && i <= 40 && matched.get(i).getInvolvedLink().getLinkID() == 2) {
-                success_sum++;
-            } else if (i >= 41 && i <= 61 && matched.get(i).getInvolvedLink().getLinkID() == 4) {
-                success_sum++;
-            } else if (i >= 62 && i <= 82 && matched.get(i).getInvolvedLink().getLinkID() == 6) {
-                success_sum++;
-            } else if (i >= 82 && i <= 102 && matched.get(i).getInvolvedLink().getLinkID() == 8) {
-                success_sum++;
-            } else if (i >= 103 && i <= 123 && matched.get(i).getInvolvedLink().getLinkID() == 11) {
-                success_sum++;
-            } else if (i >= 124 && i <= 144 && matched.get(i).getInvolvedLink().getLinkID() == 20) {
-                success_sum++;
-            } else if (i >= 145 && i <= 165 && matched.get(i).getInvolvedLink().getLinkID() == 31) {
-                success_sum++;
-            } else if (i >= 166 && i <= 186 && matched.get(i).getInvolvedLink().getLinkID() == 41) {
-                success_sum++;
-            } else if (i >= 187 && i <= 207 && matched.get(i).getInvolvedLink().getLinkID() == 53) {
-                success_sum++;
-            }
-            */
-        }
-        double correctness = 0;
-
-        correctness = (100 * (success_sum / (double) matched.size()));
-
-        System.out.println("Correctness("+tp_type+"_tp) = " + correctness);
-        System.out.println(" Total: " + matched.size() + "\n Succeed: " + success_sum + "\n Failed: " + (matched.size() - success_sum));
-        if (tp_type.equals("yh")) {
-            correctness_yhtp = correctness;
+        ArrayList<Candidate> matched;
+        if (tp_mode.equals ("yh")) {
+            matched = matched_yhtp;
         } else {
-            correctness_sjtp = correctness;
+            matched = matched_sjtp;
         }
+        int i = 0;
+        double correctness = 0, total = 0;
+        for (Candidate c :matched) {
+            //System.out.println("origin link: " + rn.routePointArrayList.get(i).getLinkID() + ", matched link: " + c.getInvolvedLink().getLinkID() );
+            if (rn.routePointArrayList.get(i).getLinkID() == matched.get(i).getInvolvedLink().getLinkID()) {
+                correctness ++ ;
+            }
+            total ++;
+            i++;
+        }
+        if (tp_mode.equals ("yh")) {
+            correctness_yhtp = 100*(correctness/total);
+            System.out.println(tp_mode + "tp correctness: " + correctness_yhtp);
+        } else {
+            correctness_sjtp = 100*(correctness/total);
+            System.out.println(tp_mode + "tp correctness: " + correctness_sjtp);
+        }
+
     }
 
     // yhtp와 sjtp 비교용 메서드 (테스트용)
     public static void compareYhtpAndSjtp () {
         System.out.println("========= Compare correctness =========\nCorrectness(yhtp) = " + correctness_yhtp);
         System.out.println("Correctness(sjtp) = " + correctness_sjtp+"\n=======================================");
+    }
+
+    public static void compareYHandSJ() {
+        int i = 0;
+        int j = 0;
+        for (Candidate c: matched_yhtp) {
+            if (c.getPoint().getX().compareTo(matched_sjtp.get(i).getPoint().getX()) != 0 ||
+                c.getPoint().getY().compareTo(matched_sjtp.get(i).getPoint().getY()) != 0) {
+                System.out.println(i + "] NOT SAME!");
+                System.out.println("   yh: " + c + "\n   sj:" + matched_sjtp.get(i).getPoint());
+                j++;
+            }
+            i++;
+        }
+        System.out.println("=> 다른 확률:" + (j/i*100));
     }
 }

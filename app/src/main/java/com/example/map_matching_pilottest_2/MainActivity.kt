@@ -270,6 +270,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             )
             printPoint(gpsPoint.point) // 생성된 GPS출력(빨간색)
 
+            println("[MAIN] GPS: $gpsPoint")
             gpsPointArrayList.add(gpsPoint)
             timestamp++
             //System.out.println(gpsPoint); //gps point 제대로 생성 되는지 확인차 넣음
@@ -280,7 +281,11 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                     gpsPoint.point, 20, roadNetwork, timestamp, emission, transition
                 )
             )
-            println("[MAIN] candidates:$candidates")
+            println(">>>> [MAIN] candidates <<<<")
+            for (candidate in candidates) {
+                println("  $candidate")
+            }
+            println(">>>>>>>>>>>>>><<<<<<<<<<<<<")
             emission.Emission_Median(matchingCandiArrayList[timestamp - 1])
             if (timestamp > 1) {
                 transition.Transition_Median(matchingCandiArrayList[timestamp - 1])
@@ -290,35 +295,39 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             ///////////// FSW VITERBI /////////////
             subGPSs.add(gpsPoint)
             arrOfCandidates.add(candidates)
+
             //subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
             if (subGPSs.size == wSize) {
+                println("===== VITERBI start ====")
                 FSWViterbi.generateMatched(
                     tp_matrix,
                     wSize,
                     arrOfCandidates,
-                    gpsPointArrayList,  /*subRPA, subGPSs,*/
+                    gpsPointArrayList, /* subRPA, subGPSs,*/
                     transition,
                     timestamp,
                     roadNetwork,
                     "yh"
                 )
-                /*FSWViterbi.generateMatched(
+                FSWViterbi.generateMatched(
                     tp_matrix,
                     wSize,
                     arrOfCandidates,
-                    gpsPointArrayList,  *//*subRPA, subGPSs, *//*
+                    gpsPointArrayList, /* subRPA, subGPSs, */
                     transition,
                     timestamp,
                     roadNetwork,
                     "sj"
-                )*/
+                )
                 subGPSs.clear()
                 arrOfCandidates.clear()
                 //subRPA.clear(); // 비터비 내부 보려면 이것도 주석 해제해야!
                 subGPSs.add(gpsPoint)
                 arrOfCandidates.add(candidates)
                 //subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
-                            }
+
+                println("===== VITERBI end ====")
+            }
             ///////////////////////////////////////
         }
         // yhtp 이용해서 구한 subpath 출력
@@ -328,16 +337,16 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         //FSWViterbi.printSubpath(wSize, "sj")
 
         // origin->생성 gps-> yhtp 이용해서 구한 matched 출력 및 정확도 확인
-        //FSWViterbi.test_data2(routePointArrayList, gpsPointArrayList, "yh")
+        FSWViterbi.test(roadNetwork, "yh")
 
         // origin->생성 gps-> sjtp 이용해서 구한 matched 출력 및 정확도 확인
-        //FSWViterbi.test_data2(routePointArrayList, gpsPointArrayList, "sj")
+        FSWViterbi.test(roadNetwork, "sj")
 
         // 윤혜tp와 세정tp비교!
         //FSWViterbi.compareYhtpAndSjtp()
-
-        printMatched(FSWViterbi.getMatched_yhtp(), Color.BLUE, 30) // 윤혜 매칭: 파란색
-        //printMatched(FSWViterbi.getMatched_sjtp(), Color.GREEN, 30) // 세정 매칭: 초록색
+        FSWViterbi.compareYHandSJ()
+        printMatched(FSWViterbi.getMatched_yhtp(), Color.BLUE, 50) // 윤혜 매칭: 파란색
+        printMatched(FSWViterbi.getMatched_sjtp(), Color.GREEN, 30) // 세정 매칭: 초록색
     }
 
     fun printPoint(point: Point) {
@@ -404,12 +413,10 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             marker.map = naverMap //navermap에 출력
         } //모든 노드 출력
 
-        var cameraUpdate = CameraUpdate.scrollTo(
-            LatLng(
-                matched.get(0).point.y,
-                matched.get(0).point.x
-            )
-        )
+        var cameraUpdate = CameraUpdate.scrollAndZoomTo(LatLng(
+            matched.get(0).point.y,
+            matched.get(0).point.x
+        ),18.0)
         naverMap.moveCamera(cameraUpdate)
         //카메라 이동
     }
