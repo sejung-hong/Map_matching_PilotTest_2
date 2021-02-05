@@ -20,12 +20,9 @@ import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
-import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.overlay.PathOverlay
 import com.naver.maps.map.util.MarkerIcons
-import java.io.BufferedWriter
-import java.io.File
-import java.io.FileWriter
+import java.io.*
 
 
 class MainActivity : FragmentActivity(), OnMapReadyCallback {
@@ -78,7 +75,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
     override fun onMapReady(naverMap: NaverMap) {
         this.naverMap = naverMap
 
-        //main() //file
+        main() //file
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this) //gps 자동으로 받아오기
 
@@ -121,7 +118,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
     fun setUpdateLocationListner() {
         val dir = filesDir.absolutePath //내부저장소 절대 경로
         val filename = "실제 GPS.txt"
-        writeTextFile(dir, filename, "애플리케이션 시작!\n")
+        //writeTextFile(dir, filename, "애플리케이션 시작!\n")
 
         val locationRequest = LocationRequest.create()
         locationRequest.run {
@@ -136,7 +133,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                     Log.d("location: ", "${location.latitude}, ${location.longitude}")
                     setLastLocation(location)
                     val contents = location.latitude.toString() + "\t" + location.longitude.toString() + "\n"
-                    writeTextFile(dir, filename, contents)
+                    //writeTextFile(dir, filename, contents) //실제 GPS 받아오기
                 }
             }
         }
@@ -156,16 +153,16 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         marker.width = 30
         marker.height = 50
         marker.captionText = "위도: ${location.latitude}, 경도: ${location.longitude}"
-        marker.map = naverMap
+/*        marker.map = naverMap
         //마커
         val cameraUpdate = CameraUpdate.scrollTo(myLocation)
         naverMap.moveCamera(cameraUpdate)
         naverMap.maxZoom = 18.0
         naverMap.minZoom = 5.0
-        //카메라
+        //카메라*/
     }
 
-    fun writeTextFile(directory:String, filename:String, content:String){
+    fun writeTextFile(directory: String, filename: String, content: String){
         val dir = File(directory)
 
         if(!dir.exists()){ //dir이 존재 하지 않을때
@@ -326,20 +323,58 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
 
         getLinkPrint(roadNetwork) //링크 지도에 표시
 
-/*        //지도에 루트 표시
-        System.out.println("리스트 사이즈: "+ routePointArrayList.size)
+        //지도에 루트 표시
         for(i in 0..352){
             val path = PathOverlay() //path 오버레이
             path.coords = listOf(
                 LatLng(routePointArrayList[i].x, routePointArrayList[i].y),
-                LatLng(routePointArrayList[i+1].x, routePointArrayList[i+1].y)
+                LatLng(routePointArrayList[i + 1].x, routePointArrayList[i + 1].y)
             )
             path.color = Color.BLUE
             path.map = naverMap
-        }*/
+        }
 
+        getRealGPSPrint(roadNetwork)
     }
 
+    fun getRealGPSPrint(roadNetwork: RoadNetwork){
+        //지도에 실제 GPS 표시
+        //파일 객체 생성
+
+        /*=======Node.txt 파일읽어오기 작업========*/
+        //파일 객체 생성
+        val file1: File = File(filesDir.absolutePath + "/data1/GPS2.txt") //filesDir.absolutePath 파일 절대 경로
+
+        if (!file1.exists()) {
+            println("파일을 읽지 못함")
+        }
+
+        //입력 스트림 생성
+        val fileReader1 = FileReader(file1)
+
+        //BufferedReader 클래스 이용하여 파일 읽어오기
+        val bufferedReader1 = BufferedReader(fileReader1)
+
+        val realGPSPointArrayList: ArrayList<Point> = ArrayList()
+        while (bufferedReader1.ready()) {
+            val line = bufferedReader1.readLine()
+            val lineArray = line.split("\t".toRegex()).toTypedArray()
+            val coordinate = Point(lineArray[0], lineArray[1])
+            realGPSPointArrayList.add(coordinate) //realGPSPointArrayList에 생성한 point 추가
+        }
+        // close the bufferedReader
+        bufferedReader1.close()
+
+        for(i in 0..335){
+            val path = PathOverlay() //path 오버레이
+            path.coords = listOf(
+                LatLng(realGPSPointArrayList[i].x, realGPSPointArrayList[i].y),
+                LatLng(realGPSPointArrayList[i + 1].x, realGPSPointArrayList[i + 1].y)
+            )
+            path.color = Color.YELLOW
+            path.map = naverMap
+        }
+    }
 
     //Node(좌표)를 지도위에 출력하는 함수
     fun getNodePrint(roadNetwork: RoadNetwork) {

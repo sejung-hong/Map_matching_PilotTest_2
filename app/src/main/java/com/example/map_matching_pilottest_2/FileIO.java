@@ -38,7 +38,6 @@ public class FileIO {
         FileReader fileReader1 = new FileReader(file1);
         //BufferedReader 클래스 이용하여 파일 읽어오기
 
-
         BufferedReader bufferedReader1 = new BufferedReader(fileReader1);
         //System.out.println("======== Node 정보 =======");
         while (bufferedReader1.ready()) {
@@ -55,6 +54,14 @@ public class FileIO {
         /*=======Link.txt 파일읽어오기 작업========*/
         //파일 객체 생성
         File file2 = new File(directoryName + "/data1/Link.txt");
+
+        if(!file2.exists()){
+            System.out.println("파일을 읽지 못함");
+            return roadNetwork;
+            //파일을 읽지 못하는 경우
+            //emulator에서 data->data->com.example.map_matching->files에 data1(Node.txt, Link.txt)를 추가해주어야함
+        }
+
         //입력 스트림 생성
         FileReader fileReader2 = new FileReader(file2);
         //BufferedReader 클래스 이용하여 파일 읽어오기
