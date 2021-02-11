@@ -6,15 +6,15 @@ public class Emission {
 
     private static ArrayList<Double> emission_median = new ArrayList<Double>();
 
-    public static Double coordDistanceofPoints(Point a, Point b){
+   /* public static Double coordDistanceofPoints(Point a, Point b){
         return Math.sqrt(Math.pow(a.getX()-b.getX(),2)+Math.pow(a.getY()-b.getY(),2));
-    }//유클리드 거리 구하기
+    }//유클리드 거리 구하기*/
 
     //emission probability 구하는 함수
     public double Emission_pro(Candidate cand, Point gps, Point candidate, int size) {
         double ep_distance = 0;
 
-        ep_distance = coordDistanceofPoints(candidate, gps); //후보point와 gps point의 유클리드 직선 거리
+        ep_distance = Calculation.calDistance(candidate, gps); //후보point와 gps point의 유클리드 직선 거리
 
         cand.setEp_median(ep_distance); //median 값 저장
 

@@ -164,13 +164,12 @@ public class Candidate {
 //////////////////////////////////////////
                 //candidate마다 ep, tp 구하기
                 Calculation.calculationEP(candidate, center, timestamp, emission);
-                //Calculation.calculationTP(candidate, matchingPointArrayList, center, gpsPointArrayList, timestamp, roadNetwork, transition);
+                Calculation.calculationTP(candidate, matchingPointArrayList, center, gpsPointArrayList, timestamp, roadNetwork, transition);
 
                 for (Candidate c: matchingPointArrayList) {
                     emission.Emission_Median(c);
                     transition.Transition_Median(c);
                 }
-
             }
         }
         Calculation.calculationEPTP(resultCandidate, matchingPointArrayList, timestamp);

@@ -5,6 +5,7 @@ import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
+import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.util.Pair
@@ -21,6 +22,9 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.MarkerIcons
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.concurrent.schedule
 
 
 class MainActivity : FragmentActivity(), OnMapReadyCallback {
@@ -244,23 +248,15 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         // 3: x, y 모두 uniform하게     | 4: 교수님이 말한 평균 4 방식
         val gpsGenMode = 2
         println("Fixed Sliding Window Viterbi (window size: 3)")
-        for (point in routePointArrayList) {
+        for (i in routePointArrayList.indices step (5)) {
+            var point: Point = routePointArrayList.get(i)
             println("routePoint: " + point)
-            val marker = Marker() //좌표
-            marker.position = LatLng(
-                point.y,
-                point.x
-            ) //node 좌표 출력
-            marker.icon = MarkerIcons.BLACK //색을 선명하게 하기 위해 해줌
-            marker.iconTintColor = Color.YELLOW //색 덧입히기
-            marker.width = 30
-            marker.height = 30
-            // 마커가 너무 커서 크기 지정해줌
-            marker.map = naverMap //navermap에 출력
+            printPoint(point, Color.YELLOW)
         }
 
-        for (point in routePointArrayList) {
+        for (i in routePointArrayList.indices step (5)) {
             // 오래 걸리는 작업 수행부분
+            var point: Point = routePointArrayList.get(i)
             val gpsPoint = GPSPoint(
                 timestamp,
                 point,
@@ -268,7 +264,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                 3,
                 roadNetwork.getLink(point.linkID).itLooksLike
             )
-            printPoint(gpsPoint.point) // 생성된 GPS출력(빨간색)
+            printPoint(gpsPoint.point, Color.RED) // 생성된 GPS출력(빨간색)
 
             println("[MAIN] GPS: $gpsPoint")
             gpsPointArrayList.add(gpsPoint)
@@ -278,7 +274,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             candidates.addAll(
                 Candidate.findRadiusCandidate(
                     gpsPointArrayList, matchingCandiArrayList,
-                    gpsPoint.point, 20, roadNetwork, timestamp, emission, transition
+                    gpsPoint.point, 50, roadNetwork, timestamp, emission, transition
                 )
             )
             println(">>>> [MAIN] candidates <<<<")
@@ -286,10 +282,10 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                 println("  $candidate")
             }
             println(">>>>>>>>>>>>>><<<<<<<<<<<<<")
-            emission.Emission_Median(matchingCandiArrayList[timestamp - 1])
+            /*emission.Emission_Median(matchingCandiArrayList[timestamp - 1])
             if (timestamp > 1) {
                 transition.Transition_Median(matchingCandiArrayList[timestamp - 1])
-            }
+            }*/
             //median값 저장
 
             ///////////// FSW VITERBI /////////////
@@ -299,6 +295,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             //subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
             if (subGPSs.size == wSize) {
                 println("===== VITERBI start ====")
+                println("----- yhtp ------")
                 FSWViterbi.generateMatched(
                     tp_matrix,
                     wSize,
@@ -309,6 +306,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                     roadNetwork,
                     "yh"
                 )
+                println("----- sjtp ------")
                 FSWViterbi.generateMatched(
                     tp_matrix,
                     wSize,
@@ -343,33 +341,46 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         FSWViterbi.test(roadNetwork, "sj")
 
         // 윤혜tp와 세정tp비교!
-        //FSWViterbi.compareYhtpAndSjtp()
         FSWViterbi.compareYHandSJ()
+
+        // 어차피 결과가 같아서 출력은 하나만
         printMatched(FSWViterbi.getMatched_yhtp(), Color.BLUE, 50) // 윤혜 매칭: 파란색
         printMatched(FSWViterbi.getMatched_sjtp(), Color.GREEN, 30) // 세정 매칭: 초록색
+        /*var i: Int = 0;
+        *//*for (c in FSWViterbi.getMatched_sjtp()) {
+            println("$i] matched: $c")
+            printPoint(c.point, Color.BLUE);
+            i++;
+        }*/
+
+        /*for (c in FSWViterbi.getMatched_sjtp()) {
+            printPoint(c.point);
+        }
+
+*/
     }
 
-    fun printPoint(point: Point) {
-            val marker = Marker() //좌표
-            marker.position = LatLng(
+    fun printPoint(point: Point, COLOR: Int) {
+        val marker = Marker() //좌표
+        marker.position = LatLng(
+            point.y,
+            point.x
+        )
+        marker.icon = MarkerIcons.BLACK //색을 선명하게 하기 위해 해줌
+        marker.iconTintColor = COLOR //색 덧입히기
+        marker.width = 30
+        marker.height = 30
+        // 마커가 너무 커서 크기 지정해줌
+        marker.map = naverMap //navermap에 출력
+        var cameraUpdate = CameraUpdate.scrollAndZoomTo(
+            LatLng(
                 point.y,
                 point.x
-            )
-            marker.icon = MarkerIcons.BLACK //색을 선명하게 하기 위해 해줌
-            marker.iconTintColor = Color.RED //색 덧입히기
-            marker.width = 30
-            marker.height = 30
-            // 마커가 너무 커서 크기 지정해줌
-            marker.map = naverMap //navermap에 출력
-
-        var cameraUpdate = CameraUpdate.scrollTo(
-            LatLng(
-                point.x,
-                point.y
-            )
+            ), 17.0
         )
         naverMap.moveCamera(cameraUpdate)
         //카메라 이동
+
     }
 
     // 생성된 GPS를 지도 위에 출력하는 함수

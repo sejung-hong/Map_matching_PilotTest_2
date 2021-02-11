@@ -41,7 +41,7 @@ public class FSWViterbi {
             for (Candidate nc : next_candidates) {
                 maximum_prob = 0;
 
-                //System.out.println("  nc: " + nc.getPoint() + "/ ep: " + nc.getEp());
+                System.out.println("  nc: " + nc.getPoint() + "/ ep: " + nc.getEp());
                 // 현재 candidate를 하나씩 순회하며
                 for (Candidate cc : curr_candidates) {
                     double tp;
@@ -50,10 +50,12 @@ public class FSWViterbi {
                     } else {
                         //System.out.println("[FSWViterbi] cc:" + cc);
                         tp = transition.Transition_pro(gpsPointArrayList.get(timeStamp-1).getPoint(), gpsPointArrayList.get(timeStamp-3).getPoint(), cc, nc, roadNetwork);
-                    }
-                    double prob = tp * nc.getEp();
 
-                    //System.out.println("    cc: " + cc.getPoint() + "/ ep: " + cc.getEp() + "/ tp: " + tp + "/ prob: " + nc.getEp() * tp);
+                    }
+                    cc.setTp(tp);
+                    double prob = tp * nc.getEp();
+                    cc.setTpep(prob);
+                    System.out.println("    cc: " + cc);
 
                     if (i == 0) { // window내 window의 시작 부분
                         if (maximum_prob < prob * cc.getEp()) { // 최대의 acc_prob를 갱신하며 이전전
@@ -89,8 +91,8 @@ public class FSWViterbi {
         subpath[subpath.length - 1] = tempCandi;
         //int i = subpath.length - 1;
         for (int j = subpath.length - 2; j >= 0; j--) {
-            subpath[j] = tempCandi;
             tempCandi = arrOfCandidates.get(j).get(tempCandi.getPrev_index());
+            subpath[j] = tempCandi;
         }
 
         ArrayList<Candidate> subpathArrayList;
@@ -141,9 +143,12 @@ public class FSWViterbi {
         }
         int i = 0;
         double correctness = 0, total = 0;
-        for (Candidate c :matched) {
+        for (i = 0 ; i < matched_yhtp.size(); i++) {
             //System.out.println("origin link: " + rn.routePointArrayList.get(i).getLinkID() + ", matched link: " + c.getInvolvedLink().getLinkID() );
-            if (rn.routePointArrayList.get(i).getLinkID() == matched.get(i).getInvolvedLink().getLinkID()) {
+            Candidate c = matched_yhtp.get(i);
+            Point point = rn.routePointArrayList.get(5*i);
+            System.out.println("Point: " + point + " -> Matched: " + c);
+            if (point.getLinkID() == matched.get(i).getInvolvedLink().getLinkID()) {
                 correctness ++ ;
             }
             total ++;
@@ -151,10 +156,13 @@ public class FSWViterbi {
         }
         if (tp_mode.equals ("yh")) {
             correctness_yhtp = 100*(correctness/total);
+            System.out.println("yhtp matched: " + matched_yhtp.size() + ", origin points: " + rn.routePointArrayList.size());
             System.out.println(tp_mode + "tp correctness: " + correctness_yhtp);
         } else {
             correctness_sjtp = 100*(correctness/total);
+            System.out.println("sjtp matched: " + matched_yhtp.size() + ", origin points: " + rn.routePointArrayList.size());
             System.out.println(tp_mode + "tp correctness: " + correctness_sjtp);
+
         }
 
     }

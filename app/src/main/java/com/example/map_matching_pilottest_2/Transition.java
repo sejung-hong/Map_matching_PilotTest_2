@@ -23,7 +23,6 @@ public class Transition {
             //case 1: a,b가 다른 링크이고 두 링크가 맞닿아 있을때
 
             if (pre_matching.getInvolvedLink().isLinkNextTo(roadNetwork, cand.getInvolvedLink().getLinkID())) {
-                System.out.println("current candi: " + pre_matching + "\n next candi: " + cand);
                 Point linked_point = new Point(0.0, 0.0); //두 링크가 만나는 점
                 linked_point = pre_matching.getInvolvedLink().isLinkNextToPoint(roadNetwork, cand.getInvolvedLink());
                 routeDistance = Calculation.calDistance(pre_matching.getPoint(), linked_point) + Calculation.calDistance(cand.getPoint(), linked_point);
@@ -49,9 +48,9 @@ public class Transition {
         //tp_gps_distance = coordDistanceofPoints(matching_pre.getPoint(), gps); //gps와 이전 매칭된 point
 
         //case 1 : 유클리드 거리
-        //tp_candidate_distance = coordDistanceofPoints(matching_pre.getPoint(), candidate.getPoint()); //유클리드 거리
+        tp_candidate_distance = Calculation.calDistance(matching_pre.getPoint(), candidate.getPoint()); //유클리드 거리 (원래 coordDistanceOfPo)
         //case 2 : 경로상의 거리
-        tp_candidate_distance = routeDistanceofPoints(matching_pre, candidate, roadNetwork); //경로상의 거리
+        //tp_candidate_distance = routeDistanceofPoints(matching_pre, candidate, roadNetwork); //경로상의 거리
         //이전 매칭된point와 후보의 유클리드 직선거리
         //실제 tp는 직선거리가 아니고 경로상의 거리여야함!!
 
