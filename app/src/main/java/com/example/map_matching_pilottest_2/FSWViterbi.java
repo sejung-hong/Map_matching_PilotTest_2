@@ -40,7 +40,7 @@ public class FSWViterbi {
             // 다음 candidate를 하나씩 순회
             for (Candidate nc : next_candidates) {
                 maximum_prob = 0;
-
+                nc.setEp(Emission.Emission_pro(nc, gpsPointArrayList.get(timeStamp-1).getPoint(), nc.getPoint(), timeStamp));
                 System.out.println("  nc: " + nc.getPoint() + "/ ep: " + nc.getEp());
                 // 현재 candidate를 하나씩 순회하며
                 for (Candidate cc : curr_candidates) {
@@ -49,10 +49,10 @@ public class FSWViterbi {
                         tp = tp_matrix[cc.getInvolvedLink().getLinkID()][nc.getInvolvedLink().getLinkID()];
                     } else {
                         //System.out.println("[FSWViterbi] cc:" + cc);
-                        tp = transition.Transition_pro(gpsPointArrayList.get(timeStamp-1).getPoint(), gpsPointArrayList.get(timeStamp-3).getPoint(), cc, nc, roadNetwork);
-
+                        tp = Transition.Transition_pro(gpsPointArrayList.get(timeStamp-1).getPoint(), gpsPointArrayList.get(timeStamp-3).getPoint(), cc, nc, roadNetwork);
                     }
                     cc.setTp(tp);
+                    cc.setEp(Emission.Emission_pro(cc, gpsPointArrayList.get(timeStamp-2).getPoint(), nc.getPoint(), timeStamp));
                     double prob = tp * nc.getEp();
                     cc.setTpep(prob);
                     System.out.println("    cc: " + cc);
@@ -185,6 +185,9 @@ public class FSWViterbi {
             }
             i++;
         }
-        System.out.println("=> 다른 확률:" + (j/i*100));
+        double prob = ((double)j/(double)i)*100;
+        System.out.println("yhtp의 정확도:" + correctness_yhtp);
+        System.out.println("sjtp의 정확도:" + correctness_sjtp);
+        //System.out.println("=> 두 tp의 매칭 결과가 다른 확률:" + prob);
     }
 }

@@ -11,7 +11,7 @@ public class Emission {
     }//유클리드 거리 구하기*/
 
     //emission probability 구하는 함수
-    public double Emission_pro(Candidate cand, Point gps, Point candidate, int size) {
+    public static double Emission_pro(Candidate cand, Point gps, Point candidate, int size) {
         double ep_distance = 0;
 
         ep_distance = Calculation.calDistance(candidate, gps); //후보point와 gps point의 유클리드 직선 거리

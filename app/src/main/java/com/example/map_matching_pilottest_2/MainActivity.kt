@@ -227,13 +227,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         val matchingCandiArrayList: ArrayList<Candidate> = ArrayList()
 
         // test 번호에 맞는 routePoints생성
-
-        // test 번호에 맞는 routePoints생성
         routePointArrayList = roadNetwork.routePoints(testNo)
-
-
-        // window size만큼의 t-window, ... , t-1, t에서의 candidates의 arrayList
-
 
         // window size만큼의 t-window, ... , t-1, t에서의 candidates의 arrayList
         val arrOfCandidates: ArrayList<ArrayList<Candidate>> = ArrayList()
