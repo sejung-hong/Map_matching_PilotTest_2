@@ -88,7 +88,6 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         main() //file
         /*fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(this) //gps 자동으로 받아오기
-
         setUpdateLocationListner() //내위치를 가져오는 코드*/
 
     }
@@ -350,7 +349,6 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         /*for (c in FSWViterbi.getMatched_sjtp()) {
             printPoint(c.point);
         }
-
 */
     }
 

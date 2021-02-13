@@ -4,10 +4,11 @@
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!--    위치정보 사용을 위해 권한을 추가-->
+    <!--위치정보 사용을 위해 권한을 추가-->
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--파일을 읽고 쓰기 위해 권한을 추가, 외부저장소를 사용할떄 필요-->
 
 
     <application
