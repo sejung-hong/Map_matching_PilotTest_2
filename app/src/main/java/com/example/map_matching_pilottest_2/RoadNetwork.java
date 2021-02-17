@@ -5,6 +5,7 @@ import android.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class RoadNetwork {
 
     // 데이터를 보관할 ArrayList들을 담는 class..
@@ -13,6 +14,8 @@ public class RoadNetwork {
     // 만약 필요하게 되면 private으로 만들어주고 getter setter만들 예정
     protected ArrayList<Node> nodeArrayList = new ArrayList<>();
     protected ArrayList<Link> linkArrayList = new ArrayList<>();
+
+    protected ArrayList<Point> routePointArrayList = new ArrayList<>();
 
     // _nodeID를 nodeID로 가지는 node반환
     public Node getNode (int _nodeID) {
@@ -27,7 +30,8 @@ public class RoadNetwork {
 
     public Node getNode1 (Point nodePoint){
         for(Node currNode : nodeArrayList){
-            if(currNode.getCoordinate()==nodePoint)
+            if(currNode.getCoordinate().getX().doubleValue() == nodePoint.getX().doubleValue()
+                    && currNode.getCoordinate().getY().doubleValue() == nodePoint.getY().doubleValue())
                 return currNode;
         }
         // 탐색에 실패한 경우 nodeId가 -1인 Node반환
@@ -79,13 +83,18 @@ public class RoadNetwork {
         ArrayList<Point> routePoints = new ArrayList<>();
 
         if(testNo == 1){
-            int[] routeNodes = { 0, 10, 7, 9, 15, 14, 27, 50, 48, 40, 47, 46, 45, 58 };
+            int[] routeNodes = { 0, 10, 7, 9, 15, 14/*, 27, 50, 48, 40, 47, 46, 45, 58 */};
             for (int i=0; i<routeNodes.length-1; i++) {
-                Link routelink = getLink(routeNodes[i], routeNodes[i+1]);
+                Link routelink = getLink(routeNodes[i], routeNodes[i+1]); //두 노드를 끝으로 하는 링크 반환
+                routePoints.addAll(getInvolvingPointList(getNode(routeNodes[i]).getCoordinate(),
+                        getNode(routeNodes[i+1]).getCoordinate(), routelink.getWeight()));
+
+                /*
                 routePoints.addAll(getInvolvingPointList(getNode(routelink.getStartNodeID()).getCoordinate(),
-                        getNode(routelink.getEndNodeID()).getCoordinate()));
+                        getNode(routelink.getEndNodeID()).getCoordinate()));*/
             }
         }
+        routePointArrayList = routePoints;
         return routePoints;
     }
 
@@ -94,8 +103,9 @@ public class RoadNetwork {
         return linkArrayList.size();
     }
 
-    //우리 route node만 입력 해도 실제 경로 쭈르륵 떠야 해서 이 부분에 involving point list 살짝 변경해서 넣음
-    public ArrayList<Point> getInvolvingPointList(Point start, Point end){
+    // 우리 route node만 입력 해도 실제 경로 쭈르륵 떠야 해서 이 부분에 involving point list 살짝 변경해서 넣음
+    // GPS데이터 생성을 위한 Point.linkID 설정하는 코드 추가
+    public ArrayList<Point> getInvolvingPointList(Point start, Point end, Double weight){
 
         //involving points 구하기
 
@@ -107,54 +117,20 @@ public class RoadNetwork {
 
         ArrayList<Point> involvingPointList = new ArrayList<>();
 
-        // link 기울기가 0인 경우 : ㅡ
-        if (ys == ye) {
-            // y값이 정수인 경우만 involvingPoint에 추가 (int의 ++연산)
-            for (int x_cord = (int) xs; x_cord <= (int) xe; x_cord++) {
-                // xs가 5.1등과 같이 (int)5.1 즉 5보다 큰 경우 (int)5.1 즉 5는 involvingPoint가 될수없음
-                // 5.0등인 case는 else이하 로직을 수행할 수 있도록 함
-                if (x_cord < xs) continue;
+        int linkID = getLink(getNode1(new Point(xs, ys)).getNodeID(), getNode1(new Point(xe, ye)).getNodeID()).getLinkID();
 
-                    // involvingPointList에 Point 추가
-                else {
-                    involvingPointList.add(new Point((double) x_cord, ys));
-                }
-            }
+        //기울기와 상관없이 구하겠음
+        double deltaX = (xe-xs)/(Math.round(weight)); //X 변화값
+        double deltaY = (ye-ys)/(Math.round(weight)); //Y 변화값
+        //(int)(Math.round(weight)) : weight를 반올림하여 정수로 나타냄
 
-        }
-        // link 기울기가 무한인 경우 : |
-        else if (xs == xe) {
-            // y값이 정수인 경우만 involvingPoint에 추가 (int의 ++연산)
-            for (int y_cord = (int) ys; y_cord <= (int) ye; y_cord++) {
-                // ys가 5.1등과 같이 (int)5.1 즉 5보다 큰 경우 (int)5.1 즉 5는 involvingPoint가 될수없음
-                // 5.0등인 case는 else이하 로직을 수행할 수 있도록 함
-                if (y_cord < ys) continue;
+        for(int i = 0; i < (int)(Math.round(weight)); i++) {
+            involvingPointList.add(new Point(xs + (i*deltaX), ys + (i*deltaY), linkID));
+        } // involvingPointList에 Point 추가
 
-                    // involvingPointList에 Point 추가
-                else {
-                    involvingPointList.add(new Point(xs, (double) y_cord));
-                }
-            }
-        }
-        // 기울기가 양수 혹은 음수인 경우 (/,\)
-        else {
-            double slope = (ye-ys)/(xe-xs);
-            double y_intercept = ((xe*ys)-(xs*ye))/(xe-xs);
-            for (int x_cord = (int) xs; x_cord <= (int) xe; x_cord++) {
-                // xs가 5.1등과 같이 (int)5.1 즉 5보다 큰 경우 (int)5.1 즉 5는 involvingPoint가 될수없음
-                // 5.0등인 case는 else이하 로직을 수행할 수 있도록 함
-                if (x_cord < xs) continue;
-
-                    // involvingPointList에 Point 추가
-                else {
-                    double y = (slope * x_cord) + y_intercept;
-                    if (y % 1.0 == 0.0) {
-                        involvingPointList.add(new Point((double) x_cord, y));
-                    }
-                }
-            }
-        }
         return involvingPointList;
     }
-}
 
+
+
+}

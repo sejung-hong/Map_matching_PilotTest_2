@@ -4,10 +4,26 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 public class Point {
-    private Double x; // x좌표
-    private Double y; // y좌표
+    private Double x; // x좌표 (경도)
+    private Double y; // y좌표 (위도)
+    private int linkID; // 1-2에서만 필요
 
-    // String을 파라미터로 가지는 생성자
+    public int getLinkID() {
+        return linkID;
+    }
+
+    public void setLinkID(int linkID) {
+        this.linkID = linkID;
+    }
+
+    // LinkID도 파라미터로 받는 생성자
+    public Point (Double x, Double y, int linkID){
+        this.x = x;
+        this.y = y;
+        this.linkID = linkID;
+    }
+
+    // 스트링으로 파라미터로 받는 생성자
     public Point (String x, String y){
         this.x = Double.parseDouble(x);
         this.y = Double.parseDouble(y);
@@ -21,7 +37,7 @@ public class Point {
 
     // 출력~
     public String toString() {
-        return x + "\t"+ y;
+        return x + "\t"+ y + "\tlink ID: " + linkID;
     }
 
     public Double getX() {

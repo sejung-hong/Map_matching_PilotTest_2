@@ -26,27 +26,27 @@
 16-->C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:10:22-78
 17
 18    <uses-feature
-18-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:11:5-13:35
+18-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:11:5-13:35
 19        android:glEsVersion="0x00020000"
-19-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:12:9-41
+19-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:12:9-41
 20        android:required="true" />
-20-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:13:9-32
+20-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:13:9-32
 21    <uses-feature
-21-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:14:5-16:36
+21-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:14:5-16:36
 22        android:name="android.hardware.wifi"
-22-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:15:9-45
+22-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:15:9-45
 23        android:required="false" />
-23-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:16:9-33
+23-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:16:9-33
 24
 25    <uses-permission android:name="android.permission.INTERNET" />
-25-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:18:5-67
-25-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:18:22-64
+25-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:18:5-67
+25-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:18:22-64
 26    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-26-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:19:5-79
-26-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:19:22-76
+26-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:19:5-79
+26-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:19:22-76
 27    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-27-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:20:5-76
-27-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:20:22-73
+27-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:20:5-76
+27-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:20:22-73
 28
 29    <application
 29-->C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:13:5-32:19
@@ -89,35 +89,35 @@
 49-->C:\Users\sejung\Desktop\android\pilottest2-navermap\app\src\main\AndroidManifest.xml:30:13-39
 50
 51        <activity
-51-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:23:9-27:51
+51-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:23:9-27:51
 52            android:name="com.naver.maps.map.app.LegendActivity"
-52-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:24:13-65
+52-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:24:13-65
 53            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
-53-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:25:13-91
+53-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:25:13-91
 54            android:label="@string/navermap_legend"
-54-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:26:13-52
+54-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:26:13-52
 55            android:theme="@style/navermap_app" />
-55-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:27:13-48
+55-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:27:13-48
 56        <activity
-56-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:28:9-32:51
+56-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:28:9-32:51
 57            android:name="com.naver.maps.map.app.LegalNoticeActivity"
-57-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:29:13-70
+57-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:29:13-70
 58            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
-58-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:30:13-91
+58-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:30:13-91
 59            android:label="@string/navermap_legal_notice"
-59-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:31:13-58
+59-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:31:13-58
 60            android:theme="@style/navermap_app" />
-60-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:32:13-48
+60-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:32:13-48
 61        <activity
-61-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:33:9-37:51
+61-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:33:9-37:51
 62            android:name="com.naver.maps.map.app.OpenSourceLicenseActivity"
-62-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:34:13-76
+62-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:34:13-76
 63            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
-63-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:35:13-91
+63-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:35:13-91
 64            android:label="@string/navermap_open_source_license"
-64-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:36:13-65
+64-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:36:13-65
 65            android:theme="@style/navermap_app" />
-65-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\8fe802dead9e24bbf30780a8a72d52f6\jetified-map-sdk-3.5.0\AndroidManifest.xml:37:13-48
+65-->[com.naver.maps:map-sdk:3.5.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\dbc2f8fe1888044c0aa4ec89c47e6b1d\jetified-map-sdk-3.5.0\AndroidManifest.xml:37:13-48
 66        <activity
 66-->[com.google.android.gms:play-services-base:17.0.0] C:\Users\sejung\.gradle\caches\transforms-2\files-2.1\15a4510080050d81f2d520f56bb0decb\jetified-play-services-base-17.0.0\AndroidManifest.xml:23:9-26:75
 67            android:name="com.google.android.gms.common.api.GoogleApiActivity"
