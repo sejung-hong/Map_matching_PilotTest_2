@@ -1,6 +1,5 @@
 package com.example.map_matching_pilottest_2;
 
-//import com.sun.javafx.UnmodifiableArrayList;
 
 import java.util.ArrayList;
 
@@ -8,15 +7,15 @@ public class Emission {
 
     private static ArrayList<Double> emission_median = new ArrayList<Double>();
 
-    public static Double coordDistanceofPoints(Point a, Point b){
+   /* public static Double coordDistanceofPoints(Point a, Point b){
         return Math.sqrt(Math.pow(a.getX()-b.getX(),2)+Math.pow(a.getY()-b.getY(),2));
-    }//유클리드 거리 구하기
+    }//유클리드 거리 구하기*/
 
     //emission probability 구하는 함수
-    public double Emission_pro(Candidate cand, Point gps, Point candidate, int size) {
+    public static double Emission_pro(Candidate cand, Point gps, Point candidate, int size) {
         double ep_distance = 0;
 
-        ep_distance = coordDistanceofPoints(candidate, gps); //후보point와 gps point의 유클리드 직선 거리
+        ep_distance = Calculation.calDistance(candidate, gps); //후보point와 gps point의 유클리드 직선 거리
 
         cand.setEp_median(ep_distance); //median 값 저장
 
@@ -61,16 +60,12 @@ public class Emission {
     /*
     public void Emission_Median(GPSPoint gps, Point matching){
         double ep_distance = 0;
-
         Point gpspoint = new Point(0.0, 0.0);
         gpspoint.setX(gps.getX());
         gpspoint.setY(gps.getY());
-
         ep_distance = coordDistanceofPoints(matching, gpspoint); //매칭된 포인트와 gps point의 유클리드 직선거리
-
         if(emission_median.size() == 0)
             emission_median.add(ep_distance);
-
         else {
             for (int i = 0; i < emission_median.size(); i++) {
                 if (emission_median.get(i) > ep_distance) {

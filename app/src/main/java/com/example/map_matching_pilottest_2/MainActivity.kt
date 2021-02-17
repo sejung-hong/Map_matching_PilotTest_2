@@ -5,6 +5,7 @@ import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
+import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.util.Pair
@@ -13,26 +14,28 @@ import androidx.annotation.UiThread
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.naver.maps.geometry.LatLng
-import com.naver.maps.map.CameraUpdate
-import com.naver.maps.map.MapFragment
-import com.naver.maps.map.NaverMap
-import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
-import com.naver.maps.map.overlay.OverlayImage
-import com.naver.maps.map.overlay.PathOverlay
 import com.naver.maps.map.util.MarkerIcons
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.concurrent.schedule
 
 
 class MainActivity : FragmentActivity(), OnMapReadyCallback {
 
     val permission_request = 99
-    private lateinit var naverMap: NaverMap
 
-    val emission = Emission()
-    val transition = Transition()
-    val wSize = 3 //윈도사이즈는 3!!!!!!
+    //private val candidate: Candidate = Candidate()
+    private lateinit var naverMap: NaverMap
+    private val emission: Emission = Emission()
+    private val transition = Transition()
+    private val wSize = 3 //윈도사이즈는 3!!!!!!
 
     var permissions = arrayOf(
         android.Manifest.permission.ACCESS_FINE_LOCATION,
@@ -73,13 +76,19 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
 
     @UiThread
     override fun onMapReady(naverMap: NaverMap) {
+        val cameraPosition = CameraPosition(
+            LatLng(37.618235, 127.061945),  // 위치 지정
+            16.0 // 줌 레벨
+        )
+        naverMap.cameraPosition = cameraPosition
         this.naverMap = naverMap
-
+        /*val marker = Marker()
+        marker.position = LatLng(37.618235, 127.061945)
+        marker.map = naverMap*/
         main() //file
-
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this) //gps 자동으로 받아오기
-
-        setUpdateLocationListner() //내위치를 가져오는 코드
+        /*fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(this) //gps 자동으로 받아오기
+        setUpdateLocationListner() //내위치를 가져오는 코드*/
 
     }
     //맵을 생성할 준비가 되었을 때 가장 먼저 호출되는 오버라이드 메소드
@@ -141,19 +150,18 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
     }//좌표계를 주기적으로 갱신
 
     fun setLastLocation(location: Location) {
-        val myLocation = LatLng(location.latitude, location.longitude)
+        val myLocation = LatLng(37.618235, 127.061945)
         val marker = Marker()
         marker.position = myLocation
-        marker.width = 30
-        marker.height = 50
         //marker.captionText = "위도: ${location.latitude}, 경도: ${location.longitude}"
-/*        marker.map = naverMap
+        marker.map = naverMap
         //마커
         val cameraUpdate = CameraUpdate.scrollTo(myLocation)
         naverMap.moveCamera(cameraUpdate)
         naverMap.maxZoom = 18.0
         naverMap.minZoom = 5.0
-        //카메라*/
+
+        //marker.map = null
     }
 
 
@@ -172,17 +180,18 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         ///////////// Transition probability matrix 구하기 (yh_tp)////////////////
         val n = roadNetwork.linksSize
         val tp_matrix = Array(n) {
-            DoubleArray(n)
+            DoubleArray(
+                n
+            )
         }
         for (i in 0 until n) {
             // 여기에서 link[i]가 몇개의 link와 맞닿아있는지 int 변수 선언해서 저장
             val m = roadNetwork.getLink(i).nextLinksNum(roadNetwork)
             // 알고리즘대로 tp 지정
             for (j in 0 until n) {
-                if (i == j) tp_matrix[i][j] = 0.5
-                else if (roadNetwork.getLink(i).isLinkNextTo(roadNetwork, j))
-                    tp_matrix[i][j] = 1.0 / m
-                else tp_matrix[i][j] = 0.0
+                if (i == j) tp_matrix[i][j] = 0.5 else if (roadNetwork.getLink(i)
+                        .isLinkNextTo(roadNetwork, j)
+                ) tp_matrix[i][j] = 1.0 / m else tp_matrix[i][j] = 0.0
             }
         }
 
@@ -210,113 +219,214 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         //신기한 사실 = get,set 함수를 불러오지 않아도 알아서 척척박사님 알아맞춰보세요
         //여기까지 도로네트워크 생성
 
-
         // GPS points와 routePoints를 저장할 ArrayList생성
         val gpsPointArrayList: ArrayList<GPSPoint> = ArrayList()
         val routePointArrayList: ArrayList<Point> // 실제 경로의 points!
+
         val matchingCandiArrayList: ArrayList<Candidate> = ArrayList()
 
         // test 번호에 맞는 routePoints생성
         routePointArrayList = roadNetwork.routePoints(testNo)
-        //routePointArray 생성되지 않음..
-        //기울기나 방향이 맞지 않아서 생성이 안되는 문제가 있음
-        //pilot 1-2에서는 가능했지만 실제 좌표를 가지고 하는 pilot 2에서는 불가능..
-        //->세정 해결
 
-/*
         // window size만큼의 t-window, ... , t-1, t에서의 candidates의 arrayList
         val arrOfCandidates: ArrayList<ArrayList<Candidate>> = ArrayList()
         val subGPSs: ArrayList<GPSPoint> = ArrayList()
-
-
+        //ArrayList<Point> subRPA = new ArrayList<>(); // 비터비 내부 보려면 이것도 주석 해제해야! (subRoadPointArrayList)
+        // GPSPoints 생성
+        //ArrayList<Point> subRPA = new ArrayList<>(); // 비터비 내부 보려면 이것도 주석 해제해야! (subRoadPointArrayList)
         // GPSPoints 생성
         var timestamp = 0
-        System.out.println("Fixed Sliding Window Viterbi (window size: 3)");
-        for (point in routePointArrayList) {
-            val gpsPoint = GPSPoint(timestamp, point)
+
+        // 1: 원래 하던대로 (표준편차 4)  | 2: x혹은 y좌표만 uniform하게(hor, ver, dia에 따라서)
+        // 3: x, y 모두 uniform하게     | 4: 교수님이 말한 평균 4 방식
+        val gpsGenMode = 2
+        println("Fixed Sliding Window Viterbi (window size: 3)")
+        for (i in routePointArrayList.indices step (5)) {
+            var point: Point = routePointArrayList.get(i)
+            println("routePoint: " + point)
+            printPoint(point, Color.YELLOW)
+        }
+
+        for (i in routePointArrayList.indices step (5)) {
+            // 오래 걸리는 작업 수행부분
+            var point: Point = routePointArrayList.get(i)
+            val gpsPoint = GPSPoint(
+                timestamp,
+                point,
+                gpsGenMode,
+                3,
+                roadNetwork.getLink(point.linkID).itLooksLike
+            )
+            printPoint(gpsPoint.point, Color.RED) // 생성된 GPS출력(빨간색)
+
+            println("[MAIN] GPS: $gpsPoint")
             gpsPointArrayList.add(gpsPoint)
             timestamp++
             //System.out.println(gpsPoint); //gps point 제대로 생성 되는지 확인차 넣음
             val candidates: ArrayList<Candidate> = ArrayList()
             candidates.addAll(
-                findRadiusCandidate(
-                    gpsPointArrayList,
-                    matchingCandiArrayList,
-                    gpsPoint.point,
-                    20,
-                    roadNetwork,
-                    timestamp
+                Candidate.findRadiusCandidate(
+                    gpsPointArrayList, matchingCandiArrayList,
+                    gpsPoint.point, 50, roadNetwork, timestamp, emission, transition
                 )
             )
-
-            ////////////median값 저장 - 세정 tp에서 필요//////////
-            emission.Emission_Median(matchingCandiArrayList[timestamp - 1])
+            println(">>>> [MAIN] candidates <<<<")
+            for (candidate in candidates) {
+                println("  $candidate")
+            }
+            println(">>>>>>>>>>>>>><<<<<<<<<<<<<")
+            /*emission.Emission_Median(matchingCandiArrayList[timestamp - 1])
             if (timestamp > 1) {
                 transition.Transition_Median(matchingCandiArrayList[timestamp - 1])
-            }
+            }*/
+            //median값 저장
 
             ///////////// FSW VITERBI /////////////
             subGPSs.add(gpsPoint)
             arrOfCandidates.add(candidates)
-            // subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
+
+            //subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
             if (subGPSs.size == wSize) {
-                FSWViterbi.generateMatched_yhtp(wSize, arrOfCandidates, tp_matrix) // 윤혜tp 비터비
-                FSWViterbi.generateMatched_sjtp(
+                println("===== VITERBI start ====")
+                println("----- yhtp ------")
+                FSWViterbi.generateMatched(
+                    tp_matrix,
                     wSize,
                     arrOfCandidates,
-                    gpsPointArrayList,
+                    gpsPointArrayList, /* subRPA, subGPSs,*/
                     transition,
                     timestamp,
-                    roadNetwork
-                ) // 세정tp로 비터비
+                    roadNetwork,
+                    "yh"
+                )
+                println("----- sjtp ------")
+                FSWViterbi.generateMatched(
+                    tp_matrix,
+                    wSize,
+                    arrOfCandidates,
+                    gpsPointArrayList, /* subRPA, subGPSs, */
+                    transition,
+                    timestamp,
+                    roadNetwork,
+                    "sj"
+                )
                 subGPSs.clear()
                 arrOfCandidates.clear()
-                // subRPA.clear(); // 비터비 내부 보려면 이것도 주석 해제해야!
+                //subRPA.clear(); // 비터비 내부 보려면 이것도 주석 해제해야!
                 subGPSs.add(gpsPoint)
                 arrOfCandidates.add(candidates)
-                // subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
+                //subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
+
+                println("===== VITERBI end ====")
             }
             ///////////////////////////////////////
         }
-
         // yhtp 이용해서 구한 subpath 출력
-        FSWViterbi.printSubpath_yhtp(wSize);
+        //FSWViterbi.printSubpath(wSize, "yh")
 
         // sjtp 이용해서 구한 subpath 출력
-        FSWViterbi.printSubpath_sjtp(wSize);
+        //FSWViterbi.printSubpath(wSize, "sj")
 
         // origin->생성 gps-> yhtp 이용해서 구한 matched 출력 및 정확도 확인
-        FSWViterbi.test_data2_yhtp(routePointArrayList, gpsPointArrayList);
+        FSWViterbi.test(roadNetwork, "yh")
 
         // origin->생성 gps-> sjtp 이용해서 구한 matched 출력 및 정확도 확인
-        FSWViterbi.test_data2_sjtp(routePointArrayList, gpsPointArrayList);
+        FSWViterbi.test(roadNetwork, "sj")
 
         // 윤혜tp와 세정tp비교!
-        FSWViterbi.compareYhtpAndSjtp();*/
+        FSWViterbi.compareYHandSJ()
 
-
-
-        getNodePrint(roadNetwork) //좌표 지도에 표시
-
-        getLinkPrint(roadNetwork) //링크 지도에 표시
-
-/*        //지도에 루트 표시
-        System.out.println("리스트 사이즈: "+ routePointArrayList.size)
-        for(i in 0..352){
-            val path = PathOverlay() //path 오버레이
-            path.coords = listOf(
-                LatLng(routePointArrayList[i].x, routePointArrayList[i].y),
-                LatLng(routePointArrayList[i+1].x, routePointArrayList[i+1].y)
-            )
-            path.color = Color.BLUE
-            path.map = naverMap
+        // 어차피 결과가 같아서 출력은 하나만
+        printMatched(FSWViterbi.getMatched_yhtp(), Color.BLUE, 50) // 윤혜 매칭: 파란색
+        printMatched(FSWViterbi.getMatched_sjtp(), Color.GREEN, 30) // 세정 매칭: 초록색
+        /*var i: Int = 0;
+        *//*for (c in FSWViterbi.getMatched_sjtp()) {
+            println("$i] matched: $c")
+            printPoint(c.point, Color.BLUE);
+            i++;
         }*/
+
+        /*for (c in FSWViterbi.getMatched_sjtp()) {
+            printPoint(c.point);
+        }
+*/
+    }
+
+    fun printPoint(point: Point, COLOR: Int) {
+        val marker = Marker() //좌표
+        marker.position = LatLng(
+            point.y,
+            point.x
+        )
+        marker.icon = MarkerIcons.BLACK //색을 선명하게 하기 위해 해줌
+        marker.iconTintColor = COLOR //색 덧입히기
+        marker.width = 30
+        marker.height = 30
+        // 마커가 너무 커서 크기 지정해줌
+        marker.map = naverMap //navermap에 출력
+        var cameraUpdate = CameraUpdate.scrollAndZoomTo(
+            LatLng(
+                point.y,
+                point.x
+            ), 17.0
+        )
+        naverMap.moveCamera(cameraUpdate)
+        //카메라 이동
+
+    }
+
+    // 생성된 GPS를 지도 위에 출력하는 함수
+    fun printsubGPSs(subGPSs: ArrayList<GPSPoint>) {
+        for (i in subGPSs.indices) { //indices 또는 index사용
+            val marker = Marker() //좌표
+            marker.position = LatLng(
+                subGPSs.get(i).x,
+                subGPSs.get(i).y
+            ) //node 좌표 출력
+            marker.icon = MarkerIcons.BLACK //색을 선명하게 하기 위해 해줌
+            marker.iconTintColor = Color.RED //색 덧입히기
+            marker.width = 20
+            marker.height = 20
+            // 마커가 너무 커서 크기 지정해줌
+            marker.map = naverMap //navermap에 출력
+        } //모든 노드 출력
+
+        var cameraUpdate = CameraUpdate.scrollTo(
+            LatLng(
+                subGPSs.get(0).x,
+                subGPSs.get(0).y
+            )
+        )
+        naverMap.moveCamera(cameraUpdate)
+        //카메라 이동
+    }
+
+    fun printMatched(matched: ArrayList<Candidate>, COLOR: Int, SIZE: Int) {
+        for (i in matched.indices) { //indices 또는 index사용
+            val marker = Marker() //좌표
+            marker.position = LatLng(
+                matched.get(i).point.y,
+                matched.get(i).point.x
+            ) //node 좌표 출력
+            marker.icon = MarkerIcons.BLACK //색을 선명하게 하기 위해 해줌
+            marker.iconTintColor = COLOR //색 덧입히기
+            marker.width = SIZE
+            marker.height = SIZE
+            // 마커가 너무 커서 크기 지정해줌
+            marker.map = naverMap //navermap에 출력
+        } //모든 노드 출력
+
+        var cameraUpdate = CameraUpdate.scrollAndZoomTo(LatLng(
+            matched.get(0).point.y,
+            matched.get(0).point.x
+        ),18.0)
+        naverMap.moveCamera(cameraUpdate)
+        //카메라 이동
     }
 
 
     //Node(좌표)를 지도위에 출력하는 함수
     fun getNodePrint(roadNetwork: RoadNetwork) {
-
         for (i in roadNetwork.nodeArrayList.indices) { //indices 또는 index사용
             val marker = Marker() //좌표
             marker.position = LatLng(
@@ -324,7 +434,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                 roadNetwork.getNode(i).coordinate.y
             ) //node 좌표 출력
             marker.icon = MarkerIcons.BLACK //색을 선명하게 하기 위해 해줌
-            marker.iconTintColor = Color.RED //색 덧입히기
+            marker.iconTintColor = Color.BLACK //색 덧입히기
             marker.width = 30
             marker.height = 50
             // 마커가 너무 커서 크기 지정해줌
@@ -332,159 +442,22 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         } //모든 노드 출력
 
         var cameraUpdate = CameraUpdate.scrollTo(
-            LatLng(roadNetwork.getNode(0).coordinate.x, roadNetwork.getNode(0).coordinate.y)
+            LatLng(
+                roadNetwork.getNode(0).coordinate.x, roadNetwork.getNode(
+                    0
+                ).coordinate.y
+            )
         )
         naverMap.moveCamera(cameraUpdate)
         //카메라 이동
-
     }
 
     fun getLinkPrint(roadNetwork: RoadNetwork) {
 
-        for(i in roadNetwork.linkArrayList.indices) { //indices 또는 index사용
-            val path = PathOverlay() //path 오버레이
-            path.coords = listOf(
-                LatLng(
-                    roadNetwork.getNode(roadNetwork.getLink(i).startNodeID).coordinate.x, //link의 startNodeID의 위도
-                    roadNetwork.getNode(roadNetwork.getLink(i).startNodeID).coordinate.y  //link의 startNodeID의 경도
-                ),
-                LatLng(
-                    roadNetwork.getNode(roadNetwork.getLink(i).endNodeID).coordinate.x, //link의 endNodeID의 위도
-                    roadNetwork.getNode(roadNetwork.getLink(i).endNodeID).coordinate.y  //link의 endNodeID의 경도
-                )
-            )
-            path.map = naverMap //navermap에 출력
+        for (i in roadNetwork.linkArrayList.indices) {
+
         }
-    }
 
-
-
-    fun coordDistanceofPoints(a: Point, b: Point): Double? {
-        return Math.sqrt(Math.pow(a.x - b.x, 2.0) + Math.pow(a.y - b.y, 2.0))
-    } //유클리드 거리 구하기 함수
-
-    fun findRadiusCandidate(
-        gpsPointArrayList: ArrayList<GPSPoint>,
-        matchingPointArrayList: ArrayList<Candidate>,
-        center: Point?, Radius: Int?, roadNetwork: RoadNetwork?, timestamp: Int
-    ): ArrayList<Candidate> {
-        val resultCandidate: ArrayList<Candidate> = ArrayList()
-        for (i in 0 until roadNetwork!!.linkArrayList.size) {
-            val startX =
-                roadNetwork!!.nodeArrayList[roadNetwork.linkArrayList[i].startNodeID].coordinate.x
-            val startY =
-                roadNetwork.nodeArrayList[roadNetwork.linkArrayList[i].startNodeID].coordinate.y
-            val endX =
-                roadNetwork.nodeArrayList[roadNetwork.linkArrayList[i].endNodeID].coordinate.x
-            val endY =
-                roadNetwork.nodeArrayList[roadNetwork.linkArrayList[i].endNodeID].coordinate.y
-            val vectorFromStartToCenter = Vector2D(center!!.x - startX, center.y - startY)
-            val vectorFromEndToCenter = Vector2D(center.x - endX, center.y - endY)
-            val vectorFromEndToStart = Vector2D(startX - endX, startY - endY)
-            val dotProduct1 = vectorFromStartToCenter.dot(vectorFromEndToStart)
-            val dotProduct2 = vectorFromEndToCenter.dot(vectorFromEndToStart)
-            if (dotProduct1 * dotProduct2 <= 0) {
-                //System.out.println("어허");
-                //System.out.println("dot Product : "+dotProduct1+", "+dotProduct2);
-                val candidate = Candidate()
-                candidate.involvedLink = roadNetwork.linkArrayList.get(i)
-                val vectorStart = Vector2D(startX, startY)
-                val vectorC = Vector2D(center.x, center.y) //원점에서 시작해 center로의 vector
-                val vectorH = vectorStart.getAdded(
-                    vectorFromEndToStart.getMultiplied(
-                        vectorC.getSubtracted(vectorStart).dot(vectorFromEndToStart)
-                                / Math.pow(vectorFromEndToStart.length, 2.0)
-                    )
-                ) //원점에서 시작해 수선의 발로의 vector
-                candidate.point = Point(
-                    vectorH.getX(),
-                    vectorH.getY()
-                ) //수선의 발 vector의 x와 y값을 candidate의 point로 대입
-                if (coordDistanceofPoints((center), candidate.point)!! > (Radius)!!) continue
-                resultCandidate.add(candidate)
-                //////////////////////////////////////////
-                //candidate마다 ep, tp 구하기
-                calculationEP(candidate, center, timestamp)
-                calculationTP(
-                    candidate,
-                    matchingPointArrayList,
-                    center,
-                    gpsPointArrayList,
-                    timestamp,
-                    roadNetwork
-                )
-                for (c: Candidate? in matchingPointArrayList) {
-                    emission.Emission_Median(c)
-                    transition.Transition_Median(c)
-                }
-            }
-        }
-        calculationEPTP(resultCandidate, matchingPointArrayList, timestamp)
-
-        return resultCandidate
-    }
-
-    // EP클래스 가서 캔디데이트 마다 값 구하고 저장
-    fun calculationEP(cand: Candidate, center: Point?, timestamp: Int) {
-        cand.ep = emission.Emission_pro(cand, center, cand.point, timestamp) //ep 구하기
-        return
-    }
-
-    // TP클래스 가서 캔디데이트 마다 값 구하고 저장
-    fun calculationTP(
-        cand: Candidate,
-        matchingPointArrayList: ArrayList<Candidate>,
-        center: Point?,
-        gpsPointArrayList: ArrayList<GPSPoint>,
-        timestamp: Int,
-        roadNetwork: RoadNetwork?
-    ) {
-        if (timestamp == 1 || timestamp == 2) {
-            cand.tp = 0.0
-            return
-        }
-        val matching_pre = matchingPointArrayList[timestamp - 2]
-        cand.tp = Transition.Transition_pro(
-            gpsPointArrayList[timestamp - 2].point, center, matching_pre, cand, roadNetwork
-        ) //tp 구하기
-        return
-    }
-
-    // 곱해진 eptp저장하고 후보들 중 가장 높은 eptp를 가지는 후보를 matchingPointArrayList에 저장하고
-    // tp median과 ep median을 저장
-    fun calculationEPTP(
-        resultCandidate: ArrayList<Candidate>,
-        matchingPointArrayList: ArrayList<Candidate>,
-        timestamp: Int
-    ): Candidate? {
-        var matchingCandidate = Candidate()
-        if (timestamp == 2 || timestamp == 1) {
-            var min_ep = 0.0
-            resultCandidate.size
-            for (i in 0 until resultCandidate.size) {
-                if (i == 0) {
-                    min_ep = resultCandidate[i].ep
-                    matchingCandidate = resultCandidate[i]
-                } else if (min_ep > resultCandidate[i].ep) {
-                    min_ep = resultCandidate[i].ep
-                    matchingCandidate = resultCandidate[i]
-                }
-            }
-            matchingPointArrayList.add(matchingCandidate)
-            return matchingCandidate
-        }
-        var maximum_tpep = 0.0
-        for (i in 0 until resultCandidate.size) {
-            var tpep = 0.0
-            tpep = resultCandidate[i].ep * resultCandidate[i].tp
-            resultCandidate[i].tpep = tpep
-            if (maximum_tpep < tpep) {
-                maximum_tpep = tpep
-                matchingCandidate = resultCandidate[i]
-            }
-        }
-        matchingPointArrayList.add(matchingCandidate)
-        return matchingCandidate
     }
 
 }
