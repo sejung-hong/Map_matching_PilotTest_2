@@ -59,14 +59,14 @@ public class FileIO {
 
 
         BufferedReader bufferedReader1 = new BufferedReader(fileReader1);
-        System.out.println("======== Node 정보 =======");
+        //System.out.println("======== Node 정보 =======");
         while (bufferedReader1.ready()) {
             String line = bufferedReader1.readLine();
             String[] lineArray = line.split("\t");
             Point coordinate = new Point(lineArray[2], lineArray[1]);// 위도(y), 경도(x) 순서로 저장되어있으므로 순서 바꿈!
             Node node = new Node(lineArray[0], coordinate); // 노드생성
             roadNetwork.nodeArrayList.add(node); // nodeArrayList에 생성한 노드 추가
-            System.out.println(node);
+            //System.out.println(node); //node 정보 출력
         }
         // close the bufferedReader
         bufferedReader1.close();
@@ -78,7 +78,7 @@ public class FileIO {
         FileReader fileReader2 = new FileReader(file2);
         //BufferedReader 클래스 이용하여 파일 읽어오기
         BufferedReader bufferedReader2 = new BufferedReader(fileReader2);
-        System.out.println("======== Link 정보 =======");
+        //System.out.println("======== Link 정보 =======");
         while (bufferedReader2.ready()) {
             String line = bufferedReader2.readLine();
             String[] lineArray = line.split("\t");
@@ -104,7 +104,7 @@ public class FileIO {
                 link.setItLooksLike("꽝입니다");
             }
             roadNetwork.linkArrayList.add(link); // linkArrayList에 생성한 노드 추가
-            System.out.println(link);
+            //System.out.println(link);  //link 정보 출력
 //            System.out.print("involving points:");
 //            System.out.println(link.getInvolvingPointList());
         }

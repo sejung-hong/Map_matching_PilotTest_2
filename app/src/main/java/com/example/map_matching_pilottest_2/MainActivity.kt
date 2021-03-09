@@ -22,9 +22,11 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.MarkerIcons
+import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.concurrent.schedule
+import kotlin.concurrent.timer
 
 
 class MainActivity : FragmentActivity(), OnMapReadyCallback {
@@ -42,7 +44,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         android.Manifest.permission.ACCESS_COARSE_LOCATION
     )// 권한 가져오기
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) { //액티비티가 최초 실행 되면 이곳을 수행한다.
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -52,7 +54,6 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         } else {
             ActivityCompat.requestPermissions(this, permissions, permission_request)
         }//권한 확인
-
     }
 
     fun isPermitted(): Boolean {
@@ -228,6 +229,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         // test 번호에 맞는 routePoints생성
         routePointArrayList = roadNetwork.routePoints(testNo)
 
+
         // window size만큼의 t-window, ... , t-1, t에서의 candidates의 arrayList
         val arrOfCandidates: ArrayList<ArrayList<Candidate>> = ArrayList()
         val subGPSs: ArrayList<GPSPoint> = ArrayList()
@@ -270,16 +272,15 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                     gpsPoint.point, 50, roadNetwork, timestamp, emission, transition
                 )
             )
+
+            //세정 비터비x 출력
+            printMatched(matchingCandiArrayList, Color.GRAY, 50 )
+
             println(">>>> [MAIN] candidates <<<<")
             for (candidate in candidates) {
                 println("  $candidate")
             }
             println(">>>>>>>>>>>>>><<<<<<<<<<<<<")
-            /*emission.Emission_Median(matchingCandiArrayList[timestamp - 1])
-            if (timestamp > 1) {
-                transition.Transition_Median(matchingCandiArrayList[timestamp - 1])
-            }*/
-            //median값 저장
 
             ///////////// FSW VITERBI /////////////
             subGPSs.add(gpsPoint)
@@ -297,7 +298,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                     transition,
                     timestamp,
                     roadNetwork,
-                    "yh"
+                    "yh",
                 )
                 println("----- sjtp ------")
                 FSWViterbi.generateMatched(
@@ -308,7 +309,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                     transition,
                     timestamp,
                     roadNetwork,
-                    "sj"
+                    "sj",
                 )
                 subGPSs.clear()
                 arrOfCandidates.clear()
@@ -337,8 +338,15 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         FSWViterbi.compareYHandSJ()
 
         // 어차피 결과가 같아서 출력은 하나만
-        printMatched(FSWViterbi.getMatched_yhtp(), Color.BLUE, 50) // 윤혜 매칭: 파란색
-        printMatched(FSWViterbi.getMatched_sjtp(), Color.GREEN, 30) // 세정 매칭: 초록색
+
+        sj_tp.setOnClickListener{ //sjtp 출력
+            printMatched(FSWViterbi.getMatched_sjtp(), Color.GREEN, 50) // 세정 매칭: 초록색
+        }
+
+        yh_tp.setOnClickListener{
+            printMatched(FSWViterbi.getMatched_yhtp(), Color.BLUE, 50) // 윤혜 매칭: 파란색
+        }
+
         /*var i: Int = 0;
         *//*for (c in FSWViterbi.getMatched_sjtp()) {
             println("$i] matched: $c")
@@ -421,7 +429,20 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             matched.get(0).point.x
         ),18.0)
         naverMap.moveCamera(cameraUpdate)
+
         //카메라 이동
+    }
+
+    fun removematched(matched: ArrayList<Candidate>){
+        for (i in matched.indices) { //indices 또는 index사용
+            val marker = Marker() //좌표
+            marker.position = LatLng(
+                matched.get(i).point.y,
+                matched.get(i).point.x
+            ) //node 좌표
+
+            marker.map = null
+        }
     }
 
 
@@ -452,12 +473,5 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         //카메라 이동
     }
 
-    fun getLinkPrint(roadNetwork: RoadNetwork) {
-
-        for (i in roadNetwork.linkArrayList.indices) {
-
-        }
-
-    }
 
 }

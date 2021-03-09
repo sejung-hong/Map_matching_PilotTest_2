@@ -7,11 +7,13 @@ public class Candidate {
     private Point point;
     private Link involvedLink;
     private double tp;
+    private double yh_tp;
     private double ep;
     private double tpep;
     private double ep_median;
     private double tp_median;
     private double acc_prob;// accumulated probability (이전 최대 edge와 해당 node의 ep*tp를 곱함)
+    private double exist_tp;
 
     public int getPrev_index() {
         return prev_index;
@@ -35,20 +37,24 @@ public class Candidate {
         this.point = null;
         this.involvedLink = null;
         this.tp= 0.0;
+        this.yh_tp= 0.0;
         this.ep=0.0;
         this.tpep=0.0;
         this.ep_median=0.0;
         this.tp_median=0.0;
+        this.exist_tp =0.0;
     }
 
     public Candidate (Point point, Link involvedLink){
         this.point = point;
         this.involvedLink = involvedLink;
         this.tp= 0.0;
+        this.yh_tp= 0.0;
         this.ep=0.0;
         this.tpep=0.0;
         this.ep_median=0.0;
         this.tp_median=0.0;
+        this.exist_tp =0.0;
     }
 
     public void setPoint(Point point){this.point=point;}
@@ -68,12 +74,20 @@ public class Candidate {
         this.tp = tp;
     }
 
+    public void setYh_tp(double tp) {
+        this.tp = tp;
+    }
+
     public void setEp(double ep) {
         this.ep = ep;
     }
 
     public double getTp() {
         return tp;
+    }
+
+    public double getYh_tp() {
+        return yh_tp;
     }
 
     public double getEp() {
@@ -98,6 +112,10 @@ public class Candidate {
         return tp_median;
     }
 
+    public double getExist_tp() { return exist_tp; }
+
+    public void setExist_tp(double exist_tp) { this.exist_tp = exist_tp; }
+
     @Override
     public String toString() {
         return "point: "+ point + "  involvedLink: " + involvedLink + " tp/ep/tpep: "+tp+"/"+ep+"/"+tpep;//+"\n";
@@ -106,6 +124,7 @@ public class Candidate {
     public String toStringOnlyPoint() {
         return point.toString();
     }
+
     public static ArrayList<Candidate> findRadiusCandidate(ArrayList<GPSPoint> gpsPointArrayList,
                                                            ArrayList<Candidate> matchingPointArrayList, Point center,
                                                            Integer Radius, RoadNetwork roadNetwork, int timestamp,
@@ -163,15 +182,22 @@ public class Candidate {
                 resultCandidate.add(candidate);
 //////////////////////////////////////////
                 //candidate마다 ep, tp 구하기
-                Calculation.calculationEP(candidate, center, timestamp, emission);
-                Calculation.calculationTP(candidate, matchingPointArrayList, center, gpsPointArrayList, timestamp, roadNetwork, transition);
+                Calculation.calculationEP(candidate, center, timestamp, emission); //ep 구하기
+                //ep도 옮길까...?
+
+                Calculation.calculationTP(candidate, matchingPointArrayList, center, gpsPointArrayList, timestamp, roadNetwork, transition); //sj tp구하기
+
+                candidate.setTpep(candidate.getEp() * candidate.getTp()); // candidate마다 ep*tp 저장
 
                 for (Candidate c: matchingPointArrayList) {
                     emission.Emission_Median(c);
                     transition.Transition_Median(c);
-                }
+                } //median값 저장*/
+
             }
+
         }
+
         Calculation.calculationEPTP(resultCandidate, matchingPointArrayList, timestamp);
 
         return resultCandidate;

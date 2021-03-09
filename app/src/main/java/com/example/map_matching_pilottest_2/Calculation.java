@@ -16,11 +16,14 @@ public class Calculation {
     // TP클래스 가서 캔디데이트 마다 값 구하고 저장
     public static void calculationTP(Candidate cand, ArrayList<Candidate> matchingPointArrayList, Point center, ArrayList<GPSPoint> gpsPointArrayList, int timestamp, RoadNetwork roadNetwork, Transition transition) {
         if (timestamp == 1 || timestamp == 2) {
-            cand.setTp(0);
+            cand.setTp(0.000000001);
+            cand.setExist_tp(1); //1이면 tp가 존재하지 않음.
             return;
         }
+
         Candidate matching_pre = matchingPointArrayList.get(timestamp - 2);
         cand.setTp(transition.Transition_pro(gpsPointArrayList.get(timestamp - 2).getPoint(), center, matching_pre, cand, roadNetwork)); //tp 구하기
+
         return;
 
     }
@@ -29,7 +32,7 @@ public class Calculation {
     // tp median과 ep median을 저장
     public static Candidate calculationEPTP(ArrayList<Candidate> resultCandidate, ArrayList<Candidate> matchingPointArrayList, int timestamp) {
         Candidate matchingCandidate = new Candidate();
-
+/*
         if (timestamp == 2 || timestamp == 1) {
             double min_ep = 0;
             for (int i = 0; i < resultCandidate.size(); i++) {
@@ -62,7 +65,24 @@ public class Calculation {
         matchingPointArrayList.add(matchingCandidate);
 
         return matchingCandidate;
+*/
+
+        double maximum_tpep =0;
+        double tpep;
+        for(int i=0; i<resultCandidate.size();i++) {
+            tpep = resultCandidate.get(i).getTpep();
+
+            if(maximum_tpep < tpep) {
+                maximum_tpep = tpep;
+                matchingCandidate = resultCandidate.get(i);
+            }
+        }
+        matchingPointArrayList.add(matchingCandidate);
+
+        return matchingCandidate; //tpep 곱이 큰 값이 matching
+
     }
+
     public static double calDistance(double lat1, double lon1, double lat2, double lon2) {
 
         double theta, dist;
