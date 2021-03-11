@@ -11,10 +11,16 @@ public class FSWViterbi {
     public static ArrayList<Candidate> getMatched_yhtp() {
         return matched_yhtp;
     }
-
     public static ArrayList<Candidate> getMatched_sjtp() {
         return matched_sjtp;
     }
+    public static void setMatched_sjtp(Candidate candidate){
+        matched_sjtp.add(candidate);
+    }
+    public static void setMatched_yhtp(Candidate candidate){
+        matched_sjtp.add(candidate);
+    }
+
 
     private static final ArrayList<Candidate[]> subpaths_sjtp = new ArrayList<>();
     private static final ArrayList<Candidate> matched_sjtp = new ArrayList<>();
@@ -47,13 +53,17 @@ public class FSWViterbi {
                     double tp;
                     if (tp_type.equals("yh")) {
                         tp = tp_matrix[cc.getInvolvedLink().getLinkID()][nc.getInvolvedLink().getLinkID()];
+                        cc.setYh_tp(tp);
                     } else {
                         //System.out.println("[FSWViterbi] cc:" + cc);
                         tp = Transition.Transition_pro(gpsPointArrayList.get(timeStamp-1).getPoint(), gpsPointArrayList.get(timeStamp-3).getPoint(), cc, nc, roadNetwork);
+                        //tp = cc.getTp();
                     }
                     cc.setTp(tp);
                     cc.setEp(Emission.Emission_pro(cc, gpsPointArrayList.get(timeStamp-2).getPoint(), nc.getPoint(), timeStamp));
+
                     double prob = tp * nc.getEp();
+
                     cc.setTpep(prob);
                     System.out.println("    cc: " + cc);
 
@@ -190,4 +200,5 @@ public class FSWViterbi {
         System.out.println("sjtp의 정확도:" + correctness_sjtp);
         //System.out.println("=> 두 tp의 매칭 결과가 다른 확률:" + prob);
     }
+
 }

@@ -5,7 +5,6 @@ import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
-import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.util.Pair
@@ -23,10 +22,6 @@ import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.MarkerIcons
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.concurrent.schedule
-import kotlin.concurrent.timer
 
 
 class MainActivity : FragmentActivity(), OnMapReadyCallback {
@@ -274,7 +269,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             )
 
             //세정 비터비x 출력
-            printMatched(matchingCandiArrayList, Color.GRAY, 50 )
+            //printMatched(matchingCandiArrayList, Color.GRAY, 50 )
 
             println(">>>> [MAIN] candidates <<<<")
             for (candidate in candidates) {
@@ -287,40 +282,62 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             arrOfCandidates.add(candidates)
 
             //subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
-            if (subGPSs.size == wSize) {
-                println("===== VITERBI start ====")
-                println("----- yhtp ------")
-                FSWViterbi.generateMatched(
-                    tp_matrix,
-                    wSize,
-                    arrOfCandidates,
-                    gpsPointArrayList, /* subRPA, subGPSs,*/
-                    transition,
-                    timestamp,
-                    roadNetwork,
-                    "yh",
-                )
-                println("----- sjtp ------")
-                FSWViterbi.generateMatched(
-                    tp_matrix,
-                    wSize,
-                    arrOfCandidates,
-                    gpsPointArrayList, /* subRPA, subGPSs, */
-                    transition,
-                    timestamp,
-                    roadNetwork,
-                    "sj",
-                )
-                subGPSs.clear()
-                arrOfCandidates.clear()
-                //subRPA.clear(); // 비터비 내부 보려면 이것도 주석 해제해야!
-                subGPSs.add(gpsPoint)
-                arrOfCandidates.add(candidates)
-                //subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
-
-                println("===== VITERBI end ====")
+            if (timestamp <=3){
+                // 마지막 candidates 중 acc_prob가 가장 높은 것 max_last_candi에 저장
+                var max_last_candi: Candidate? = Candidate()
+                var max_prob = 0.0
+                for (candidate in candidates) {
+                    if (max_prob < candidate.ep) {
+                        max_prob = candidate.ep
+                        max_last_candi = candidate
+                    }
+                }
+                // max_last_candi를 시작으로 back tracing하여 subpath구하기
+                FSWViterbi.setMatched_sjtp(max_last_candi);
+                FSWViterbi.setMatched_yhtp(max_last_candi);
+                if(timestamp ==3) {
+                    subGPSs.clear()
+                    arrOfCandidates.clear()
+                    subGPSs.add(gpsPoint)
+                    arrOfCandidates.add(candidates)
+                }
             }
-            ///////////////////////////////////////
+            else {
+                if (subGPSs.size == wSize) {
+                    println("===== VITERBI start ====")
+                    println("----- yhtp ------")
+                    FSWViterbi.generateMatched(
+                        tp_matrix,
+                        wSize,
+                        arrOfCandidates,
+                        gpsPointArrayList, /* subRPA, subGPSs,*/
+                        transition,
+                        timestamp,
+                        roadNetwork,
+                        "yh",
+                    )
+                    println("----- sjtp ------")
+                    FSWViterbi.generateMatched(
+                        tp_matrix,
+                        wSize,
+                        arrOfCandidates,
+                        gpsPointArrayList, /* subRPA, subGPSs, */
+                        transition,
+                        timestamp,
+                        roadNetwork,
+                        "sj",
+                    )
+                    subGPSs.clear()
+                    arrOfCandidates.clear()
+                    //subRPA.clear(); // 비터비 내부 보려면 이것도 주석 해제해야!
+                    subGPSs.add(gpsPoint)
+                    arrOfCandidates.add(candidates)
+                    //subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
+
+                    println("===== VITERBI end ====")
+                }
+                ///////////////////////////////////////
+            }
         }
         // yhtp 이용해서 구한 subpath 출력
         //FSWViterbi.printSubpath(wSize, "yh")
@@ -424,10 +441,12 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             marker.map = naverMap //navermap에 출력
         } //모든 노드 출력
 
-        var cameraUpdate = CameraUpdate.scrollAndZoomTo(LatLng(
-            matched.get(0).point.y,
-            matched.get(0).point.x
-        ),18.0)
+        var cameraUpdate = CameraUpdate.scrollAndZoomTo(
+            LatLng(
+                matched.get(0).point.y,
+                matched.get(0).point.x
+            ), 18.0
+        )
         naverMap.moveCamera(cameraUpdate)
 
         //카메라 이동
