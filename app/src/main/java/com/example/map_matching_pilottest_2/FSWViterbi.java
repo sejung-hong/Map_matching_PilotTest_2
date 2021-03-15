@@ -11,10 +11,16 @@ public class FSWViterbi {
     public static ArrayList<Candidate> getMatched_yhtp() {
         return matched_yhtp;
     }
-
     public static ArrayList<Candidate> getMatched_sjtp() {
         return matched_sjtp;
     }
+    public static void setMatched_sjtp(Candidate candidate){
+        matched_sjtp.add(candidate);
+    }
+    public static void setMatched_yhtp(Candidate candidate){
+        matched_sjtp.add(candidate);
+    }
+
 
     private static final ArrayList<Candidate[]> subpaths_sjtp = new ArrayList<>();
     private static final ArrayList<Candidate> matched_sjtp = new ArrayList<>();
@@ -47,13 +53,18 @@ public class FSWViterbi {
                     double tp;
                     if (tp_type.equals("yh")) {
                         tp = tp_matrix[cc.getInvolvedLink().getLinkID()][nc.getInvolvedLink().getLinkID()];
+                        //cc.setTp(tp); //tp 저장 cc -> nc로 이동할 확률을 cc에 저장 // 굳이 tp 저장할 필요 없음.
                     } else {
                         //System.out.println("[FSWViterbi] cc:" + cc);
                         tp = Transition.Transition_pro(gpsPointArrayList.get(timeStamp-1).getPoint(), gpsPointArrayList.get(timeStamp-3).getPoint(), cc, nc, roadNetwork);
+                        //tp = cc.getTp();
                     }
-                    cc.setTp(tp);
-                    cc.setEp(Emission.Emission_pro(cc, gpsPointArrayList.get(timeStamp-2).getPoint(), nc.getPoint(), timeStamp));
+                    //cc.setTp(tp); //tp 저장 cc -> nc로 이동할 확률을 cc에 저장 // 굳이 tp 저장할 필요 없음.
+                    //cc.setEp(Emission.Emission_pro(cc, gpsPointArrayList.get(timeStamp-2).getPoint(), nc.getPoint(), timeStamp));
+                    //이미 저장되어있으므로 저장할 필요 없음.
+
                     double prob = tp * nc.getEp();
+
                     cc.setTpep(prob);
                     System.out.println("    cc: " + cc);
 
@@ -62,6 +73,7 @@ public class FSWViterbi {
                             maximum_prob = prob * cc.getEp();// window의 시작부분이므로 현재의 ep * 다음의 ep * 현재->다음의tp를 Acc_prob에 축적한다
                             nc.setPrev_index(curr_candidates.indexOf(cc));
                             nc.setAcc_prob(maximum_prob);
+                            nc.setMax_tp_median(nc.getTp_median()); // 확률이 제일 높은 median값을 저장
                             //System.out.println("    MAX!");
                         }
                     } else { // window 내 그 외의 부분
@@ -69,6 +81,7 @@ public class FSWViterbi {
                             maximum_prob = prob * cc.getAcc_prob(); // 현재의 acc_prob * 다음의 ep * 현재->다음의 tp를 Acc_prob에 축적한다
                             nc.setPrev_index(curr_candidates.indexOf(cc));
                             nc.setAcc_prob(maximum_prob);
+                            nc.setMax_tp_median(nc.getTp_median()); // 확률이 제일 높은 median값을 저장
                             //System.out.println("    MAX!");
                         }
                     }
@@ -107,6 +120,12 @@ public class FSWViterbi {
             subpathArrayList = new ArrayList<>(Arrays.asList(subpath));
             // subpath를 모두 매칭!!
             matched_sjtp.addAll(subpathArrayList);
+
+            for(Candidate c:subpath){
+                Emission.Emission_Median(c);
+                Transition.Transition_Median(c);
+            } //emission_median값, transition median 저장
+
         }
         return subpathArrayList;
     }
@@ -190,4 +209,5 @@ public class FSWViterbi {
         System.out.println("sjtp의 정확도:" + correctness_sjtp);
         //System.out.println("=> 두 tp의 매칭 결과가 다른 확률:" + prob);
     }
+
 }

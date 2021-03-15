@@ -17,11 +17,12 @@ public class Emission {
 
         ep_distance = Calculation.calDistance(candidate, gps); //후보point와 gps point의 유클리드 직선 거리
 
-        cand.setEp_median(ep_distance); //median 값 저장
+        cand.setEp_median(ep_distance); //candidiate마다 median 값 저장
+        //세정 : 나 왜 이거 여기서 저장해? -> 나중에 median값 저장 쉽게 하기 위해서 해놓음!
 
-        if(size==1 || size == 2) {
-            return ep_distance;
-        } //size: gps배열 사이즈
+        if(emission_median.size() == 0){
+            return  (1/ep_distance);
+        } //median이 없을 떄 출력
 
         double ep = 0;
         double sigma=0;
@@ -36,7 +37,7 @@ public class Emission {
     } //GPS와 후보의 거리 구하기, 중앙값 배열에 저장
 
     //중앙값 저장하는 함수, emission에 필요한 중앙값
-    public void Emission_Median(Candidate matching){
+    public static void Emission_Median(Candidate matching){
         if(emission_median.size() == 0)
             emission_median.add(matching.getEp_median());
         else{
@@ -51,34 +52,8 @@ public class Emission {
                 }
             }//위치 찾고 삽입하는 과정, 오름차순으로 나열
         }
-        /*
-        for(int i=0; i<emission_median.size(); i++){
-            System.out.println("ep" + emission_median.get(i));
-        }
-         */
+
     }
-    /*
-    public void Emission_Median(GPSPoint gps, Point matching){
-        double ep_distance = 0;
-        Point gpspoint = new Point(0.0, 0.0);
-        gpspoint.setX(gps.getX());
-        gpspoint.setY(gps.getY());
-        ep_distance = coordDistanceofPoints(matching, gpspoint); //매칭된 포인트와 gps point의 유클리드 직선거리
-        if(emission_median.size() == 0)
-            emission_median.add(ep_distance);
-        else {
-            for (int i = 0; i < emission_median.size(); i++) {
-                if (emission_median.get(i) > ep_distance) {
-                    emission_median.add(i, ep_distance);
-                    break;
-                }
-                if(i == emission_median.size()-1){
-                    emission_median.add(ep_distance);
-                    break;
-                }
-            }//위치 찾고 삽입
-        }
-    }//중앙값 저장
-*/
+
 
 }

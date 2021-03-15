@@ -5,7 +5,6 @@ import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
-import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.util.Pair
@@ -22,9 +21,7 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.MarkerIcons
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.concurrent.schedule
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : FragmentActivity(), OnMapReadyCallback {
@@ -42,7 +39,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         android.Manifest.permission.ACCESS_COARSE_LOCATION
     )// 권한 가져오기
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) { //액티비티가 최초 실행 되면 이곳을 수행한다.
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -52,7 +49,6 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         } else {
             ActivityCompat.requestPermissions(this, permissions, permission_request)
         }//권한 확인
-
     }
 
     fun isPermitted(): Boolean {
@@ -228,6 +224,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         // test 번호에 맞는 routePoints생성
         routePointArrayList = roadNetwork.routePoints(testNo)
 
+
         // window size만큼의 t-window, ... , t-1, t에서의 candidates의 arrayList
         val arrOfCandidates: ArrayList<ArrayList<Candidate>> = ArrayList()
         val subGPSs: ArrayList<GPSPoint> = ArrayList()
@@ -270,56 +267,101 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                     gpsPoint.point, 50, roadNetwork, timestamp, emission, transition
                 )
             )
+
+            //세정 비터비x 출력
+            //printMatched(matchingCandiArrayList, Color.GRAY, 50 )
+
             println(">>>> [MAIN] candidates <<<<")
             for (candidate in candidates) {
                 println("  $candidate")
             }
             println(">>>>>>>>>>>>>><<<<<<<<<<<<<")
-            /*emission.Emission_Median(matchingCandiArrayList[timestamp - 1])
-            if (timestamp > 1) {
-                transition.Transition_Median(matchingCandiArrayList[timestamp - 1])
-            }*/
-            //median값 저장
 
             ///////////// FSW VITERBI /////////////
             subGPSs.add(gpsPoint)
             arrOfCandidates.add(candidates)
 
             //subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
-            if (subGPSs.size == wSize) {
-                println("===== VITERBI start ====")
-                println("----- yhtp ------")
-                FSWViterbi.generateMatched(
-                    tp_matrix,
-                    wSize,
-                    arrOfCandidates,
-                    gpsPointArrayList, /* subRPA, subGPSs,*/
-                    transition,
-                    timestamp,
-                    roadNetwork,
-                    "yh"
-                )
-                println("----- sjtp ------")
-                FSWViterbi.generateMatched(
-                    tp_matrix,
-                    wSize,
-                    arrOfCandidates,
-                    gpsPointArrayList, /* subRPA, subGPSs, */
-                    transition,
-                    timestamp,
-                    roadNetwork,
-                    "sj"
-                )
-                subGPSs.clear()
-                arrOfCandidates.clear()
-                //subRPA.clear(); // 비터비 내부 보려면 이것도 주석 해제해야!
-                subGPSs.add(gpsPoint)
-                arrOfCandidates.add(candidates)
-                //subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
 
-                println("===== VITERBI end ====")
+            ///////////////////matching 진행하는 부분분//////////////////
+            //처음 부분 3번은 제일 가까운 candidate에 매칭 (ep)
+            if(timestamp == 1){
+                // 마지막 candidates 중 prob가 가장 높은 것 max_last_candi에 저장
+                var max_last_candi: Candidate? = Candidate()
+                var max_prob = 0.0
+                for (candidate in candidates) {
+                    if (max_prob < candidate.ep) {
+                        max_prob = candidate.ep
+                        max_last_candi = candidate
+                    }
+                }
+                FSWViterbi.setMatched_sjtp(max_last_candi) //가장 ep가 높은 candidate 매칭
+
+                Emission.Emission_Median(FSWViterbi.getMatched_sjtp().get(0))
+                //median값 저장
+
             }
-            ///////////////////////////////////////
+            else if (timestamp <= 3){
+                // 마지막 candidates 중 prob가 가장 높은 것 max_last_candi에 저장
+                var max_last_candi: Candidate? = Candidate()
+                var max_prob = 0.0
+                for (candidate in candidates) {
+                    if (max_prob < candidate.ep) {
+                        max_prob = candidate.ep
+                        max_last_candi = candidate
+                    }
+                }
+                FSWViterbi.setMatched_sjtp(max_last_candi) //가장 ep가 높은 candidate 매칭
+
+                var tp = 0.0;
+                tp = Transition.Transition_pro(subGPSs[timestamp-2].point, subGPSs[timestamp-1].point, FSWViterbi.getMatched_sjtp().get(timestamp-2), FSWViterbi.getMatched_sjtp().get(timestamp-1), roadNetwork)
+                FSWViterbi.getMatched_sjtp().get(timestamp-2).setTp(tp)
+
+                Emission.Emission_Median(FSWViterbi.getMatched_sjtp().get(timestamp - 1)) //매칭된 candidate의 median값 저장
+                Transition.Transition_Median(FSWViterbi.getMatched_sjtp().get(timestamp-2)) //매칭된 candidate와 그 전 매칭된 tp의 median값 저장
+
+                if(timestamp ==3) {
+                    subGPSs.clear()
+                    arrOfCandidates.clear()
+                    //저장되어있던 gps, candidates 삭제
+                }
+            }
+            else {
+                if (subGPSs.size == wSize) {
+                    println("===== VITERBI start ====")
+                    println("----- yhtp ------")
+                    FSWViterbi.generateMatched(
+                        tp_matrix,
+                        wSize,
+                        arrOfCandidates,
+                        gpsPointArrayList, /* subRPA, subGPSs,*/
+                        transition,
+                        timestamp,
+                        roadNetwork,
+                        "yh",
+                    )
+                    println("----- sjtp ------")
+                    FSWViterbi.generateMatched(
+                        tp_matrix,
+                        wSize,
+                        arrOfCandidates,
+                        gpsPointArrayList, /* subRPA, subGPSs, */
+                        transition,
+                        timestamp,
+                        roadNetwork,
+                        "sj",
+                    )
+                    subGPSs.clear()
+                    arrOfCandidates.clear()
+                    //subRPA.clear(); // 비터비 내부 보려면 이것도 주석 해제해야!
+                    subGPSs.add(gpsPoint)
+                    arrOfCandidates.add(candidates)
+                    //subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
+
+                    println("===== VITERBI end ====")
+                }
+                ///////////////////////////////////////
+            }
         }
         // yhtp 이용해서 구한 subpath 출력
         //FSWViterbi.printSubpath(wSize, "yh")
@@ -337,8 +379,15 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         FSWViterbi.compareYHandSJ()
 
         // 어차피 결과가 같아서 출력은 하나만
-        printMatched(FSWViterbi.getMatched_yhtp(), Color.BLUE, 50) // 윤혜 매칭: 파란색
-        printMatched(FSWViterbi.getMatched_sjtp(), Color.GREEN, 30) // 세정 매칭: 초록색
+
+        sj_tp.setOnClickListener{ //sjtp 출력
+            printMatched(FSWViterbi.getMatched_sjtp(), Color.GREEN, 50) // 세정 매칭: 초록색
+        }
+
+        yh_tp.setOnClickListener{
+            printMatched(FSWViterbi.getMatched_yhtp(), Color.BLUE, 50) // 윤혜 매칭: 파란색
+        }
+
         /*var i: Int = 0;
         *//*for (c in FSWViterbi.getMatched_sjtp()) {
             println("$i] matched: $c")
@@ -416,12 +465,27 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             marker.map = naverMap //navermap에 출력
         } //모든 노드 출력
 
-        var cameraUpdate = CameraUpdate.scrollAndZoomTo(LatLng(
-            matched.get(0).point.y,
-            matched.get(0).point.x
-        ),18.0)
+        var cameraUpdate = CameraUpdate.scrollAndZoomTo(
+            LatLng(
+                matched.get(0).point.y,
+                matched.get(0).point.x
+            ), 18.0
+        )
         naverMap.moveCamera(cameraUpdate)
+
         //카메라 이동
+    }
+
+    fun removematched(matched: ArrayList<Candidate>){
+        for (i in matched.indices) { //indices 또는 index사용
+            val marker = Marker() //좌표
+            marker.position = LatLng(
+                matched.get(i).point.y,
+                matched.get(i).point.x
+            ) //node 좌표
+
+            marker.map = null
+        }
     }
 
 
@@ -452,12 +516,5 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         //카메라 이동
     }
 
-    fun getLinkPrint(roadNetwork: RoadNetwork) {
-
-        for (i in roadNetwork.linkArrayList.indices) {
-
-        }
-
-    }
 
 }

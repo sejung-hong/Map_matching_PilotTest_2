@@ -1232,6 +1232,7 @@ id showCustom
 id showHome
 id showTitle
 id sin
+id sj_tp
 id spacer
 id spline
 id split_action_bar
@@ -1283,6 +1284,7 @@ id wide
 id withText
 id wrap
 id wrap_content
+id yh_tp
 integer abc_config_activityDefaultDur
 integer abc_config_activityShortDur
 integer cancel_button_image_alpha
