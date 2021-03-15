@@ -37,7 +37,7 @@ public class Transition {
         return routeDistance;
     }//경로상의 거리 구하기
 
-    public static double Transition_pro(Point gps_pre, Point gps, Candidate matching_pre, Candidate candidate, RoadNetwork roadNetwork) {
+    public static double Transition_pro(Point gps_pre, Point gps, Candidate pre_candidate, Candidate candidate, RoadNetwork roadNetwork) {
 
         double tp_gps_distance, tp_candidate_distance;
         double dt = 0;
@@ -50,7 +50,7 @@ public class Transition {
         //case 1 : 유클리드 거리
         //tp_candidate_distance = Calculation.calDistance(matching_pre.getPoint(), candidate.getPoint()); //유클리드 거리 (원래 coordDistanceOfPo)
         //case 2 : 경로상의 거리
-        tp_candidate_distance = routeDistanceofPoints(matching_pre, candidate, roadNetwork); //경로상의 거리
+        tp_candidate_distance = routeDistanceofPoints(pre_candidate, candidate, roadNetwork); //경로상의 거리
         //이전 매칭된point와 후보의 유클리드 직선거리
         //실제 tp는 직선거리가 아니고 경로상의 거리여야함!!
 
@@ -58,7 +58,7 @@ public class Transition {
 
         if (tp_candidate_distance < 0) {
             tp = 0.000000001;
-            candidate.setExist_tp(1);
+            //pre_candidate.setExist_tp(1);
             candidate.setTp_median(0);
             return tp;
         } //거리가 0보다 작으면 후보 탈락
@@ -70,7 +70,7 @@ public class Transition {
 
         if(transition_median.size() == 0) {
             tp = 0.000000001;
-            candidate.setExist_tp(1);
+            //pre_candidate.setExist_tp(1);
             return tp;
         } //median값이 없을때
 
@@ -79,11 +79,12 @@ public class Transition {
         tp = Math.exp((dt * (-1)) / beta) / beta;
         //tp 구하는 공식
 
+        //candidate.setTp(tp); //tp 저장 cc -> nc로 이동할 확률을 cc에 저장
         return tp;
     }
 
     //중앙값 저장하는 함수, beta의 median값
-    public void Transition_Median(Candidate matching) {
+    public static void Transition_Median(Candidate matching) {
 
         if(matching.getTp_median() == 0){
             return;

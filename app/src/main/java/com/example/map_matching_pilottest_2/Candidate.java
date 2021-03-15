@@ -12,6 +12,7 @@ public class Candidate {
     private double tpep;
     private double ep_median;
     private double tp_median;
+    private double max_tp_median;
     private double acc_prob;// accumulated probability (이전 최대 edge와 해당 node의 ep*tp를 곱함)
     private double exist_tp;
 
@@ -42,6 +43,7 @@ public class Candidate {
         this.tpep=0.0;
         this.ep_median=0.0;
         this.tp_median=0.0;
+        this.max_tp_median=0.0;
         this.exist_tp =0.0;
     }
 
@@ -54,6 +56,7 @@ public class Candidate {
         this.tpep=0.0;
         this.ep_median=0.0;
         this.tp_median=0.0;
+        this.max_tp_median=0.0;
         this.exist_tp =0.0;
     }
 
@@ -104,17 +107,20 @@ public class Candidate {
 
     public void setTp_median(double tp_median){this.tp_median = tp_median;}
 
-    public double getEp_median() {
-        return ep_median;
-    }
+    public void setMax_tp_median(double max_tp_median){this.tp_median = max_tp_median;}
+
+    public double getEp_median() { return ep_median; }
 
     public double getTp_median() {
         return tp_median;
     }
 
-    public double getExist_tp() { return exist_tp; }
+    public double getMax_tp_median() {
+        return max_tp_median;
+    }
 
-    public void setExist_tp(double exist_tp) { this.exist_tp = exist_tp; }
+    //public double getExist_tp() { return exist_tp; }
+    //public void setExist_tp(double exist_tp) { this.exist_tp = exist_tp; }
 
     @Override
     public String toString() {
@@ -182,23 +188,12 @@ public class Candidate {
                 resultCandidate.add(candidate);
 //////////////////////////////////////////
                 //candidate마다 ep, tp 구하기
-                Calculation.calculationEP(candidate, center, timestamp, emission); //ep 구하기
-                //ep도 옮길까...?
-
-                Calculation.calculationTP(candidate, matchingPointArrayList, center, gpsPointArrayList, timestamp, roadNetwork, transition); //sj tp구하기
-
-                candidate.setTpep(candidate.getEp() * candidate.getTp()); // candidate마다 ep*tp 저장
-
-                for (Candidate c: matchingPointArrayList) {
-                    emission.Emission_Median(c);
-                    transition.Transition_Median(c);
-                } //median값 저장*/
+                candidate.setEp(emission.Emission_pro(candidate, center, candidate.getPoint(), timestamp)); //ep구하기
+                // caculation에서 계산하지 않고 emision 클래스로 바로 이동
 
             }
 
         }
-
-        Calculation.calculationEPTP(resultCandidate, matchingPointArrayList, timestamp);
 
         return resultCandidate;
     }

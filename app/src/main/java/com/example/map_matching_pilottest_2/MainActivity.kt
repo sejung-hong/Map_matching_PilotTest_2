@@ -282,8 +282,11 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             arrOfCandidates.add(candidates)
 
             //subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
-            if (timestamp <=3){
-                // 마지막 candidates 중 acc_prob가 가장 높은 것 max_last_candi에 저장
+
+            ///////////////////matching 진행하는 부분분//////////////////
+            //처음 부분 3번은 제일 가까운 candidate에 매칭 (ep)
+            if(timestamp == 1){
+                // 마지막 candidates 중 prob가 가장 높은 것 max_last_candi에 저장
                 var max_last_candi: Candidate? = Candidate()
                 var max_prob = 0.0
                 for (candidate in candidates) {
@@ -292,14 +295,35 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                         max_last_candi = candidate
                     }
                 }
-                // max_last_candi를 시작으로 back tracing하여 subpath구하기
-                FSWViterbi.setMatched_sjtp(max_last_candi);
-                FSWViterbi.setMatched_yhtp(max_last_candi);
+                FSWViterbi.setMatched_sjtp(max_last_candi) //가장 ep가 높은 candidate 매칭
+
+                Emission.Emission_Median(FSWViterbi.getMatched_sjtp().get(0))
+                //median값 저장
+
+            }
+            else if (timestamp <= 3){
+                // 마지막 candidates 중 prob가 가장 높은 것 max_last_candi에 저장
+                var max_last_candi: Candidate? = Candidate()
+                var max_prob = 0.0
+                for (candidate in candidates) {
+                    if (max_prob < candidate.ep) {
+                        max_prob = candidate.ep
+                        max_last_candi = candidate
+                    }
+                }
+                FSWViterbi.setMatched_sjtp(max_last_candi) //가장 ep가 높은 candidate 매칭
+
+                var tp = 0.0;
+                tp = Transition.Transition_pro(subGPSs[timestamp-2].point, subGPSs[timestamp-1].point, FSWViterbi.getMatched_sjtp().get(timestamp-2), FSWViterbi.getMatched_sjtp().get(timestamp-1), roadNetwork)
+                FSWViterbi.getMatched_sjtp().get(timestamp-2).setTp(tp)
+
+                Emission.Emission_Median(FSWViterbi.getMatched_sjtp().get(timestamp - 1)) //매칭된 candidate의 median값 저장
+                Transition.Transition_Median(FSWViterbi.getMatched_sjtp().get(timestamp-2)) //매칭된 candidate와 그 전 매칭된 tp의 median값 저장
+
                 if(timestamp ==3) {
                     subGPSs.clear()
                     arrOfCandidates.clear()
-                    subGPSs.add(gpsPoint)
-                    arrOfCandidates.add(candidates)
+                    //저장되어있던 gps, candidates 삭제
                 }
             }
             else {
