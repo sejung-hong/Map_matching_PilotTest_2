@@ -37,8 +37,9 @@ public class FSWViterbi {
 
         double maximum_prob = 0;
         Candidate[] subpath = new Candidate[wSize-1]; // path의 길이를 t로 설정
+        /* 유림 의견 : 여기에 입력받은 저번 2개의 candidate 목록들이 window 1,2에 입력됨*/
         //System.out.println("yhtp debugging");
-        for (int i = 0; i < wSize - 1; i++) { // i moves in window
+        for (int i = 0; i < wSize - 1; i++) { // i moves in window /* 유림 의견 : i가 2부터 시작되어야 함 */
             ArrayList<Candidate> curr_candidates = arrOfCandidates.get(i);
             ArrayList<Candidate> next_candidates = arrOfCandidates.get(i+1);
             //System.out.println("☆origin point:" + subRPA.get(i+1));// 테스트 하려면 메서드 인자에 subGPSs추가해야함
@@ -59,9 +60,15 @@ public class FSWViterbi {
                         tp = Transition.Transition_pro(gpsPointArrayList.get(timeStamp-1).getPoint(), gpsPointArrayList.get(timeStamp-3).getPoint(), cc, nc, roadNetwork);
                         //tp = cc.getTp();
                     }
+
                     //cc.setTp(tp); //tp 저장 cc -> nc로 이동할 확률을 cc에 저장 // 굳이 tp 저장할 필요 없음.
                     //cc.setEp(Emission.Emission_pro(cc, gpsPointArrayList.get(timeStamp-2).getPoint(), nc.getPoint(), timeStamp));
                     //이미 저장되어있으므로 저장할 필요 없음.
+
+                    /*
+                    유림 의견 : 여기에 cc -> nc로 가는 vector가 저장되어야 함
+                    예를 들면 뭐 cc.setangle(cc->nc angle); 이런 식으로
+                    */
 
                     double prob = tp * nc.getEp();
 
@@ -87,9 +94,25 @@ public class FSWViterbi {
                     }
                 }
             }
+            /*
+            유림 의견 : 여기서 만약 i==5일때 i=4->i=5의 gps 각도를 계산해서
+            cc0~2의 acc_prob의 값에 알파를 곱하고, (1+각도의 차)*(1-알파)값을 다 곱해서 저장하는 식 하나를 만들어야 할 것 같음
+            예를 들어 vectorA가 i=4->i=5의 gps 각도일 때
+            if(i==5){
+                for(int j=0;j<3;j++){
+                    for(Candidate c : arrOfCandidates.get(j)){
+                        c.setAcc_prob((1-알파)*(1/(c.getangle & vectorA 차이))+알파*c.getAcc_prob)
+                        //(1/(c.getangle & vectorA 차이))의 이유는 각도 차이가 작을 수록 더 확률이 높아야 하기 때문!
+                    }
+                }
+            }
+            */
         }
 
         // 마지막 candidates 중 acc_prob가 가장 높은 것 max_last_candi에 저장
+        /*
+        유림 의견 : 마지막 candidates가 아닌 0시작 기준 2번째 candidates 중 acc prob가 가장 높은 것 배출!
+         */
         Candidate max_last_candi = new Candidate();
         double max_prob = 0;
         for (Candidate candidate : arrOfCandidates.get(wSize - 1)) {
@@ -127,6 +150,7 @@ public class FSWViterbi {
             } //emission_median값, transition median 저장
 
         }
+        /* 유림 의견 : 전달 과정에서 마지막 2개의 candidate 정보들이 return 되어야 함 */
         return subpathArrayList;
     }
     // subpath출력 메서드 (테스트용) -윤혜tp

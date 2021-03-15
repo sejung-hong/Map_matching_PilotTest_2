@@ -925,7 +925,6 @@ drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
 drawable ic_launcher_background
 drawable ic_launcher_foreground
-drawable icon_arrow
 drawable navermap_compass
 drawable navermap_default_background_dark
 drawable navermap_default_background_light

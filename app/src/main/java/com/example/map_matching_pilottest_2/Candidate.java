@@ -15,6 +15,7 @@ public class Candidate {
     private double max_tp_median;
     private double acc_prob;// accumulated probability (이전 최대 edge와 해당 node의 ep*tp를 곱함)
     private double exist_tp;
+    private double angle;
 
     public int getPrev_index() {
         return prev_index;
@@ -45,6 +46,7 @@ public class Candidate {
         this.tp_median=0.0;
         this.max_tp_median=0.0;
         this.exist_tp =0.0;
+        this.angle =0.0;
     }
 
     public Candidate (Point point, Link involvedLink){
@@ -71,7 +73,6 @@ public class Candidate {
     public Link getInvolvedLink(){
         return involvedLink;
     }
-    //유림 혹시 몰라 push
 
     public void setTp(double tp) {
         this.tp = tp;

@@ -32,7 +32,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
     private lateinit var naverMap: NaverMap
     private val emission: Emission = Emission()
     private val transition = Transition()
-    private val wSize = 3 //윈도사이즈는 3!!!!!!
+    private val wSize = 5 //윈도사이즈는 3!!!!!!
 
     var permissions = arrayOf(
         android.Manifest.permission.ACCESS_FINE_LOCATION,
