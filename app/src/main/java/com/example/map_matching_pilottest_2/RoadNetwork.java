@@ -88,10 +88,14 @@ public class RoadNetwork {
                 Link routelink = getLink(routeNodes[i], routeNodes[i+1]); //두 노드를 끝으로 하는 링크 반환
                 routePoints.addAll(getInvolvingPointList(getNode(routeNodes[i]).getCoordinate(),
                         getNode(routeNodes[i+1]).getCoordinate(), routelink.getWeight()));
-
-                /*
-                routePoints.addAll(getInvolvingPointList(getNode(routelink.getStartNodeID()).getCoordinate(),
-                        getNode(routelink.getEndNodeID()).getCoordinate()));*/
+            }
+        }
+        else if(testNo == 2){
+            int[] routeNodes = { 0, 10, 7, 9, 6, 5, 4, 3, 2, 1};
+            for (int i=0; i<routeNodes.length-1; i++) {
+                Link routelink = getLink(routeNodes[i], routeNodes[i+1]); //두 노드를 끝으로 하는 링크 반환
+                routePoints.addAll(getInvolvingPointList(getNode(routeNodes[i]).getCoordinate(),
+                        getNode(routeNodes[i+1]).getCoordinate(), routelink.getWeight()));
             }
         }
         routePointArrayList = routePoints;

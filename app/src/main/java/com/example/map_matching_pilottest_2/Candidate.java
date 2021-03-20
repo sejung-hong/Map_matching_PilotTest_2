@@ -15,7 +15,11 @@ public class Candidate {
     private double max_tp_median;
     private double acc_prob;// accumulated probability (이전 최대 edge와 해당 node의 ep*tp를 곱함)
     private double exist_tp;
-    private double angle;
+    private Vector2D vector;
+
+    public Vector2D getVector(){return vector;}
+
+    public void setVector(Vector2D vector){this.vector=vector;}
 
     public int getPrev_index() {
         return prev_index;
@@ -46,7 +50,7 @@ public class Candidate {
         this.tp_median=0.0;
         this.max_tp_median=0.0;
         this.exist_tp =0.0;
-        this.angle =0.0;
+        this.vector = null;
     }
 
     public Candidate (Point point, Link involvedLink){

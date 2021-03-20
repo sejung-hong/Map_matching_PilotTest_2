@@ -166,7 +166,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
     fun main() {
         System.out.println("===== [YSY] Map-matching PilotTest 2 =====")
 
-        val testNo = 1 // 여기만 바꿔주면 됨 (PilotTest 2는 data 1만 존재)
+        val testNo = 2 // 여기만 바꿔주면 됨 (PilotTest 2는 data 1만 존재)
 
         val dir = filesDir.absolutePath //파일절대경로
         val fileIO = FileIO(dir)
@@ -226,7 +226,8 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
 
 
         // window size만큼의 t-window, ... , t-1, t에서의 candidates의 arrayList
-        val arrOfCandidates: ArrayList<ArrayList<Candidate>> = ArrayList()
+        val arrOfCandidates: ArrayList<ArrayList<Candidate>> = ArrayList() // window 안의 candidates
+        val remainCandidate: ArrayList<ArrayList<Candidate>> = ArrayList() // window 이동할 때 필요한=남아있어야 하는 candidates
         val subGPSs: ArrayList<GPSPoint> = ArrayList()
         //ArrayList<Point> subRPA = new ArrayList<>(); // 비터비 내부 보려면 이것도 주석 해제해야! (subRoadPointArrayList)
         // GPSPoints 생성
@@ -280,7 +281,6 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             ///////////// FSW VITERBI /////////////
             subGPSs.add(gpsPoint)
             arrOfCandidates.add(candidates)
-
             //subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
 
             ///////////////////matching 진행하는 부분분//////////////////
@@ -314,11 +314,19 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                 FSWViterbi.setMatched_sjtp(max_last_candi) //가장 ep가 높은 candidate 매칭
 
                 var tp = 0.0;
-                tp = Transition.Transition_pro(subGPSs[timestamp-2].point, subGPSs[timestamp-1].point, FSWViterbi.getMatched_sjtp().get(timestamp-2), FSWViterbi.getMatched_sjtp().get(timestamp-1), roadNetwork)
-                FSWViterbi.getMatched_sjtp().get(timestamp-2).setTp(tp)
+                tp = Transition.Transition_pro(
+                    subGPSs[timestamp - 2].point,
+                    subGPSs[timestamp - 1].point,
+                    FSWViterbi.getMatched_sjtp().get(
+                        timestamp - 2
+                    ),
+                    FSWViterbi.getMatched_sjtp().get(timestamp - 1),
+                    roadNetwork
+                )
+                FSWViterbi.getMatched_sjtp().get(timestamp - 2).setTp(tp)
 
                 Emission.Emission_Median(FSWViterbi.getMatched_sjtp().get(timestamp - 1)) //매칭된 candidate의 median값 저장
-                Transition.Transition_Median(FSWViterbi.getMatched_sjtp().get(timestamp-2)) //매칭된 candidate와 그 전 매칭된 tp의 median값 저장
+                Transition.Transition_Median(FSWViterbi.getMatched_sjtp().get(timestamp - 2)) //매칭된 candidate와 그 전 매칭된 tp의 median값 저장
 
                 if(timestamp ==3) {
                     subGPSs.clear()
@@ -328,6 +336,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             }
             else {
                 if (subGPSs.size == wSize) {
+                    if(remainCandidate!=null) {arrOfCandidates.addAll(remainCandidate)}
                     println("===== VITERBI start ====")
                     println("----- yhtp ------")
                     FSWViterbi.generateMatched(
@@ -335,27 +344,28 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                         wSize,
                         arrOfCandidates,
                         gpsPointArrayList, /* subRPA, subGPSs,*/
-                        transition,
                         timestamp,
                         roadNetwork,
                         "yh",
+                        remainCandidate
                     )
                     println("----- sjtp ------")
+                    if(remainCandidate!=null) {arrOfCandidates.addAll(remainCandidate)}
                     FSWViterbi.generateMatched(
                         tp_matrix,
                         wSize,
                         arrOfCandidates,
                         gpsPointArrayList, /* subRPA, subGPSs, */
-                        transition,
                         timestamp,
                         roadNetwork,
                         "sj",
+                        remainCandidate
                     )
                     subGPSs.clear()
                     arrOfCandidates.clear()
                     //subRPA.clear(); // 비터비 내부 보려면 이것도 주석 해제해야!
                     subGPSs.add(gpsPoint)
-                    arrOfCandidates.add(candidates)
+                    arrOfCandidates.addAll(remainCandidate); // 슬라이딩 될 때 마지막 두개는 다음에도 사용 되어야 함
                     //subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
 
                     println("===== VITERBI end ====")
@@ -388,12 +398,12 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             printMatched(FSWViterbi.getMatched_yhtp(), Color.BLUE, 50) // 윤혜 매칭: 파란색
         }
 
-        /*var i: Int = 0;
-        *//*for (c in FSWViterbi.getMatched_sjtp()) {
+        var i: Int = 0;
+        for (c in FSWViterbi.getMatched_sjtp()) {
             println("$i] matched: $c")
             printPoint(c.point, Color.BLUE);
             i++;
-        }*/
+        }
 
         /*for (c in FSWViterbi.getMatched_sjtp()) {
             printPoint(c.point);

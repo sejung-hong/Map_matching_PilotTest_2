@@ -1,7 +1,10 @@
 package com.example.map_matching_pilottest_2;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 public class FSWViterbi {
     private static final ArrayList<Candidate[]> subpaths_yhtp = new ArrayList<>();
@@ -28,18 +31,18 @@ public class FSWViterbi {
 
     // gps 받아올때마다 FSW비터비로 매칭하는 메서드 -윤혜tp
     public static ArrayList<Candidate> generateMatched(double[][] tp_matrix ,int wSize, ArrayList<ArrayList<Candidate>> arrOfCandidates,
-                                                       ArrayList<GPSPoint> gpsPointArrayList, /*ArrayList<Point> subRPA, ArrayList<GPSPoint> subGPSs, */
-                                                       Transition transition, int timeStamp, RoadNetwork roadNetwork, String tp_type) {
+                                                       ArrayList<GPSPoint> gpsPointArrayList, int timeStamp, RoadNetwork roadNetwork,
+                                                       String tp_type, ArrayList<ArrayList<Candidate>> remainCandidate) {
         // arrOfCandidates를 순회하며 찾은 path의 마지막을 matching_success에 추가하는 loop
         // t는 timestamp를 의미
         // subpath 생성 및 matched arraylist에 저장
         // 현재 candidates와 다음 candidates로 가는 t.p와 e.p곱 중 최대 값을 가지는 curr와 그 index를 maximum_tpep[현재]에 저장
 
+        double alpha = 0.3;
         double maximum_prob = 0;
-        Candidate[] subpath = new Candidate[wSize-1]; // path의 길이를 t로 설정
-        /* 유림 의견 : 여기에 입력받은 저번 2개의 candidate 목록들이 window 1,2에 입력됨*/
+        Candidate[] subpath = new Candidate[wSize-3]; // path의 길이를 t로 설정ㅇ
         //System.out.println("yhtp debugging");
-        for (int i = 0; i < wSize - 1; i++) { // i moves in window /* 유림 의견 : i가 2부터 시작되어야 함 */
+        for (int i = 2; i < wSize - 1; i++) { // i moves in window /* 유림 의견 : i가 2부터 시작되어야 함 */
             ArrayList<Candidate> curr_candidates = arrOfCandidates.get(i);
             ArrayList<Candidate> next_candidates = arrOfCandidates.get(i+1);
             //System.out.println("☆origin point:" + subRPA.get(i+1));// 테스트 하려면 메서드 인자에 subGPSs추가해야함
@@ -69,6 +72,8 @@ public class FSWViterbi {
                     유림 의견 : 여기에 cc -> nc로 가는 vector가 저장되어야 함
                     예를 들면 뭐 cc.setangle(cc->nc angle); 이런 식으로
                     */
+                    cc.setVector(new Vector2D(nc.getPoint().getX()-cc.getPoint().getX(),
+                            nc.getPoint().getX()-cc.getPoint().getX()));
 
                     double prob = tp * nc.getEp();
 
@@ -94,6 +99,21 @@ public class FSWViterbi {
                     }
                 }
             }
+            GeoPoint in_pt = new GeoPoint(gpsPointArrayList.get(timeStamp-2).getX(), gpsPointArrayList.get(timeStamp-2).getY());
+            GeoPoint start_t = GeoTrans.convert(GeoTrans.GEO, GeoTrans.TM, in_pt);
+            in_pt = new GeoPoint(gpsPointArrayList.get(timeStamp-1).getX(), gpsPointArrayList.get(timeStamp-1).getY());
+            GeoPoint end_t = GeoTrans.convert(GeoTrans.GEO, GeoTrans.TM, in_pt);
+            Vector2D start_v = new Vector2D(start_t.getX(),start_t.getY());
+            Vector2D end_v = new Vector2D(end_t.getX(),end_t.getY());
+            Vector2D cal_v = Vector2D.add(start_v,end_v);
+
+            for(int j=0;j<wSize-2;j++){
+                for(Candidate c : arrOfCandidates.get(j)){
+                    c.setAcc_prob((1-alpha)*(1/(cal_v.getAngle(new Vector2D(c.getPoint().getX(),c.getPoint().getY()))))
+                            +alpha*c.getAcc_prob());
+                    //(1/(c.getangle & vectorA 차이))의 이유는 각도 차이가 작을 수록 더 확률이 높아야 하기 때문!
+                }
+            }
             /*
             유림 의견 : 여기서 만약 i==5일때 i=4->i=5의 gps 각도를 계산해서
             cc0~2의 acc_prob의 값에 알파를 곱하고, (1+각도의 차)*(1-알파)값을 다 곱해서 저장하는 식 하나를 만들어야 할 것 같음
@@ -115,7 +135,7 @@ public class FSWViterbi {
          */
         Candidate max_last_candi = new Candidate();
         double max_prob = 0;
-        for (Candidate candidate : arrOfCandidates.get(wSize - 1)) {
+        for (Candidate candidate : arrOfCandidates.get(wSize - 3)) {
             if (max_prob < candidate.getAcc_prob()) {
                 max_prob = candidate.getAcc_prob();
                 max_last_candi = candidate;
@@ -123,7 +143,7 @@ public class FSWViterbi {
         }
         // max_last_candi를 시작으로 back tracing하여 subpath구하기
         //System.out.println("")
-        Candidate tempCandi = arrOfCandidates.get(wSize - 2).get(max_last_candi.getPrev_index());
+        Candidate tempCandi = arrOfCandidates.get(wSize - 4).get(max_last_candi.getPrev_index());
         subpath[subpath.length - 1] = tempCandi;
         //int i = subpath.length - 1;
         for (int j = subpath.length - 2; j >= 0; j--) {
@@ -151,6 +171,9 @@ public class FSWViterbi {
 
         }
         /* 유림 의견 : 전달 과정에서 마지막 2개의 candidate 정보들이 return 되어야 함 */
+        remainCandidate.clear();
+        remainCandidate.add(arrOfCandidates.get(wSize-2));
+        remainCandidate.add(arrOfCandidates.get(wSize-1));
         return subpathArrayList;
     }
     // subpath출력 메서드 (테스트용) -윤혜tp
