@@ -132,6 +132,10 @@ public class Candidate {
         return "point: "+ point + "  involvedLink: " + involvedLink + " tp/ep/tpep: "+tp+"/"+ep+"/"+tpep;//+"\n";
     }
 
+    public String toStringyr() {
+        return "point: "+ point + " Acc: "+getAcc_prob()+"\n";
+    }
+
     public String toStringOnlyPoint() {
         return point.toString();
     }

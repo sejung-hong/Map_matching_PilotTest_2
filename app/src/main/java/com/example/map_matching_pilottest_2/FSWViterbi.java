@@ -1,10 +1,7 @@
 package com.example.map_matching_pilottest_2;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 
 public class FSWViterbi {
     private static final ArrayList<Candidate[]> subpaths_yhtp = new ArrayList<>();
@@ -28,11 +25,12 @@ public class FSWViterbi {
     private static final ArrayList<Candidate[]> subpaths_sjtp = new ArrayList<>();
     private static final ArrayList<Candidate> matched_sjtp = new ArrayList<>();
     private static double correctness_sjtp;
+    public static final Candidate[][] remainCandidates = new Candidate[2][];
 
     // gps 받아올때마다 FSW비터비로 매칭하는 메서드 -윤혜tp
-    public static ArrayList<Candidate> generateMatched(double[][] tp_matrix ,int wSize, ArrayList<ArrayList<Candidate>> arrOfCandidates,
-                                                       ArrayList<GPSPoint> gpsPointArrayList, int timeStamp, RoadNetwork roadNetwork,
-                                                       String tp_type, ArrayList<ArrayList<Candidate>> remainCandidate) {
+    public static ArrayList<Candidate> generateMatched(double[][] tp_matrix ,int wSize,int wNext, ArrayList<ArrayList<Candidate>> arrOfCandidates,
+                                                       ArrayList<GPSPoint> gpsPointArrayList, Transition transition,
+                                                       ArrayList<ArrayList<Candidate>> remainCandidate ,int timeStamp, RoadNetwork roadNetwork, String tp_type) {
         // arrOfCandidates를 순회하며 찾은 path의 마지막을 matching_success에 추가하는 loop
         // t는 timestamp를 의미
         // subpath 생성 및 matched arraylist에 저장
@@ -40,9 +38,9 @@ public class FSWViterbi {
 
         double alpha = 0.3;
         double maximum_prob = 0;
-        Candidate[] subpath = new Candidate[wSize-3]; // path의 길이를 t로 설정ㅇ
+        Candidate[] subpath = new Candidate[wSize-wNext]; // path의 길이를 도출할 길이로 설정
         //System.out.println("yhtp debugging");
-        for (int i = 2; i < wSize - 1; i++) { // i moves in window /* 유림 의견 : i가 2부터 시작되어야 함 */
+        for (int i = 2; i < wSize - 1; i++) { // i moves in window
             ArrayList<Candidate> curr_candidates = arrOfCandidates.get(i);
             ArrayList<Candidate> next_candidates = arrOfCandidates.get(i+1);
             //System.out.println("☆origin point:" + subRPA.get(i+1));// 테스트 하려면 메서드 인자에 subGPSs추가해야함
@@ -63,17 +61,9 @@ public class FSWViterbi {
                         tp = Transition.Transition_pro(gpsPointArrayList.get(timeStamp-1).getPoint(), gpsPointArrayList.get(timeStamp-3).getPoint(), cc, nc, roadNetwork);
                         //tp = cc.getTp();
                     }
-
                     //cc.setTp(tp); //tp 저장 cc -> nc로 이동할 확률을 cc에 저장 // 굳이 tp 저장할 필요 없음.
                     //cc.setEp(Emission.Emission_pro(cc, gpsPointArrayList.get(timeStamp-2).getPoint(), nc.getPoint(), timeStamp));
                     //이미 저장되어있으므로 저장할 필요 없음.
-
-                    /*
-                    유림 의견 : 여기에 cc -> nc로 가는 vector가 저장되어야 함
-                    예를 들면 뭐 cc.setangle(cc->nc angle); 이런 식으로
-                    */
-                    cc.setVector(new Vector2D(nc.getPoint().getX()-cc.getPoint().getX(),
-                            nc.getPoint().getX()-cc.getPoint().getX()));
 
                     double prob = tp * nc.getEp();
 
@@ -99,43 +89,30 @@ public class FSWViterbi {
                     }
                 }
             }
-            GeoPoint in_pt = new GeoPoint(gpsPointArrayList.get(timeStamp-2).getX(), gpsPointArrayList.get(timeStamp-2).getY());
-            GeoPoint start_t = GeoTrans.convert(GeoTrans.GEO, GeoTrans.TM, in_pt);
-            in_pt = new GeoPoint(gpsPointArrayList.get(timeStamp-1).getX(), gpsPointArrayList.get(timeStamp-1).getY());
-            GeoPoint end_t = GeoTrans.convert(GeoTrans.GEO, GeoTrans.TM, in_pt);
-            Vector2D start_v = new Vector2D(start_t.getX(),start_t.getY());
-            Vector2D end_v = new Vector2D(end_t.getX(),end_t.getY());
-            Vector2D cal_v = Vector2D.add(start_v,end_v);
+        }
+        /* 각도 계산해서 넣는 부분 */
+        GeoPoint in_pt = new GeoPoint(gpsPointArrayList.get(timeStamp-2).getX(), gpsPointArrayList.get(timeStamp-2).getY());
+        GeoPoint start_t = GeoTrans.convert(GeoTrans.GEO, GeoTrans.TM, in_pt);
+        in_pt = new GeoPoint(gpsPointArrayList.get(timeStamp-1).getX(), gpsPointArrayList.get(timeStamp-1).getY());
+        GeoPoint end_t = GeoTrans.convert(GeoTrans.GEO, GeoTrans.TM, in_pt);
+        Vector2D start_v = new Vector2D(start_t.getX(),start_t.getY());
+        Vector2D end_v = new Vector2D(end_t.getX(),end_t.getY());
+        //마지막 두 벡터를 더해서 구한 벡터 = cal_v -> 이 친구와 전 값들을 비교!
+        Vector2D cal_v = Vector2D.add(start_v,end_v);
 
-            for(int j=0;j<wSize-2;j++){
-                for(Candidate c : arrOfCandidates.get(j)){
-                    c.setAcc_prob((1-alpha)*(1/(cal_v.getAngle(new Vector2D(c.getPoint().getX(),c.getPoint().getY()))))
-                            +alpha*c.getAcc_prob());
-                    //(1/(c.getangle & vectorA 차이))의 이유는 각도 차이가 작을 수록 더 확률이 높아야 하기 때문!
-                }
+        for(int j=0;j<wSize-2;j++){//앞의 3개의 window의 candidate들만 벡터값 누적해서 acc 계산
+            for(Candidate c : arrOfCandidates.get(j)){
+                c.setAcc_prob((1-alpha)*(1/(cal_v.getAngle(new Vector2D(c.getPoint().getX(),c.getPoint().getY()))))
+                        +alpha*c.getAcc_prob());
+                System.out.print("유림 부분\n"+c.toStringyr()+"\n");
+                //(1/(c.getangle & vectorA 차이))의 이유는 각도 차이가 작을 수록 더 확률이 높아야 하기 때문!
             }
-            /*
-            유림 의견 : 여기서 만약 i==5일때 i=4->i=5의 gps 각도를 계산해서
-            cc0~2의 acc_prob의 값에 알파를 곱하고, (1+각도의 차)*(1-알파)값을 다 곱해서 저장하는 식 하나를 만들어야 할 것 같음
-            예를 들어 vectorA가 i=4->i=5의 gps 각도일 때
-            if(i==5){
-                for(int j=0;j<3;j++){
-                    for(Candidate c : arrOfCandidates.get(j)){
-                        c.setAcc_prob((1-알파)*(1/(c.getangle & vectorA 차이))+알파*c.getAcc_prob)
-                        //(1/(c.getangle & vectorA 차이))의 이유는 각도 차이가 작을 수록 더 확률이 높아야 하기 때문!
-                    }
-                }
-            }
-            */
         }
 
-        // 마지막 candidates 중 acc_prob가 가장 높은 것 max_last_candi에 저장
-        /*
-        유림 의견 : 마지막 candidates가 아닌 0시작 기준 2번째 candidates 중 acc prob가 가장 높은 것 배출!
-         */
+        // (wSize - wNext)번째 candidates 중 acc_prob가 가장 높은 것 max_last_candi에 저장
         Candidate max_last_candi = new Candidate();
         double max_prob = 0;
-        for (Candidate candidate : arrOfCandidates.get(wSize - 3)) {
+        for (Candidate candidate : arrOfCandidates.get(wSize - wNext -1)) {
             if (max_prob < candidate.getAcc_prob()) {
                 max_prob = candidate.getAcc_prob();
                 max_last_candi = candidate;
@@ -143,7 +120,7 @@ public class FSWViterbi {
         }
         // max_last_candi를 시작으로 back tracing하여 subpath구하기
         //System.out.println("")
-        Candidate tempCandi = arrOfCandidates.get(wSize - 4).get(max_last_candi.getPrev_index());
+        Candidate tempCandi = arrOfCandidates.get(wSize - wNext -2).get(max_last_candi.getPrev_index());
         subpath[subpath.length - 1] = tempCandi;
         //int i = subpath.length - 1;
         for (int j = subpath.length - 2; j >= 0; j--) {
@@ -170,7 +147,10 @@ public class FSWViterbi {
             } //emission_median값, transition median 저장
 
         }
-        /* 유림 의견 : 전달 과정에서 마지막 2개의 candidate 정보들이 return 되어야 함 */
+        System.out.print("유림 : 서브패스\n");
+        for(int y = 0; y<subpathArrayList.size();y++){
+            System.out.print(subpathArrayList.get(y).toStringyr());
+        }
         remainCandidate.clear();
         remainCandidate.add(arrOfCandidates.get(wSize-2));
         remainCandidate.add(arrOfCandidates.get(wSize-1));
