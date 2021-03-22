@@ -244,6 +244,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             printPoint(point, Color.YELLOW)
         }
 
+        ////////////////////반복문 - gps 생성////////////////////////////////
         for (i in routePointArrayList.indices step (5)) {
             // 오래 걸리는 작업 수행부분
             var point: Point = routePointArrayList.get(i)
@@ -299,6 +300,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
 
                 Emission.Emission_Median(FSWViterbi.getMatched_sjtp().get(0))
                 //median값 저장
+                continue
 
             }
             else if (timestamp <= 3){
@@ -325,44 +327,66 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                     arrOfCandidates.clear()
                     //저장되어있던 gps, candidates 삭제
                 }
+                continue
             }
-            else {
-                if (subGPSs.size == wSize) {
-                    println("===== VITERBI start ====")
-                    println("----- yhtp ------")
-                    FSWViterbi.generateMatched(
-                        tp_matrix,
-                        wSize,
-                        arrOfCandidates,
-                        gpsPointArrayList, /* subRPA, subGPSs,*/
-                        transition,
-                        timestamp,
-                        roadNetwork,
-                        "yh",
-                    )
-                    println("----- sjtp ------")
-                    FSWViterbi.generateMatched(
-                        tp_matrix,
-                        wSize,
-                        arrOfCandidates,
-                        gpsPointArrayList, /* subRPA, subGPSs, */
-                        transition,
-                        timestamp,
-                        roadNetwork,
-                        "sj",
-                    )
-                    subGPSs.clear()
-                    arrOfCandidates.clear()
-                    //subRPA.clear(); // 비터비 내부 보려면 이것도 주석 해제해야!
-                    subGPSs.add(gpsPoint)
-                    arrOfCandidates.add(candidates)
-                    //subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
+            //////////////////////////처음 부분 3번 끝////////////////////////////////////////
 
-                    println("===== VITERBI end ====")
+
+
+            if (subGPSs.size == wSize) {
+                println("===== VITERBI start ====")
+                println("----- yhtp ------")
+                FSWViterbi.generateMatched(
+                    tp_matrix,
+                    wSize,
+                    arrOfCandidates,
+                    gpsPointArrayList, /* subRPA, subGPSs,*/
+                    transition,
+                    timestamp,
+                    roadNetwork,
+                    "yh",
+                )
+                println("----- sjtp ------")
+                FSWViterbi.generateMatched(
+                    tp_matrix,
+                    wSize,
+                    arrOfCandidates,
+                    gpsPointArrayList, /* subRPA, subGPSs, */
+                    transition,
+                    timestamp,
+                    roadNetwork,
+                    "sj",
+                )
+                subGPSs.clear()
+                arrOfCandidates.clear()
+                //subRPA.clear(); // 비터비 내부 보려면 이것도 주석 해제해야!
+                subGPSs.add(gpsPoint)
+                arrOfCandidates.add(candidates)
+                //subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
+
+                println("===== VITERBI end ====")
+
+                //갈림길 확인인
+               if(Crossroad.different_Link(roadNetwork, FSWViterbi.getMatched_sjtp()[FSWViterbi.getMatched_sjtp().size-1] ,FSWViterbi.getMatched_sjtp()[FSWViterbi.getMatched_sjtp().size-2]) == 1) {
+
                 }
-                ///////////////////////////////////////
+
+
             }
+        ///////////////////////////////////////
+
+
         }
+
+        /*
+        for (i in 0..FSWViterbi.getMatched_sjtp().size-1){
+            if(Crossroad.Exist_Crassroad(roadNetwork, FSWViterbi.getMatched_sjtp()[i]))
+                System.out.println("갈림길 o : " + i)
+            else
+                System.out.println("갈림길 x : " + i)
+        }
+        */
+
         // yhtp 이용해서 구한 subpath 출력
         //FSWViterbi.printSubpath(wSize, "yh")
 
@@ -383,22 +407,10 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         sj_tp.setOnClickListener{ //sjtp 출력
             printMatched(FSWViterbi.getMatched_sjtp(), Color.GREEN, 50) // 세정 매칭: 초록색
         }
-
         yh_tp.setOnClickListener{
             printMatched(FSWViterbi.getMatched_yhtp(), Color.BLUE, 50) // 윤혜 매칭: 파란색
         }
 
-        /*var i: Int = 0;
-        *//*for (c in FSWViterbi.getMatched_sjtp()) {
-            println("$i] matched: $c")
-            printPoint(c.point, Color.BLUE);
-            i++;
-        }*/
-
-        /*for (c in FSWViterbi.getMatched_sjtp()) {
-            printPoint(c.point);
-        }
-*/
     }
 
     fun printPoint(point: Point, COLOR: Int) {

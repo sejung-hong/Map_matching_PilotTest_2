@@ -13,8 +13,6 @@ public class Transition {
         double routeDistance;
         //Point a,b는 링크 안에서의 point
 
-        //같은 링크인지 어떻게 판단하지? -> 링크로 매칭할때 문제 없음
-
         //a,b가 같은 링크일 때 유클리드 거리
         if (pre_matching.getInvolvedLink() == cand.getInvolvedLink())
             routeDistance = Calculation.calDistance(pre_matching.getPoint(), cand.getPoint());
@@ -29,10 +27,8 @@ public class Transition {
             }
             //case 2: a,b가 다른 링크이고 두 링크가 맞닿아 있지 않을때
             else {
-
                 routeDistance = -1;// false 갈 수 없음, 후보 탈락
             }
-
         }
         return routeDistance;
     }//경로상의 거리 구하기

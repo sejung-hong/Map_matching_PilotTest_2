@@ -177,7 +177,7 @@ public class Candidate {
                 GeoPoint tm_vector = new GeoPoint(vectorH.getX(), vectorH.getY());
                 GeoPoint geo_vector = GeoTrans.convert(GeoTrans.TM, GeoTrans.GEO, tm_vector);
 
-                Point candiPoint = new Point(geo_vector.getX(), geo_vector.getY());
+                Point candiPoint = new Point(geo_vector.getX(), geo_vector.getY()); 
                 candiPoint.setLinkID(roadNetwork.linkArrayList.get(i).getLinkID());
                 candidate.setPoint(candiPoint); //수선의 발 vector의 x와 y값을 candidate의 point로 대입
                 GeoPoint candiPtGeo = new GeoPoint (candiPoint.getX(), candiPoint.getY());

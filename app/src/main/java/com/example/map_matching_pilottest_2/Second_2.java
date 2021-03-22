@@ -5,13 +5,18 @@ import java.util.ArrayList;
 public class Second_2 {
     public static void Second_2(ArrayList<GPSPoint> gpsPointArrayList, int timestamp){
 
+        if(timestamp == 1 || timestamp == 2)
+            return;
+
+        timestamp = timestamp -1; //편하게 보기 위해, timestamp = 0이면 gps가 하나 존재
+
         //gps값 tm좌표로 변경
-        double X_later2 = gpsPointArrayList.get(timestamp+2).getX();
-        double Y_later2 = gpsPointArrayList.get(timestamp+2).getY(); // 2초 후 GPS
-        double X_later1 = gpsPointArrayList.get(timestamp+1).getX();
-        double Y_later1 = gpsPointArrayList.get(timestamp+1).getY(); // 1초 후 GPS
-        double X_later0 = gpsPointArrayList.get(timestamp).getX();
-        double Y_later0 = gpsPointArrayList.get(timestamp).getY(); // 0초 후 GPS, 현재 GPS
+        double X_later2 = gpsPointArrayList.get(timestamp).getX();
+        double Y_later2 = gpsPointArrayList.get(timestamp).getY(); // 0초 전 GPS, 현재 GPS
+        double X_later1 = gpsPointArrayList.get(timestamp-1).getX();
+        double Y_later1 = gpsPointArrayList.get(timestamp-1).getY(); // 1초 전 GPS
+        double X_later0 = gpsPointArrayList.get(timestamp-2).getX();
+        double Y_later0 = gpsPointArrayList.get(timestamp-2).getY(); // 2초 전 GPS
 
         GeoPoint later2_geo = new GeoPoint(X_later2, Y_later2);
         GeoPoint GPS_later2 = GeoTrans.convert(GeoTrans.GEO, GeoTrans.TM, later2_geo);
@@ -23,7 +28,7 @@ public class Second_2 {
         //GPS_later1이 가운데 점
         float degree = getAngleFromThreePoints(GPS_later2,GPS_later1,GPS_later0);
         System.out.println(degree); //각도 출력
-
+        //return 1-(degree/180);
     }
 
     public static float getAngleFromThreePoints(GeoPoint p1, GeoPoint p2, GeoPoint p3){
