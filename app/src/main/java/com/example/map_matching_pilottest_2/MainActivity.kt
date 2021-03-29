@@ -331,32 +331,52 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             }
             //////////////////////////처음 부분 3번 끝////////////////////////////////////////
 
-
-
+            //비터비 시작//
             if (subGPSs.size == wSize) {
-                println("===== VITERBI start ====")
-                println("----- yhtp ------")
-                FSWViterbi.generateMatched(
-                    tp_matrix,
-                    wSize,
-                    arrOfCandidates,
-                    gpsPointArrayList, /* subRPA, subGPSs,*/
-                    transition,
-                    timestamp,
-                    roadNetwork,
-                    "yh",
-                )
-                println("----- sjtp ------")
-                FSWViterbi.generateMatched(
-                    tp_matrix,
-                    wSize,
-                    arrOfCandidates,
-                    gpsPointArrayList, /* subRPA, subGPSs, */
-                    transition,
-                    timestamp,
-                    roadNetwork,
-                    "sj",
-                )
+
+                //갈림길 확인
+                var matching_size = FSWViterbi.getMatched_sjtp().size
+                if (Crossroad.different_Link(
+                        roadNetwork,
+                        FSWViterbi.getMatched_sjtp()[matching_size - 1],
+                        FSWViterbi.getMatched_sjtp()[matching_size - 2]
+                    ) == 1
+                ) {
+                    System.out.println("갈림길" + matching_size) //갈림길 출력
+                    Crossroad.different_link_matching(
+                        roadNetwork,
+                        FSWViterbi.getMatched_sjtp()[matching_size - 1],
+                        FSWViterbi.getMatched_sjtp()[matching_size - 2]
+                    ) //갈림길 가운데 노드로 매칭
+                    FSWViterbi.getMatched_sjtp().removeAt(FSWViterbi.getMatched_sjtp().size - 2) //다른 링크로 매칭 x
+                    //갈림길 알고리즘 시작
+                    Crossroad.future_gps(roadNetwork, gpsPointArrayList, arrOfCandidates)
+                }
+                else {
+                    println("===== VITERBI start ====")
+                    println("----- yhtp ------")
+                    FSWViterbi.generateMatched(
+                        tp_matrix,
+                        wSize,
+                        arrOfCandidates,
+                        gpsPointArrayList, /* subRPA, subGPSs,*/
+                        transition,
+                        timestamp,
+                        roadNetwork,
+                        "yh",
+                    )
+                    println("----- sjtp ------")
+                    FSWViterbi.generateMatched(
+                        tp_matrix,
+                        wSize,
+                        arrOfCandidates,
+                        gpsPointArrayList, /* subRPA, subGPSs, */
+                        transition,
+                        timestamp,
+                        roadNetwork,
+                        "sj",
+                    )
+                }
                 subGPSs.clear()
                 arrOfCandidates.clear()
                 //subRPA.clear(); // 비터비 내부 보려면 이것도 주석 해제해야!
@@ -365,14 +385,8 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                 //subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
 
                 println("===== VITERBI end ====")
-
-                //갈림길 확인인
-               if(Crossroad.different_Link(roadNetwork, FSWViterbi.getMatched_sjtp()[FSWViterbi.getMatched_sjtp().size-1] ,FSWViterbi.getMatched_sjtp()[FSWViterbi.getMatched_sjtp().size-2]) == 1) {
-
-                }
-
-
             }
+            //비터비 끝//
         ///////////////////////////////////////
 
 
