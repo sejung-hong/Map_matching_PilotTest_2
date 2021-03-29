@@ -147,8 +147,7 @@ public class FSWViterbi {
                 if (i != subpath.length - 1)
                     System.out.print(" ㅡ ");
             }
-            System.out.println();
-            t++;
+            System.out.println();t++;
         }
     }
 
@@ -171,7 +170,7 @@ public class FSWViterbi {
                 correctness ++ ;
             }
             total ++;
-            i++;
+            //i++;
         }
         if (tp_mode.equals ("yh")) {
             correctness_yhtp = 100*(correctness/total);
