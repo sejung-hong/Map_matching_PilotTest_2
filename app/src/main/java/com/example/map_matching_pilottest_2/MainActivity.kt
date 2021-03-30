@@ -170,8 +170,10 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
 
         val dir = filesDir.absolutePath //파일절대경로
         val fileIO = FileIO(dir)
+
         // 파일에서 읽어와 도로네트워크 생성
         val roadNetwork = fileIO.generateRoadNetwork()
+        // roadNetwork.printRoadNetwork(); // POI 잘 읽은 것 확인 완료!
 
         ///////////// Transition probability matrix 구하기 (yh_tp)////////////////
         val n = roadNetwork.linksSize

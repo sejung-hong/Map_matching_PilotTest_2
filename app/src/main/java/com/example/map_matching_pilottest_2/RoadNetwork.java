@@ -131,6 +131,16 @@ public class RoadNetwork {
         return involvingPointList;
     }
 
+    void printRoadNetwork() {
 
+        System.out.println("[RoadNetwork] print roadNetwork\n----node----");
+        for (Node node: nodeArrayList) {
+            System.out.println(node);
+        }
+        System.out.println("----link----");
+        for (Link link: linkArrayList) {
+            System.out.println(link);
+        }
+    }
 
 }
