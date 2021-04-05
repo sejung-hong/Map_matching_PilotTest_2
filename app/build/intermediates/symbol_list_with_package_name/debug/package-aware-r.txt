@@ -1127,6 +1127,8 @@ id graph_wrap
 id group_divider
 id grouping
 id groups
+id guidanceButton
+id guidanceLinearLayout
 id guidanceTextView
 id home
 id homeAsUp

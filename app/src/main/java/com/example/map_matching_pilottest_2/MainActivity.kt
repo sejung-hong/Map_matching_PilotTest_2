@@ -3,11 +3,13 @@ package com.example.map_matching_pilottest_2
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.Color
+import android.graphics.PointF
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.util.Pair
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.UiThread
 import androidx.core.app.ActivityCompat
@@ -166,7 +168,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
     fun main() {
         System.out.println("===== [YSY] Map-matching PilotTest 2 =====")
 
-        val testNo = 1 // 여기만 바꿔주면 됨 (PilotTest 2는 data 1만 존재)
+        val testNo = 3 // 여기만 바꿔주면 됨 (PilotTest 2는 data 1만 존재)
 
         val dir = filesDir.absolutePath //파일절대경로
         val fileIO = FileIO(dir)
@@ -390,6 +392,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             printMatched(FSWViterbi.getMatched_yhtp(), Color.BLUE, 50) // 윤혜 매칭: 파란색
         }
 
+        // 경로안내 출력
         var guidance =""
         var ArrOfGuidance : ArrayList<Guidance>  = TBTLogic.returnArrOfGuidance(roadNetwork.getRouteNodeArrayList())
         guidance += "[출발]  " + roadNetwork.getRouteNodeArrayList().get(0).name + "\n"
@@ -402,6 +405,13 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         }
         guidance += "[도착]  " + roadNetwork.getRouteNodeArrayList().get(roadNetwork.getRouteNodeArrayList().size-1).name
         guidanceTextView.setText(guidance);
+
+        // 버튼을 누르면 안내 보이기!
+        guidanceButton.setOnClickListener{
+            guidanceLinearLayout.visibility = View.VISIBLE
+            printPOINodes(roadNetwork)
+        }
+
 
         /*var i: Int = 0;
         *//*for (c in FSWViterbi.getMatched_sjtp()) {
@@ -531,5 +541,25 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         //카메라 이동
     }
 
+    fun printPOINodes(roadNetwork: RoadNetwork) {
+        var i = 0;
+        for (node in roadNetwork.getRouteNodeArrayList()) {
+            val marker = Marker() //좌표
+            marker.position = LatLng(
+                node.coordinate.y,
+                node.coordinate.x
+            ) //node 좌표 출력
+            marker.icon = MarkerIcons.BLACK //색을 선명하게 하기 위해 해줌
+            marker.iconTintColor = Color.BLACK //색 덧입히기
+            marker.width = 30
+            marker.height = 50
+            // 마커가 너무 커서 크기 지정해줌
+            marker.map = naverMap //navermap에 출력
+            if (i == 0) marker.captionText="출발"
+            else if(i == roadNetwork.getRouteNodeArrayList().size - 1) marker.captionText="도착"
+            else marker.captionText=""+ i;
+            i++
+        }
+    }
 
 }
