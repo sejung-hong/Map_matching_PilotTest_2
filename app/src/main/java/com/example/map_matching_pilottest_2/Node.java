@@ -6,6 +6,15 @@ import java.util.ArrayList;
 public class Node {
     private int nodeID; // nodeID
     private Point coordinate; // Node의 좌표
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     // POI 데이터
     private String name; // 대륙명-장소명
     private int location_num; // 대륙번호 (1:아시아 2:아프리카 3:북미 4:남미 5:유럽)

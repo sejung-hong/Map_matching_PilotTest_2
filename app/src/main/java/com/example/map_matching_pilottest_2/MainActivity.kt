@@ -390,6 +390,19 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             printMatched(FSWViterbi.getMatched_yhtp(), Color.BLUE, 50) // 윤혜 매칭: 파란색
         }
 
+        var guidance =""
+        var ArrOfGuidance : ArrayList<Guidance>  = TBTLogic.returnArrOfGuidance(roadNetwork.getRouteNodeArrayList())
+        guidance += "[출발]  " + roadNetwork.getRouteNodeArrayList().get(0).name + "\n"
+        var index = 1;
+        for (g in ArrOfGuidance) {
+            guidance += "[" + index + "] "
+            guidance += g.sentence
+            guidance += "\n"
+            index++
+        }
+        guidance += "[도착]  " + roadNetwork.getRouteNodeArrayList().get(roadNetwork.getRouteNodeArrayList().size-1).name
+        guidanceTextView.setText(guidance);
+
         /*var i: Int = 0;
         *//*for (c in FSWViterbi.getMatched_sjtp()) {
             println("$i] matched: $c")

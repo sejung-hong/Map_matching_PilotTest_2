@@ -16,7 +16,7 @@ public class RoadNetwork {
     protected ArrayList<Link> linkArrayList = new ArrayList<>();
 
     protected ArrayList<Point> routePointArrayList = new ArrayList<>();
-
+    protected ArrayList<Node> routeNodeArrayList = new ArrayList<>();
     // _nodeID를 nodeID로 가지는 node반환
     public Node getNode (int _nodeID) {
         for (Node currNode : nodeArrayList) {
@@ -85,6 +85,7 @@ public class RoadNetwork {
         if(testNo == 1){
             int[] routeNodes = { 0, 10, 7, 9, 15, 14/*, 27, 50, 48, 40, 47, 46, 45, 58 */};
             for (int i=0; i<routeNodes.length-1; i++) {
+                routeNodeArrayList.add(getNode(routeNodes[i])); /// 새로 추가!
                 Link routelink = getLink(routeNodes[i], routeNodes[i+1]); //두 노드를 끝으로 하는 링크 반환
                 routePoints.addAll(getInvolvingPointList(getNode(routeNodes[i]).getCoordinate(),
                         getNode(routeNodes[i+1]).getCoordinate(), routelink.getWeight()));
@@ -93,6 +94,33 @@ public class RoadNetwork {
                 routePoints.addAll(getInvolvingPointList(getNode(routelink.getStartNodeID()).getCoordinate(),
                         getNode(routelink.getEndNodeID()).getCoordinate()));*/
             }
+            routeNodeArrayList.add(getNode(routeNodes[routeNodes.length-1])); // 새로추가!
+        } else if(testNo == 2){
+            int[] routeNodes = { 1, 2, 3, 4, 65 };
+            for (int i=0; i<routeNodes.length-1; i++) {
+                Link routelink = getLink(routeNodes[i], routeNodes[i+1]); //두 노드를 끝으로 하는 링크 반환
+                routePoints.addAll(getInvolvingPointList(getNode(routeNodes[i]).getCoordinate(),
+                        getNode(routeNodes[i+1]).getCoordinate(), routelink.getWeight()));
+
+                /*
+                routePoints.addAll(getInvolvingPointList(getNode(routelink.getStartNodeID()).getCoordinate(),
+                        getNode(routelink.getEndNodeID()).getCoordinate()));*/
+            }
+
+            routeNodeArrayList.add(getNode(routeNodes[routeNodes.length-1])); // 새로 추가!
+        } else if(testNo == 3){
+            int[] routeNodes = { 57, 56, 46, 47, 40, 73 };
+            for (int i=0; i<routeNodes.length-1; i++) {
+                routeNodeArrayList.add(getNode(routeNodes[i])); ////새로추가!
+                Link routelink = getLink(routeNodes[i], routeNodes[i+1]); //두 노드를 끝으로 하는 링크 반환
+                routePoints.addAll(getInvolvingPointList(getNode(routeNodes[i]).getCoordinate(),
+                        getNode(routeNodes[i+1]).getCoordinate(), routelink.getWeight()));
+
+                /*
+                routePoints.addAll(getInvolvingPointList(getNode(routelink.getStartNodeID()).getCoordinate(),
+                        getNode(routelink.getEndNodeID()).getCoordinate()));*/
+            }
+            routeNodeArrayList.add(getNode(routeNodes[routeNodes.length-1])); // 새로 추가!
         }
         routePointArrayList = routePoints;
         return routePoints;
@@ -143,4 +171,7 @@ public class RoadNetwork {
         }
     }
 
+    public ArrayList<Node> getRouteNodeArrayList() {
+        return routeNodeArrayList;
+    }
 }
