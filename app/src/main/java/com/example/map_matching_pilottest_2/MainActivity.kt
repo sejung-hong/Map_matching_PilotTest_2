@@ -22,6 +22,8 @@ import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.MarkerIcons
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.File
+import java.io.FileReader
 
 
 class MainActivity : FragmentActivity(), OnMapReadyCallback {
@@ -235,10 +237,11 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         //ArrayList<Point> subRPA = new ArrayList<>(); // 비터비 내부 보려면 이것도 주석 해제해야! (subRoadPointArrayList)
         // GPSPoints 생성
         var timestamp = 0
+        var viterbifirst = true
 
         // 1: 원래 하던대로 (표준편차 4)  | 2: x혹은 y좌표만 uniform하게(hor, ver, dia에 따라서)
         // 3: x, y 모두 uniform하게     | 4: 교수님이 말한 평균 4 방식
-        val gpsGenMode = 2
+        val gpsGenMode = 6
         println("Fixed Sliding Window Viterbi (window size: 3)")
         for (i in routePointArrayList.indices step (5)) {
             var point: Point = routePointArrayList.get(i)
@@ -254,7 +257,9 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                 point,
                 gpsGenMode,
                 3,
-                roadNetwork.getLink(point.linkID).itLooksLike
+                roadNetwork.getLink(point.linkID).itLooksLike,
+                null,
+                dir
             )
             printPoint(gpsPoint.point, Color.RED) // 생성된 GPS출력(빨간색)
 
@@ -316,11 +321,19 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                 FSWViterbi.setMatched_sjtp(max_last_candi) //가장 ep가 높은 candidate 매칭
 
                 var tp = 0.0;
-                tp = Transition.Transition_pro(subGPSs[timestamp-2].point, subGPSs[timestamp-1].point, FSWViterbi.getMatched_sjtp().get(timestamp-2), FSWViterbi.getMatched_sjtp().get(timestamp-1), roadNetwork)
-                FSWViterbi.getMatched_sjtp().get(timestamp-2).setTp(tp)
+                tp = Transition.Transition_pro(
+                    subGPSs[timestamp - 2].point,
+                    subGPSs[timestamp - 1].point,
+                    FSWViterbi.getMatched_sjtp().get(
+                        timestamp - 2
+                    ),
+                    FSWViterbi.getMatched_sjtp().get(timestamp - 1),
+                    roadNetwork
+                )
+                FSWViterbi.getMatched_sjtp().get(timestamp - 2).setTp(tp)
 
                 Emission.Emission_Median(FSWViterbi.getMatched_sjtp().get(timestamp - 1)) //매칭된 candidate의 median값 저장
-                Transition.Transition_Median(FSWViterbi.getMatched_sjtp().get(timestamp-2)) //매칭된 candidate와 그 전 매칭된 tp의 median값 저장
+                Transition.Transition_Median(FSWViterbi.getMatched_sjtp().get(timestamp - 2)) //매칭된 candidate와 그 전 매칭된 tp의 median값 저장
 
                 if(timestamp ==3) {
                     subGPSs.clear()
@@ -343,6 +356,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                         timestamp,
                         roadNetwork,
                         "yh",
+                        viterbifirst
                     )
                     println("----- sjtp ------")
                     FSWViterbi.generateMatched(
@@ -356,6 +370,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                         timestamp,
                         roadNetwork,
                         "sj",
+                        viterbifirst
                     )
                     arrOfCandidates.clear()
                     arrOfCandidates.addAll(remainCandidate)
@@ -363,11 +378,22 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                     //subRPA.clear(); // 비터비 내부 보려면 이것도 주석 해제해야!
                     //subRPA.add(point); // 비터비 내부 보려면 이것도 주석 해제해야!
 
+                    // arrOfCandidates를 순회하며 찾은 path의 마지막을 matching_success에 추가하는 loop
+                    // t는 timestamp를 의미
+                    // subpath 생성 및 matched arraylist에 저장
+                    // 현재 candidates와 다음 candidates로 가는 t.p와 e.p곱 중 최대 값을 가지는 curr와 그 index를 maximum_tpep[현재]에 저장
+                    print("유림 : 메인 윈도우\n")
+                    for (y in arrOfCandidates.indices) {
+                        print("[Window Number : $y]\n")
+                        for (r in arrOfCandidates[y].indices) print(arrOfCandidates[y][r].toStringyr())
+                    }
+
                     println("===== VITERBI end ====")
                 }
                 ///////////////////////////////////////
             }
         }
+        //fileReaderGPS.close()
         // yhtp 이용해서 구한 subpath 출력
         //FSWViterbi.printSubpath(wSize, "yh")
 

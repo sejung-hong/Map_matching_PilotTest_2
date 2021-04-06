@@ -30,17 +30,32 @@ public class FSWViterbi {
     // gps 받아올때마다 FSW비터비로 매칭하는 메서드 -윤혜tp
     public static ArrayList<Candidate> generateMatched(double[][] tp_matrix ,int wSize,int wNext, ArrayList<ArrayList<Candidate>> arrOfCandidates,
                                                        ArrayList<GPSPoint> gpsPointArrayList, Transition transition,
-                                                       ArrayList<ArrayList<Candidate>> remainCandidate ,int timeStamp, RoadNetwork roadNetwork, String tp_type) {
+                                                       ArrayList<ArrayList<Candidate>> remainCandidate ,int timeStamp, RoadNetwork roadNetwork,
+                                                       String tp_type, boolean viterbifirst) {
         // arrOfCandidates를 순회하며 찾은 path의 마지막을 matching_success에 추가하는 loop
         // t는 timestamp를 의미
         // subpath 생성 및 matched arraylist에 저장
         // 현재 candidates와 다음 candidates로 가는 t.p와 e.p곱 중 최대 값을 가지는 curr와 그 index를 maximum_tpep[현재]에 저장
 
-        double alpha = 0.3;
+        /*
+        Vector2D test1 = new Vector2D(2,2);
+        Vector2D test2 = new Vector2D(4,2);
+        Vector2D test3 = new Vector2D(2,5);
+        Vector2D test4 = new Vector2D(-4,3);
+        System.out.print("유림:test결과\n");
+        System.out.print("restult1: "+test1.getAngle(test2)+"\n");
+        System.out.print("restult2: "+test3.getAngle(test2)+"\n");
+        System.out.print("restult3: "+test4.getAngle(test2)+"\n");
+*/
+
+        double alpha = 0.5;
         double maximum_prob = 0;
         Candidate[] subpath = new Candidate[wSize-wNext]; // path의 길이를 도출할 길이로 설정
         //System.out.println("yhtp debugging");
-        for (int i = 2; i < wSize - 1; i++) { // i moves in window
+        int i=1;
+        if(viterbifirst) i=0;
+        viterbifirst=false;
+        for (; i < wSize-1 ; i++) { // i moves in window
             ArrayList<Candidate> curr_candidates = arrOfCandidates.get(i);
             ArrayList<Candidate> next_candidates = arrOfCandidates.get(i+1);
             //System.out.println("☆origin point:" + subRPA.get(i+1));// 테스트 하려면 메서드 인자에 subGPSs추가해야함
@@ -52,14 +67,22 @@ public class FSWViterbi {
                 System.out.println("  nc: " + nc.getPoint() + "/ ep: " + nc.getEp());
                 // 현재 candidate를 하나씩 순회하며
                 for (Candidate cc : curr_candidates) {
+                    GeoPoint in_pt = new GeoPoint(nc.getPoint().getX(), nc.getPoint().getY());
+                    GeoPoint gps_t = GeoTrans.convert(GeoTrans.GEO, GeoTrans.TM, in_pt);
+                    Vector2D gps_v = new Vector2D(gps_t.getX(),gps_t.getY());
+                    in_pt = new GeoPoint(cc.getPoint().getX(), cc.getPoint().getY());
+                    GeoPoint cc_t = GeoTrans.convert(GeoTrans.GEO, GeoTrans.TM, in_pt);
+                    Vector2D cc_v = new Vector2D(cc_t.getX(),cc_t.getY());
+                    cc.setVector(Vector2D.subtract(gps_v,cc_v));
                     double tp;
                     if (tp_type.equals("yh")) {
                         tp = tp_matrix[cc.getInvolvedLink().getLinkID()][nc.getInvolvedLink().getLinkID()];
-                        //cc.setTp(tp); //tp 저장 cc -> nc로 이동할 확률을 cc에 저장 // 굳이 tp 저장할 필요 없음.
+                        cc.setTp(tp); //tp 저장 cc -> nc로 이동할 확률을 cc에 저장 // 굳이 tp 저장할 필요 없음.
                     } else {
                         //System.out.println("[FSWViterbi] cc:" + cc);
                         tp = Transition.Transition_pro(gpsPointArrayList.get(timeStamp-1).getPoint(), gpsPointArrayList.get(timeStamp-3).getPoint(), cc, nc, roadNetwork);
                         //tp = cc.getTp();
+                        cc.setTp(tp);
                     }
                     //cc.setTp(tp); //tp 저장 cc -> nc로 이동할 확률을 cc에 저장 // 굳이 tp 저장할 필요 없음.
                     //cc.setEp(Emission.Emission_pro(cc, gpsPointArrayList.get(timeStamp-2).getPoint(), nc.getPoint(), timeStamp));
@@ -90,6 +113,13 @@ public class FSWViterbi {
                 }
             }
         }
+        System.out.print("유림 : 윈도우\n");
+        for(int y = 0; y<arrOfCandidates.size();y++){
+            System.out.print("[Window Number : "+y+"]\n");
+            for(int r = 0; r<arrOfCandidates.get(y).size();r++)
+                System.out.print(arrOfCandidates.get(y).get(r).toStringyr());
+        }
+
         /* 각도 계산해서 넣는 부분 */
         GeoPoint in_pt = new GeoPoint(gpsPointArrayList.get(timeStamp-2).getX(), gpsPointArrayList.get(timeStamp-2).getY());
         GeoPoint start_t = GeoTrans.convert(GeoTrans.GEO, GeoTrans.TM, in_pt);
@@ -100,19 +130,24 @@ public class FSWViterbi {
         //마지막 두 벡터를 더해서 구한 벡터 = cal_v -> 이 친구와 전 값들을 비교!
         Vector2D cal_v = Vector2D.add(start_v,end_v);
 
-        for(int j=0;j<wSize-2;j++){//앞의 3개의 window의 candidate들만 벡터값 누적해서 acc 계산
+
+        System.out.print("유림 : 벡터누적\n");
+        for(int j=0;j<wSize-wNext;j++){//앞의 3개의 window의 candidate들만 벡터값 누적해서 acc 계산
+            System.out.print("유림 : 벡터누적 윈도우"+j+"\n");
             for(Candidate c : arrOfCandidates.get(j)){
-                c.setAcc_prob((1-alpha)*(1/(cal_v.getAngle(new Vector2D(c.getPoint().getX(),c.getPoint().getY()))))
+                System.out.print("TP*EP: " + c.getAcc_prob()+"\n");
+                c.setAcc_prob((1-alpha)*(1/(cal_v.getAngle(c.getVector())))
                         +alpha*c.getAcc_prob());
-                System.out.print("유림 부분\n"+c.toStringyr()+"\n");
                 //(1/(c.getangle & vectorA 차이))의 이유는 각도 차이가 작을 수록 더 확률이 높아야 하기 때문!
+                System.out.print("각도: " + (1/(cal_v.getAngle(c.getVector())))+"\n");
+                System.out.print(c.toStringyr());
             }
         }
 
         // (wSize - wNext)번째 candidates 중 acc_prob가 가장 높은 것 max_last_candi에 저장
         Candidate max_last_candi = new Candidate();
         double max_prob = 0;
-        for (Candidate candidate : arrOfCandidates.get(wSize - wNext -1)) {
+        for (Candidate candidate : arrOfCandidates.get(wSize - wNext)) {
             if (max_prob < candidate.getAcc_prob()) {
                 max_prob = candidate.getAcc_prob();
                 max_last_candi = candidate;
@@ -120,7 +155,7 @@ public class FSWViterbi {
         }
         // max_last_candi를 시작으로 back tracing하여 subpath구하기
         //System.out.println("")
-        Candidate tempCandi = arrOfCandidates.get(wSize - wNext -2).get(max_last_candi.getPrev_index());
+        Candidate tempCandi = arrOfCandidates.get(wSize - wNext -1).get(max_last_candi.getPrev_index());
         subpath[subpath.length - 1] = tempCandi;
         //int i = subpath.length - 1;
         for (int j = subpath.length - 2; j >= 0; j--) {
@@ -154,6 +189,13 @@ public class FSWViterbi {
         remainCandidate.clear();
         remainCandidate.add(arrOfCandidates.get(wSize-2));
         remainCandidate.add(arrOfCandidates.get(wSize-1));
+        System.out.print("유림 : 리메인\n");
+        for(int y = 0; y<remainCandidate.size();y++){
+            System.out.print("[Number : "+y+"]\n");
+            for(int r=0;r<remainCandidate.get(y).size();r++){
+                System.out.print(remainCandidate.get(y).get(r).toStringyr());
+            }
+        }
         return subpathArrayList;
     }
     // subpath출력 메서드 (테스트용) -윤혜tp

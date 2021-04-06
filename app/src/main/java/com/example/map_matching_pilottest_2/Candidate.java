@@ -129,11 +129,11 @@ public class Candidate {
 
     @Override
     public String toString() {
-        return "point: "+ point + "  involvedLink: " + involvedLink + " tp/ep/tpep: "+tp+"/"+ep+"/"+tpep;//+"\n";
+        return "point: "+ point + "  involvedLink: " + involvedLink + " tp/ep/acc: "+tp+"/"+ep+"/"+acc_prob;//+"\n";
     }
 
     public String toStringyr() {
-        return "point: "+ point + " Acc: "+getAcc_prob()+"\n";
+        return "point: "+ point + " Acc: "+getAcc_prob()+" tp: "+getTp()+" ep: "+getEp()+" vector: "+getVector()+"\n";
     }
 
     public String toStringOnlyPoint() {
@@ -193,9 +193,7 @@ public class Candidate {
                 if (Calculation.calDistance(center.getY(), center.getX(), candiPtGeo.getY(), candiPtGeo.getX()) > Radius)  {
                     continue;
                 }
-                //System.out.println("  -> 내리기 성공!");
                 resultCandidate.add(candidate);
-//////////////////////////////////////////
                 //candidate마다 ep, tp 구하기
                 candidate.setEp(emission.Emission_pro(candidate, center, candidate.getPoint(), timestamp)); //ep구하기
                 // caculation에서 계산하지 않고 emision 클래스로 바로 이동
