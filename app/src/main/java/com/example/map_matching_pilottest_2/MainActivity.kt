@@ -168,7 +168,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
     fun main() {
         System.out.println("===== [YSY] Map-matching PilotTest 2 =====")
 
-        val testNo = 3 // 여기만 바꿔주면 됨 (PilotTest 2는 data 1만 존재)
+        val testNo = 1 // 여기만 바꿔주면 됨 (PilotTest 2는 data 1만 존재)
 
         val dir = filesDir.absolutePath //파일절대경로
         val fileIO = FileIO(dir)
