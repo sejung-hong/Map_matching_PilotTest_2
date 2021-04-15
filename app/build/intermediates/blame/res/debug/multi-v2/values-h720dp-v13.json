@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\sejung\\Desktop\\android\\pilottest2-navermap\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-h720dp-v13\\values-h720dp-v13.xml",
+            "outputFile": "C:\\Users\\dbsgp\\AndroidStudioProjects\\Map_matching_PilotTest_2\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-h720dp-v13\\values-h720dp-v13.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\sejung\\.gradle\\caches\\transforms-2\\files-2.1\\b9bf55ac491f79be4ecc3bf1bdb94334\\appcompat-1.2.0\\res\\values-h720dp-v13\\values-h720dp-v13.xml",
+                    "source": "C:\\Users\\dbsgp\\.gradle\\caches\\transforms-2\\files-2.1\\b9bf55ac491f79be4ecc3bf1bdb94334\\appcompat-1.2.0\\res\\values-h720dp-v13\\values-h720dp-v13.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

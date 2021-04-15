@@ -925,7 +925,6 @@ drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
 drawable ic_launcher_background
 drawable ic_launcher_foreground
-drawable icon_arrow
 drawable navermap_compass
 drawable navermap_default_background_dark
 drawable navermap_default_background_light
@@ -1128,6 +1127,9 @@ id graph_wrap
 id group_divider
 id grouping
 id groups
+id guidanceButton
+id guidanceLinearLayout
+id guidanceTextView
 id home
 id homeAsUp
 id honorRequest

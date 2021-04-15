@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\sejung\\Desktop\\android\\pilottest2-navermap\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v16\\values-v16.xml",
+            "outputFile": "C:\\Users\\dbsgp\\AndroidStudioProjects\\Map_matching_PilotTest_2\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v16\\values-v16.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\sejung\\.gradle\\caches\\transforms-2\\files-2.1\\176918aa7cebac1b3b039d47a35bea2a\\core-1.3.2\\res\\values-v16\\values-v16.xml",
+                    "source": "C:\\Users\\dbsgp\\.gradle\\caches\\transforms-2\\files-2.1\\176918aa7cebac1b3b039d47a35bea2a\\core-1.3.2\\res\\values-v16\\values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\sejung\\.gradle\\caches\\transforms-2\\files-2.1\\b9bf55ac491f79be4ecc3bf1bdb94334\\appcompat-1.2.0\\res\\values-v16\\values-v16.xml",
+                    "source": "C:\\Users\\dbsgp\\.gradle\\caches\\transforms-2\\files-2.1\\b9bf55ac491f79be4ecc3bf1bdb94334\\appcompat-1.2.0\\res\\values-v16\\values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

@@ -64,7 +64,7 @@ public class FileIO {
             String line = bufferedReader1.readLine();
             String[] lineArray = line.split("\t");
             Point coordinate = new Point(lineArray[2], lineArray[1]);// 위도(y), 경도(x) 순서로 저장되어있으므로 순서 바꿈!
-            Node node = new Node(lineArray[0], coordinate); // 노드생성
+            Node node = new Node(lineArray[0], coordinate, lineArray[4], lineArray[3]); // 노드생성
             roadNetwork.nodeArrayList.add(node); // nodeArrayList에 생성한 노드 추가
             //System.out.println(node); //node 정보 출력
         }

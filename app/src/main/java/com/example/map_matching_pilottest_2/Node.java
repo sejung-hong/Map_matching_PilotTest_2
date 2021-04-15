@@ -6,11 +6,26 @@ import java.util.ArrayList;
 public class Node {
     private int nodeID; // nodeID
     private Point coordinate; // Node의 좌표
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    // POI 데이터
+    private String name; // 대륙명-장소명
+    private int location_num; // 대륙번호 (1:아시아 2:아프리카 3:북미 4:남미 5:유럽)
+
     //////생성자, getter, setter, toString//////
-    // ID를 String형으로 받는 Node 생성자
-    public Node (String nodeID, Point coordinate) {
+    // ID를 String형으로 받는 Node 생성자/// 수정!! 인자에 name, location_num 추가
+    public Node (String nodeID, Point coordinate, String name, String location_num) {
         this.nodeID = Integer.parseInt(nodeID);
         this.coordinate = coordinate;
+        this.name = name;
+        this.location_num = Integer.parseInt(location_num);
     }
 
     // ID를 int형으로 받는 Node 생성자
@@ -38,7 +53,7 @@ public class Node {
 
     public String toString() {
         return "[" + nodeID + "]\t" + "(" +coordinate.getX().toString() +", "
-                + coordinate.getY().toString()+")";
+                + coordinate.getY().toString()+")\t" + name;
     }
     //////////////////////////////////////////////
 
