@@ -122,8 +122,23 @@ public class RoadNetwork {
                         getNode(routelink.getEndNodeID()).getCoordinate()));*/
             }
             routeNodeArrayList.add(getNode(routeNodes[routeNodes.length-1])); // 새로 추가!
+        } else if(testNo == 4){
+            int[] routeNodes = { 31, 30, 29, 28, 27, 75, 59, 60, 61};
+            for (int i=0; i<routeNodes.length-1; i++) {
+                routeNodeArrayList.add(getNode(routeNodes[i])); /// 새로 추가!
+                Link routelink = getLink(routeNodes[i], routeNodes[i+1]); //두 노드를 끝으로 하는 링크 반환
+                routePoints.addAll(getInvolvingPointList(getNode(routeNodes[i]).getCoordinate(),
+                        getNode(routeNodes[i+1]).getCoordinate(), routelink.getWeight()));
+
+                /*
+                routePoints.addAll(getInvolvingPointList(getNode(routelink.getStartNodeID()).getCoordinate(),
+                        getNode(routelink.getEndNodeID()).getCoordinate()));*/
+            }
+
+            routeNodeArrayList.add(getNode(routeNodes[routeNodes.length-1])); // 새로 추가!
         }
         routePointArrayList = routePoints;
+
         return routePoints;
     }
 
