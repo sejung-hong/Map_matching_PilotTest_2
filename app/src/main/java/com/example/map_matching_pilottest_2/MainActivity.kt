@@ -168,7 +168,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
     fun main() {
         System.out.println("===== [YSY] Map-matching PilotTest 2 =====")
 
-        val testNo = 1 // 여기만 바꿔주면 됨 (PilotTest 2는 data 1만 존재)
+        val testNo = 4 // 여기만 바꿔주면 됨 (PilotTest 2는 data 1만 존재)
 
         val dir = filesDir.absolutePath //파일절대경로
         val fileIO = FileIO(dir)
@@ -394,22 +394,36 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
 
         // 경로안내 출력
         var guidance =""
-        var ArrOfGuidance : ArrayList<Guidance>  = TBTLogic.returnArrOfGuidance(roadNetwork.getRouteNodeArrayList())
-        guidance += "[출발]  " + roadNetwork.getRouteNodeArrayList().get(0).name + "\n"
+        var ArrOfGuidance : ArrayList<Guidance>  = TBTLogic.returnFinalGuidances(roadNetwork.getRouteNodeArrayList())
+
         var index = 1;
         for (g in ArrOfGuidance) {
-            guidance += "[" + index + "] "
-            guidance += g.sentence
+            if (g.direction == -1) {
+                guidance += "[" + g.sentence + "] "
+                guidance += roadNetwork.getNode(g.nodeID).name
+            }
+            else {
+                guidance += "[" + index + "] "
+                guidance += g.sentence
+                index++
+            }
             guidance += "\n"
-            index++
+
         }
-        guidance += "[도착]  " + roadNetwork.getRouteNodeArrayList().get(roadNetwork.getRouteNodeArrayList().size-1).name
+
         guidanceTextView.setText(guidance);
+
+        var nodeIDs : ArrayList <Int> = ArrayList()
+        for (g in ArrOfGuidance) {
+            nodeIDs.add(g.nodeID)
+        }
+
 
         // 버튼을 누르면 안내 보이기!
         guidanceButton.setOnClickListener{
             guidanceLinearLayout.visibility = View.VISIBLE
-            printPOINodes(roadNetwork)
+
+            printNodes(ArrOfGuidance, roadNetwork)
         }
 
 
@@ -541,10 +555,11 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         //카메라 이동
     }
 
-    fun printPOINodes(roadNetwork: RoadNetwork) {
+    fun printNodes(guidances: ArrayList<Guidance>, roadNetwork: RoadNetwork) {
         var i = 0;
-        for (node in roadNetwork.getRouteNodeArrayList()) {
+        for (g in guidances) {
             val marker = Marker() //좌표
+            var node = roadNetwork.getNode(g.nodeID)
             marker.position = LatLng(
                 node.coordinate.y,
                 node.coordinate.x
@@ -555,8 +570,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             marker.height = 50
             // 마커가 너무 커서 크기 지정해줌
             marker.map = naverMap //navermap에 출력
-            if (i == 0) marker.captionText="출발"
-            else if(i == roadNetwork.getRouteNodeArrayList().size - 1) marker.captionText="도착"
+            if (g.direction == -1) marker.captionText=g.sentence
             else marker.captionText=""+ i;
             i++
         }
