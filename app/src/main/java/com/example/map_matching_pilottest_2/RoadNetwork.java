@@ -8,15 +8,13 @@ import java.util.List;
 
 public class RoadNetwork {
 
-    // 데이터를 보관할 ArrayList들을 담는 class..
-    // 필요 없을 수도 있지만 혹시의 상황을 대비해서 만들었음
-    // 일단 이런 구조로 ArrayList로 선언해보고 이 클래스 정 필요 없겠다 싶으면 다음 테스트에서 다시 파기 예정
-    // 만약 필요하게 되면 private으로 만들어주고 getter setter만들 예정
-    protected ArrayList<Node> nodeArrayList = new ArrayList<>();
-    protected ArrayList<Link> linkArrayList = new ArrayList<>();
+    // 데이터를 보관할 ArrayList들을 담는 class.. >> 그냥 public으로 만들었다!
+    public ArrayList<Node> nodeArrayList = new ArrayList<>();
+    public ArrayList<Link> linkArrayList = new ArrayList<>();
+    public static ArrayList<POI> poiArrayList = new ArrayList<>();
 
-    protected ArrayList<Point> routePointArrayList = new ArrayList<>();
-    protected ArrayList<Node> routeNodeArrayList = new ArrayList<>();
+    public ArrayList<Point> routePointArrayList = new ArrayList<>();
+    public ArrayList<Node> routeNodeArrayList = new ArrayList<>();
     // _nodeID를 nodeID로 가지는 node반환
     public Node getNode (int _nodeID) {
         for (Node currNode : nodeArrayList) {
@@ -73,6 +71,47 @@ public class RoadNetwork {
         return pairs;
     }
 
+    // POI찾으면 POIID, 못찾으면 -1 return
+    public static int getPOIID (int start, int center, int end) {
+        for (POI poi : poiArrayList) {
+
+            if (poi.getNode_mid() == center) {
+
+                // 특수한 경우 (코너가 하나가 아닌)
+                if (poi.getNode_end1() == -1) {
+                    return poi.getPOIID();
+                }
+
+                // 일반적인 경우 (코너가 하나인)
+                else {
+                    // start와 center를 통해 POI ID를 빼 주고 싶었던 경우 << TBT에서 예외처리 때문에 발생한 경우
+                    if(end == -1) {
+                        if (start == poi.getNode_end1() || start == poi.getNode_end2()) {
+                            return poi.getPOIID();
+                        }
+                    }
+                    // 그렇지 않은 일반적인 경우
+                    else if ((start == poi.getNode_end1() && end == poi.getNode_end2())
+                            || (end == poi.getNode_end1() && start == poi.getNode_end2())
+                    ) {
+                        return poi.getPOIID();
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
+    // POI찾으면 POIID, 못찾으면 모든 멤버가 null 혹은 -1로 초기화된 POI반환
+    public static POI getPOI (int poiid) {
+        for (POI poi : poiArrayList) {
+            if (poi.getPOIID() == poiid) {
+                return poi;
+            }
+        }
+        return new POI ();
+    }
+
     // testNo에 맞게 경로 Point로 생성하는 작업
     // 아직  startNode가 닿는지 endNode가 닿는지에 따라 순서대로/역순으로 나오는 로직은 추가 안함
     /*왼쪽에서 오른쪽으로 가는 방향만 고려함 (왼, 오를 따질 수 없는 경우는 아래에서 위로 가는 방향만 고려)
@@ -110,7 +149,7 @@ public class RoadNetwork {
 
             routeNodeArrayList.add(getNode(routeNodes[routeNodes.length-1])); // 새로 추가!
         } else if(testNo == 3){
-            int[] routeNodes = { 57, 56, 46, 47, 40, 73 };
+            int[] routeNodes = { 9, 6, 5, 59, 60 };
             for (int i=0; i<routeNodes.length-1; i++) {
                 routeNodeArrayList.add(getNode(routeNodes[i])); ////새로추가!
                 Link routelink = getLink(routeNodes[i], routeNodes[i+1]); //두 노드를 끝으로 하는 링크 반환
@@ -123,7 +162,7 @@ public class RoadNetwork {
             }
             routeNodeArrayList.add(getNode(routeNodes[routeNodes.length-1])); // 새로 추가!
         } else if(testNo == 4){
-            int[] routeNodes = { 31, 30, 29, 28, 27, 75, 59, 60, 61};
+            int[] routeNodes = {101, 99, 94};
             for (int i=0; i<routeNodes.length-1; i++) {
                 routeNodeArrayList.add(getNode(routeNodes[i])); /// 새로 추가!
                 Link routelink = getLink(routeNodes[i], routeNodes[i+1]); //두 노드를 끝으로 하는 링크 반환

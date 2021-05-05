@@ -22,6 +22,7 @@ import com.google.android.gms.location.LocationResult
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.PathOverlay
 import com.naver.maps.map.util.MarkerIcons
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -398,11 +399,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
 
         var index = 1;
         for (g in ArrOfGuidance) {
-            if (g.direction == -1) {
-                guidance += "[" + g.sentence + "] "
-                guidance += roadNetwork.getNode(g.nodeID).name
-            }
-            else {
+            if (g.direction != -1) {
                 guidance += "[" + index + "] "
                 guidance += g.sentence
                 index++
@@ -422,8 +419,8 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         // 버튼을 누르면 안내 보이기!
         guidanceButton.setOnClickListener{
             guidanceLinearLayout.visibility = View.VISIBLE
-
             printNodes(ArrOfGuidance, roadNetwork)
+            printNodesToPath(roadNetwork)
         }
 
 
@@ -558,6 +555,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
     fun printNodes(guidances: ArrayList<Guidance>, roadNetwork: RoadNetwork) {
         var i = 0;
         for (g in guidances) {
+            if (g.direction == -1) break
             val marker = Marker() //좌표
             var node = roadNetwork.getNode(g.nodeID)
             marker.position = LatLng(
@@ -570,10 +568,22 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             marker.height = 50
             // 마커가 너무 커서 크기 지정해줌
             marker.map = naverMap //navermap에 출력
-            if (g.direction == -1) marker.captionText=g.sentence
-            else marker.captionText=""+ i;
+            marker.captionText=""+ (i + 1);
             i++
         }
+    }
+
+    fun printNodesToPath(roadNetwork: RoadNetwork) {
+        val path = PathOverlay()
+        var pathArr = ArrayList<LatLng>()
+        var i = 0
+        for (node in roadNetwork.getRouteNodeArrayList()) {
+            pathArr.add(LatLng(roadNetwork.getNode(node.nodeID).coordinate.y,roadNetwork.getNode(node.nodeID).coordinate.x))
+        }
+        path.coords = pathArr
+        path.map = naverMap
+        path.setColor(Color.YELLOW);
+        path.setWidth(30);
     }
 
 }
