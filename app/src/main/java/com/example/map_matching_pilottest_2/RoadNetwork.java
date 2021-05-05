@@ -162,7 +162,7 @@ public class RoadNetwork {
             }
             routeNodeArrayList.add(getNode(routeNodes[routeNodes.length-1])); // 새로 추가!
         } else if(testNo == 4){
-            int[] routeNodes = {101, 99, 94};
+            int[] routeNodes = {82, 65, 4, 5, 6, 2, 1};
             for (int i=0; i<routeNodes.length-1; i++) {
                 routeNodeArrayList.add(getNode(routeNodes[i])); /// 새로 추가!
                 Link routelink = getLink(routeNodes[i], routeNodes[i+1]); //두 노드를 끝으로 하는 링크 반환

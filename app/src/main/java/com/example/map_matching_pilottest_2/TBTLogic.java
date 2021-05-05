@@ -67,7 +67,7 @@ public class TBTLogic {
                 // [첫 지시는 무조건 직진] 첫 지시인데 이것이 직진지시가 아닌경우, 시작노드 ID 넣고 첫 지시는 직진이라고 해야 함 -> "center까지 직진"
                 else if (i == 0) {
                     result.add(new Guidance(start.getNodeID(), direction,
-                            genSentence(direction, start.getNodeID(), center.getNodeID(), end.getNodeID())));
+                            genSentence(0, start.getNodeID(), center.getNodeID(), end.getNodeID())));
                 }
 
                 // 연속 직진이라고 표시되어있으면, start,center,end 를 next s, c, e로 업데이트
