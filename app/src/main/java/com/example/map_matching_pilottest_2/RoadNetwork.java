@@ -112,6 +112,16 @@ public class RoadNetwork {
         return new POI ();
     }
 
+    // poi 이름 받아서 해당 poi와 가장 가까운 node id 반환
+    public static int getNodeIDByPoiName (String poiname) {
+        for (POI poi : poiArrayList) {
+            if (poi.getName().equals(poiname)) {
+                return poi.getNode_mid();
+            }
+        }
+        return -1;
+    }
+
     // testNo에 맞게 경로 Point로 생성하는 작업
     // 아직  startNode가 닿는지 endNode가 닿는지에 따라 순서대로/역순으로 나오는 로직은 추가 안함
     /*왼쪽에서 오른쪽으로 가는 방향만 고려함 (왼, 오를 따질 수 없는 경우는 아래에서 위로 가는 방향만 고려)
@@ -162,7 +172,9 @@ public class RoadNetwork {
             }
             routeNodeArrayList.add(getNode(routeNodes[routeNodes.length-1])); // 새로 추가!
         } else if(testNo == 4){
-            int[] routeNodes = {82, 65, 4, 5, 6, 2, 1};
+            int routeStartNode = getNodeIDByPoiName("유네닭갈비*");
+            int routeEndNode = getNodeIDByPoiName("한아름빌라");
+            int[] routeNodes = {routeStartNode, 65, 4, 5, 6, 2, routeEndNode};
             for (int i=0; i<routeNodes.length-1; i++) {
                 routeNodeArrayList.add(getNode(routeNodes[i])); /// 새로 추가!
                 Link routelink = getLink(routeNodes[i], routeNodes[i+1]); //두 노드를 끝으로 하는 링크 반환
